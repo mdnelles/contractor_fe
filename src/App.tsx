@@ -18,10 +18,10 @@ export default function App() {
    // import session from redux store
 
 const session: SessionState = useAppSelector((state) => state.session);
-const { darkMode,language } = session;
+const { darkMode,lang } = session;
 useEffect(() => { 
    // update template
-}, [darkMode,language])
+}, [darkMode,lang])
    return (
       <div>
          <Suspense fallback={<div>Loading...</div>}>

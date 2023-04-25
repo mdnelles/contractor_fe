@@ -8,18 +8,20 @@ import dialogReducer from "../features/dialog/dialogSlice";
 import menuReducer from "../features/menu/menuSlice";
 import pageReducer from "../features/page/pageSlice";
 import animsReducer from "../features/anims/animsSlice";
+import transReducer from "../features/transalte/translateSlice"
 
 export const store = configureStore({
    reducer: {
-      session: sessionReducer,
-      snackbar: snackbarReducer,
-      todo: todoReducer,
-      suggest: suggestReducer,
-      users: usersReducer,
+      anims: animsReducer,
       dialog: dialogReducer,
       menu: menuReducer,
       page: pageReducer,
-      anims: animsReducer,
+      session: sessionReducer,
+      snackbar: snackbarReducer,
+      suggest: suggestReducer,
+      todo: todoReducer,
+      trans: transReducer,
+      users: usersReducer,
    },
 });
 

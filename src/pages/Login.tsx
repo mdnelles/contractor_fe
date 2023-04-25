@@ -55,6 +55,7 @@ import {
    REACT_APP_PROJECT_ID,
    REACT_APP_STORAGE_BUCKET,
 } from "../firebase.config";
+import Trans from "../widgets/Trans";
 
 const firebaseConfig = {
    apiKey: REACT_APP_API_KEY,
@@ -188,7 +189,7 @@ export default function Login() {
                      />
 
                      <Typography component='h1' variant='h5'>
-                        Client Login
+                     <Trans txt="Client Login" />
                      </Typography>
                      <Box component='form' noValidate>
                         <TextField
@@ -198,7 +199,7 @@ export default function Login() {
                            required
                            fullWidth
                            id='email'
-                           label='Email Address'
+                           label={<Trans txt="Email Address" />}
                            name='email'
                            autoComplete='email'
                            autoFocus
@@ -211,7 +212,7 @@ export default function Login() {
                            size='small'
                            type='password'
                            name='password'
-                           label='Password'
+                           label={<Trans txt="Password" />}
                            id='password'
                            defaultValue={""}
                            autoComplete='current-password'
@@ -231,7 +232,7 @@ export default function Login() {
                               disabled={loading}
                               onClick={(event) => startLoginWEP(event)}
                            >
-                              Login With Email
+                              <Trans txt="Login With Email" />
                            </Button>
                            {loading && (
                               <CircularProgress
@@ -261,7 +262,7 @@ export default function Login() {
                               onClick={(event) => startSignInWithGoogle(event)}
                               endIcon={<GoogleIcon />}
                            >
-                              Login With Google
+                              <Trans txt="Login With Google" />
                            </Button>
                            {loading && (
                               <CircularProgress
@@ -279,12 +280,12 @@ export default function Login() {
                         <Grid container>
                            <Grid item xs>
                               <Link href='/forgot' variant='body2'>
-                                 Forgot password?
+                              <Trans txt="Forgot Password" />
                               </Link>
                            </Grid>
                            <Grid item>
                               <Link href='/sign-up' variant='body2'>
-                                 {"Don't have an account? Sign Up"}
+                              <Trans txt="Don't have an account? Sign Up" />
                               </Link>
                            </Grid>
                         </Grid>

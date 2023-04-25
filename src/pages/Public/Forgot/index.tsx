@@ -40,6 +40,8 @@ import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
+import { SessionState } from "../../../features/session/session";
+import Trans from "../../../widgets/Trans";
 
 const firebaseConfig = {
    apiKey: REACT_APP_API_KEY,
@@ -52,36 +54,16 @@ const firebaseConfig = {
    measurementId: REACT_APP_MEASUREMENT_ID,
 };
 
-function Copyright(props: any) {
-   return (
-      <Typography
-         variant='body2'
-         color='text.secondary'
-         align='center'
-         {...props}
-      >
-         {"Copyright © "}
-         <Link color='inherit' href='#'>
-            contratista
-         </Link>{" "}
-         {new Date().getFullYear()}
-         {"."}
-      </Typography>
-   );
-}
 
 const theme = createTheme();
 
 export default function SignUp() {
    const app = initializeApp(firebaseConfig);
    const auth = getAuth(app);
-   const db = getFirestore(app);
-   const analytics = getAnalytics(app);
-   const googleProvider = new GoogleAuthProvider();
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
-   const session: any = useAppSelector((state) => state.session);
-   const snackbar: SnackbarState = useAppSelector((state) => state.snackbar);
+   const session: SessionState = useAppSelector((state) => state.session);
+   const {lang} = session;
 
    const [loading, setLoading] = useState(false);
    const [success, setSuccess] = useState(false);
@@ -95,12 +77,12 @@ export default function SignUp() {
       const email: any = data.get("email");
 
       if (isValidEmail(email)) {
-         dispatch(setSnackbar(msg(`Attempting Signup...`, "info")));
+         dispatch(setSnackbar(msg(lang === 'es' ? `Buscando cuenta.` : `Searching for account.`, "info")));
          try {
             const resp: any = await sendPasswordResetEmail(auth, email);
             console.log(resp);
             setSuccess(true);
-            dispatch(setSnackbar(msg(`Password Reset`, "success")));
+            dispatch(setSnackbar(msg(<Trans txt="Password Reset" />, "success")));
          } catch (error: any) {
             dispatch(setSnackbar(msg(`Email not in system`, "error")));
 
@@ -108,7 +90,7 @@ export default function SignUp() {
          }
       } else {
          setLoading(false);
-         dispatch(setSnackbar(msg(`Please enter valid credentials`, "error")));
+         dispatch(setSnackbar(msg(<Trans txt="Please enter valid credentials" />, "error")));
       }
    };
 
@@ -143,14 +125,14 @@ export default function SignUp() {
                      />
 
                      <Typography component='h1' variant='h5'>
-                        Forgot Password
+                     <Trans txt="Forgot Password" />
                      </Typography>
                      {success ? (
                         <>
-                           Email reset Link sent
+                           <Trans txt="Email reset link sent" />
                            <div style={{ padding: 20 }} />
                            <Link href='/login' variant='body2'>
-                              Got to login
+                           <Trans txt="Go To Login" />
                            </Link>
                         </>
                      ) : (
@@ -167,7 +149,7 @@ export default function SignUp() {
                                     fullWidth
                                     size='small'
                                     id='email'
-                                    label='Email Address'
+                                    label={<Trans txt="Email Address" />}
                                     name='email'
                                     autoComplete='email'
                                  />
@@ -181,7 +163,7 @@ export default function SignUp() {
                                     variant='contained'
                                     disabled={loading}
                                  >
-                                    Reset Password
+                                    <Trans txt="Reset Password" />
                                  </Button>
                                  {loading && (
                                     <CircularProgress
@@ -200,7 +182,7 @@ export default function SignUp() {
                            <Grid container justifyContent='flex-end'>
                               <Grid item>
                                  <Link href='/login' variant='body2'>
-                                    Go To Login
+                                    <Trans txt="Go To Login" />
                                  </Link>
                               </Grid>
                            </Grid>

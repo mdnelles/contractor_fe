@@ -59,6 +59,7 @@ import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
+import { SessionState } from "../../../features/session/session";
 
 const firebaseConfig = {
    apiKey: REACT_APP_API_KEY,
@@ -71,36 +72,17 @@ const firebaseConfig = {
    measurementId: REACT_APP_MEASUREMENT_ID,
 };
 
-function Copyright(props: any) {
-   return (
-      <Typography
-         variant='body2'
-         color='text.secondary'
-         align='center'
-         {...props}
-      >
-         {"Copyright © "}
-         <Link color='inherit' href='#'>
-            contratista
-         </Link>{" "}
-         {new Date().getFullYear()}
-         {"."}
-      </Typography>
-   );
-}
-
 const theme = createTheme();
 
 export default function SignUp() {
    const app = initializeApp(firebaseConfig);
    const auth = getAuth(app);
    const db = getFirestore(app);
-   const analytics = getAnalytics(app);
-   const googleProvider = new GoogleAuthProvider();
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
-   const session: any = useAppSelector((state) => state.session);
+   const session: SessionState = useAppSelector((state) => state.session);
    const snackbar: SnackbarState = useAppSelector((state) => state.snackbar);
+   const {lang} = session;
 
    const [showPassword, setShowPassword] = useState(false);
    const [loading, setLoading] = useState(false);
@@ -120,10 +102,10 @@ export default function SignUp() {
 
       const email: any = data.get("email");
       const password: any = data.get("password");
-      console.log("email: " + email);
-      console.log("password: " + password);
+
       if (isValidEmail(email) && isValidPassword(password)) {
-         dispatch(setSnackbar(msg(`Attempting Signup...`, "info")));
+         dispatch(setSnackbar(msg(lang === 'es'? `
+         Intentando registrarse` : `Attempting Signup...`, "info")));
          try {
             const resp: any = await createUserWithEmailAndPassword(
                auth,

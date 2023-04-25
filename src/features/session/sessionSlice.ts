@@ -4,7 +4,7 @@ import { SessionState } from "./session";
 const initialState: SessionState = {
    loginDisplay: 0,
    loginDisplayLastClicked: 0,
-   language: "en",
+   lang: "en",
    paused: false,
    toggle: true,
    cookieConsent: true,
@@ -40,7 +40,7 @@ export const sessionSlice = createSlice({
             if (o.user.lastLoginAt) state.user.lastLoginAt = o.user.lastLoginAt;
 
             state.darkMode = o.darkMode;
-            state.language = o.language;
+            state.lang = o.lang;
             state.paused = o.paused;
             state.loginDisplayLastClicked = o.loginDisplayLastClicked;
             state.status = o.status;
