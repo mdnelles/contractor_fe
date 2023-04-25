@@ -22,7 +22,6 @@
       "axios": "^1.2.0",
       "firebase": "^9.14.0",
       "gsap": "^3.11.3",
-      "material-ui-flags": "^1.2.4",
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
       "react-draft-wysiwyg": "^1.15.0",

@@ -9,32 +9,17 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
-import { signInWithGoogle } from "../../../firebase";
 import {
    GoogleAuthProvider,
    getAuth,
-   signInWithPopup,
-   signInWithEmailAndPassword,
-   createUserWithEmailAndPassword,
    sendPasswordResetEmail,
 } from "firebase/auth";
 import {
    getFirestore,
-   query,
-   getDocs,
-   collection,
-   where,
-   addDoc,
 } from "firebase/firestore";
-import {
-   LoginEmailPwdProps,
-   RegisterWithEmailPasswordProps,
-} from "../../../firebase.d";
 
 import {
    REACT_APP_API_KEY,
@@ -50,12 +35,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { SnackbarState } from "../../../features/snackbar/snackbar";
 import { useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import FormControl from "@mui/material/FormControl";
-import { isValidEmail, isValidPassword } from "../../../utilities/validate";
+import { isValidEmail} from "../../../utilities/validate";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";

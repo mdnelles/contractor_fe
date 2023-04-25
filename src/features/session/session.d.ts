@@ -25,6 +25,7 @@ export type liveMenuType = {
 export interface SessionState {
    loginDisplay: number | any; // 0 hide login, 1 show login, 2 show logout
    loginDisplayLastClicked: number | string | undefined; // 0=close 1=logout, 2=login/info
+   language: string;
    paused: boolean;
    toggle: boolean;
    cookieConsent: boolean;
