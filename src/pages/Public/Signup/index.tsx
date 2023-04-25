@@ -119,7 +119,7 @@ export default function SignUp() {
    return (
       <div className='vertical-center center-outer'>
          <div className='center-inner'>
-            <Paper sx={{ marginTop: 10, ml: 5, mr: 5, padding: 3 }}>
+            <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
                <Container component='main' maxWidth='xs'>
                   <CssBaseline />
                   <Box
@@ -150,7 +150,7 @@ export default function SignUp() {
                         <>
                            New account success
                            <div style={{ padding: 20 }} />
-                           <Button onClick={()=>navigate('/login')} >
+                           <Button onClick={()=>navigate('/login')}  size="small" sx={{textTransform: "none"}}>
                               Go To Login
                            </Button>
                         </>
@@ -243,6 +243,7 @@ export default function SignUp() {
                                     size='small'
                                     variant='contained'
                                     disabled={loading}
+                                    sx={{textTransform: "none"}}
                                  >
                                     <Trans txt="Continue" />
                                  </Button>
@@ -262,7 +263,7 @@ export default function SignUp() {
                            </Grid>
                            <Grid container justifyContent='flex-end'>
                               <Grid item>
-                                 <Button onClick={()=>navigate('/login')} >
+                                 <Button onClick={()=>navigate('/login')} size="small" sx={{textTransform: "none"}}>
                                  <Trans txt="Already have an account? Log in" />
                                  </Button>
                               </Grid>

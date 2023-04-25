@@ -162,7 +162,7 @@ export default function Login() {
       <div className='vertical-center center-outer'>
          <div className='center-inner'>
             <SnackbarMsg />
-            <Paper sx={{ margin: 5, padding: 3 }}>
+            <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
                <Container component='main' maxWidth='lg'>
                   <CssBaseline />
                   <Box
@@ -228,6 +228,7 @@ export default function Login() {
                               variant='contained'
                               disabled={loading}
                               onClick={(event) => startLoginWEP(event)}
+                              sx={{textTransform: "none"}}
                            >
                               <Trans txt="Login With Email" />
                            </Button>
@@ -256,6 +257,7 @@ export default function Login() {
                               variant='contained'
                               size='small'
                               disabled={loading}
+                              sx={{textTransform: "none"}}
                               onClick={(event) => startSignInWithGoogle(event)}
                               endIcon={<GoogleIcon />}
                            >
@@ -276,12 +278,12 @@ export default function Login() {
                         </Box>
                         <Grid container>
                            <Grid item xs>
-                              <Button onClick={()=>navigate('/forgot')}>
+                              <Button onClick={()=>navigate('/forgot')}  size="small" sx={{textTransform: "none"}}>
                               <Trans txt="Forgot Password" />
                               </Button>
                            </Grid>
                            <Grid item>
-                              <Button onClick={()=>navigate("/sign-up")} >
+                              <Button onClick={()=>navigate("/sign-up")}  size="small" sx={{textTransform: "none"}}>
                               <Trans txt="Don't have an account? Sign Up" />
                               </Button>
                            </Grid>
