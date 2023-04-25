@@ -21,7 +21,6 @@ import { SnackbarState } from "../features/snackbar/snackbar";
 import SnackbarMsg from "../components/Snackbar/SnackbarMsg";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
 import { UserType } from "../features/session/session";
 
 import { getAnalytics } from "firebase/analytics";
@@ -71,10 +70,8 @@ const firebaseConfig = {
 export default function Login() {
    const app = initializeApp(firebaseConfig);
    const auth = getAuth(app);
-   const db = getFirestore(app);
-   const analytics = getAnalytics(app);
-   const googleProvider = new GoogleAuthProvider();
    const navigate = useNavigate();
+   const db = getFirestore(app);
    const dispatch = useAppDispatch();
    const session: any = useAppSelector((state) => state.session);
    const snackbar: SnackbarState = useAppSelector((state) => state.snackbar);
@@ -279,14 +276,14 @@ export default function Login() {
                         </Box>
                         <Grid container>
                            <Grid item xs>
-                              <Link href='/forgot' variant='body2'>
+                              <Button onClick={()=>navigate('/forgot')}>
                               <Trans txt="Forgot Password" />
-                              </Link>
+                              </Button>
                            </Grid>
                            <Grid item>
-                              <Link href='/sign-up' variant='body2'>
+                              <Button onClick={()=>navigate("/sign-up")} >
                               <Trans txt="Don't have an account? Sign Up" />
-                              </Link>
+                              </Button>
                            </Grid>
                         </Grid>
                      </Box>

@@ -32,15 +32,17 @@ export const sessionSlice = createSlice({
    reducers: {
       setSession: (state, action: PayloadAction<SessionState>) => {
          const o: SessionState = action.payload;
+         console.log("------o-----");
+         console.log(o);
 
          try {
             if (o.user.email) state.user.email = o.user.email;
             if (o.user.token) state.user.token = o.user.token;
             if (o.speed) state.speed = o.speed;
             if (o.user.lastLoginAt) state.user.lastLoginAt = o.user.lastLoginAt;
+            if (o.lang) state.lang = o.lang;
 
             state.darkMode = o.darkMode;
-            state.lang = o.lang;
             state.paused = o.paused;
             state.loginDisplayLastClicked = o.loginDisplayLastClicked;
             state.status = o.status;
@@ -57,23 +59,11 @@ export const sessionSlice = createSlice({
          state.loginDisplay = 1; // 0 or -1, no login, 1 login, 2 show logout
          state.loginDisplayLastClicked = 2;
       },
-      // Use the PayloadAction type to declare the contents of `action.payload`
    },
 });
 
 export const { setSession, clearSession } = sessionSlice.actions;
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.session.value)`
 export const selectSession = (state: RootState) => state.session.value;
-
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
-export const sessionInit =
-   (user: any): AppThunk =>
-   (dispatch) => {
-      dispatch(setSession(user));
-   };
 
 export default sessionSlice.reducer;
