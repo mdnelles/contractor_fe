@@ -1,0 +1,16 @@
+node_modules
+
+package-lock.json
+.env
+
+build/*
+public/*
+
+firebase.ts
+*.config*
+./src/firebase.config.ts
+*/*.mov
+./src/assets/*
+.skyl
+
+contractor-74be9-firebase-adminsdk-c1a7p-72ef173ed0.json
