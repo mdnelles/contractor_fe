@@ -21,7 +21,7 @@ export const rand = (): string => {
    return s;
 };
 
-export const msg = (msg: string, severity: string) => {
+export const msg = (msg: string| any, severity: string) => {
    return {
       msg,
       severity,
@@ -92,3 +92,5 @@ export const txtValid = (txt: string | any) => {
       return false;
    }
 };
+
+

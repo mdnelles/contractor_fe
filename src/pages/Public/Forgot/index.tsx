@@ -9,32 +9,17 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
-import { signInWithGoogle } from "../../../firebase";
 import {
    GoogleAuthProvider,
    getAuth,
-   signInWithPopup,
-   signInWithEmailAndPassword,
-   createUserWithEmailAndPassword,
    sendPasswordResetEmail,
 } from "firebase/auth";
 import {
    getFirestore,
-   query,
-   getDocs,
-   collection,
-   where,
-   addDoc,
 } from "firebase/firestore";
-import {
-   LoginEmailPwdProps,
-   RegisterWithEmailPasswordProps,
-} from "../../../firebase.d";
 
 import {
    REACT_APP_API_KEY,
@@ -50,16 +35,13 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { SnackbarState } from "../../../features/snackbar/snackbar";
 import { useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import FormControl from "@mui/material/FormControl";
-import { isValidEmail, isValidPassword } from "../../../utilities/validate";
+import { isValidEmail} from "../../../utilities/validate";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
+import { SessionState } from "../../../features/session/session";
+import Trans from "../../../widgets/Trans";
 
 const firebaseConfig = {
    apiKey: REACT_APP_API_KEY,
@@ -72,36 +54,16 @@ const firebaseConfig = {
    measurementId: REACT_APP_MEASUREMENT_ID,
 };
 
-function Copyright(props: any) {
-   return (
-      <Typography
-         variant='body2'
-         color='text.secondary'
-         align='center'
-         {...props}
-      >
-         {"Copyright © "}
-         <Link color='inherit' href='#'>
-            contratista
-         </Link>{" "}
-         {new Date().getFullYear()}
-         {"."}
-      </Typography>
-   );
-}
 
 const theme = createTheme();
 
 export default function SignUp() {
    const app = initializeApp(firebaseConfig);
    const auth = getAuth(app);
-   const db = getFirestore(app);
-   const analytics = getAnalytics(app);
-   const googleProvider = new GoogleAuthProvider();
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
-   const session: any = useAppSelector((state) => state.session);
-   const snackbar: SnackbarState = useAppSelector((state) => state.snackbar);
+   const session: SessionState = useAppSelector((state) => state.session);
+   const {lang} = session;
 
    const [loading, setLoading] = useState(false);
    const [success, setSuccess] = useState(false);
@@ -115,12 +77,12 @@ export default function SignUp() {
       const email: any = data.get("email");
 
       if (isValidEmail(email)) {
-         dispatch(setSnackbar(msg(`Attempting Signup...`, "info")));
+         dispatch(setSnackbar(msg(lang === 'es' ? `Buscando cuenta.` : `Searching for account.`, "info")));
          try {
             const resp: any = await sendPasswordResetEmail(auth, email);
             console.log(resp);
             setSuccess(true);
-            dispatch(setSnackbar(msg(`Password Reset`, "success")));
+            dispatch(setSnackbar(msg(<Trans txt="Password Reset" />, "success")));
          } catch (error: any) {
             dispatch(setSnackbar(msg(`Email not in system`, "error")));
 
@@ -128,7 +90,7 @@ export default function SignUp() {
          }
       } else {
          setLoading(false);
-         dispatch(setSnackbar(msg(`Please enter valid credentials`, "error")));
+         dispatch(setSnackbar(msg(<Trans txt="Please enter valid credentials" />, "error")));
       }
    };
 
@@ -163,14 +125,14 @@ export default function SignUp() {
                      />
 
                      <Typography component='h1' variant='h5'>
-                        Forgot Password
+                     <Trans txt="Forgot Password" />
                      </Typography>
                      {success ? (
                         <>
-                           Email reset Link sent
+                           <Trans txt="Email reset link sent" />
                            <div style={{ padding: 20 }} />
                            <Link href='/login' variant='body2'>
-                              Got to login
+                           <Trans txt="Go To Login" />
                            </Link>
                         </>
                      ) : (
@@ -187,7 +149,7 @@ export default function SignUp() {
                                     fullWidth
                                     size='small'
                                     id='email'
-                                    label='Email Address'
+                                    label={<Trans txt="Email Address" />}
                                     name='email'
                                     autoComplete='email'
                                  />
@@ -201,7 +163,7 @@ export default function SignUp() {
                                     variant='contained'
                                     disabled={loading}
                                  >
-                                    Reset Password
+                                    <Trans txt="Reset Password" />
                                  </Button>
                                  {loading && (
                                     <CircularProgress
@@ -220,7 +182,7 @@ export default function SignUp() {
                            <Grid container justifyContent='flex-end'>
                               <Grid item>
                                  <Link href='/login' variant='body2'>
-                                    Go To Login
+                                    <Trans txt="Go To Login" />
                                  </Link>
                               </Grid>
                            </Grid>
