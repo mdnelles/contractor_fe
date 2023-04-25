@@ -2,24 +2,18 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-
-import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import {
-   GoogleAuthProvider,
    getAuth,
    sendPasswordResetEmail,
 } from "firebase/auth";
-import {
-   getFirestore,
-} from "firebase/firestore";
+
 
 import {
    REACT_APP_API_KEY,
@@ -32,15 +26,13 @@ import {
    REACT_APP_STORAGE_BUCKET,
 } from "../../../firebase.config";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { SnackbarState } from "../../../features/snackbar/snackbar";
+import { useAppDispatch} from "../../../app/hooks";
 import { useState } from "react";
 import { isValidEmail} from "../../../utilities/validate";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
-import { SessionState } from "../../../features/session/session";
 import Trans from "../../../widgets/Trans";
 
 const firebaseConfig = {
@@ -62,8 +54,7 @@ export default function SignUp() {
    const auth = getAuth(app);
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
-   const session: SessionState = useAppSelector((state) => state.session);
-   const {lang} = session;
+
 
    const [loading, setLoading] = useState(false);
    const [success, setSuccess] = useState(false);
@@ -77,14 +68,14 @@ export default function SignUp() {
       const email: any = data.get("email");
 
       if (isValidEmail(email)) {
-         dispatch(setSnackbar(msg(lang === 'es' ? `Buscando cuenta.` : `Searching for account.`, "info")));
+         dispatch(setSnackbar(msg(<Trans txt="Searching for account." />, "info")));
          try {
             const resp: any = await sendPasswordResetEmail(auth, email);
             console.log(resp);
             setSuccess(true);
             dispatch(setSnackbar(msg(<Trans txt="Password Reset" />, "success")));
          } catch (error: any) {
-            dispatch(setSnackbar(msg(`Email not in system`, "error")));
+            dispatch(setSnackbar(msg(<Trans txt="Email not in system" />, "error")));
 
             setLoading(false);
          }
@@ -100,7 +91,7 @@ export default function SignUp() {
       <div className='vertical-center center-outer'>
          <div className='center-inner'>
             <SnackbarMsg />
-            <Paper sx={{ marginTop: 10, ml: 5, mr: 5, padding: 3 }}>
+            <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
                <Container component='main' maxWidth='xs'>
                   <CssBaseline />
                   <Box
@@ -129,11 +120,11 @@ export default function SignUp() {
                      </Typography>
                      {success ? (
                         <>
-                           <Trans txt="Email reset link sent" />
+                           <Trans txt="Email reset Button sent" />
                            <div style={{ padding: 20 }} />
-                           <Link href='/login' variant='body2'>
+                           <Button onClick={()=>navigate('/login')} >
                            <Trans txt="Go To Login" />
-                           </Link>
+                           </Button>
                         </>
                      ) : (
                         <Box
@@ -162,6 +153,7 @@ export default function SignUp() {
                                     size='small'
                                     variant='contained'
                                     disabled={loading}
+                                    sx={{textTransform: "none"}}
                                  >
                                     <Trans txt="Reset Password" />
                                  </Button>
@@ -181,9 +173,9 @@ export default function SignUp() {
                            </Grid>
                            <Grid container justifyContent='flex-end'>
                               <Grid item>
-                                 <Link href='/login' variant='body2'>
+                                 <Button onClick={()=>navigate('/login')} size="small" sx={{textTransform: "none"}}>
                                     <Trans txt="Go To Login" />
-                                 </Link>
+                                 </Button>
                               </Grid>
                            </Grid>
                         </Box>

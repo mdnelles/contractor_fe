@@ -57,9 +57,30 @@ const initialState: TransState = {
         en:"Don't have an account? Sign Up",
         es:"¿No tienes una cuenta? Inscribirse"
     },
+    //  create account / signup
     {
-        en:"",
-        es:""
+        en:"Create Account",
+        es:"Crear una cuenta"
+    },
+    {
+        en:"New account success",
+        es:"Éxito de la nueva cuenta"
+    },
+    {
+        en:"First Name",
+        es:"Nombre de pila"
+    },
+    {
+        en:"Last Name",
+        es:"Apellido"
+    },
+    {
+        en:"Continue",
+        es:"Continuar"
+    },
+    {
+        en:"Already have an account? Log in",
+        es:"¿Ya tienes una cuenta? Acceso"
     },
     {
         en:"",

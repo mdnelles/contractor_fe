@@ -21,7 +21,6 @@ import { SnackbarState } from "../features/snackbar/snackbar";
 import SnackbarMsg from "../components/Snackbar/SnackbarMsg";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
 import { UserType } from "../features/session/session";
 
 import { getAnalytics } from "firebase/analytics";
@@ -71,10 +70,8 @@ const firebaseConfig = {
 export default function Login() {
    const app = initializeApp(firebaseConfig);
    const auth = getAuth(app);
-   const db = getFirestore(app);
-   const analytics = getAnalytics(app);
-   const googleProvider = new GoogleAuthProvider();
    const navigate = useNavigate();
+   const db = getFirestore(app);
    const dispatch = useAppDispatch();
    const session: any = useAppSelector((state) => state.session);
    const snackbar: SnackbarState = useAppSelector((state) => state.snackbar);
@@ -165,7 +162,7 @@ export default function Login() {
       <div className='vertical-center center-outer'>
          <div className='center-inner'>
             <SnackbarMsg />
-            <Paper sx={{ margin: 5, padding: 3 }}>
+            <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
                <Container component='main' maxWidth='lg'>
                   <CssBaseline />
                   <Box
@@ -231,6 +228,7 @@ export default function Login() {
                               variant='contained'
                               disabled={loading}
                               onClick={(event) => startLoginWEP(event)}
+                              sx={{textTransform: "none"}}
                            >
                               <Trans txt="Login With Email" />
                            </Button>
@@ -259,6 +257,7 @@ export default function Login() {
                               variant='contained'
                               size='small'
                               disabled={loading}
+                              sx={{textTransform: "none"}}
                               onClick={(event) => startSignInWithGoogle(event)}
                               endIcon={<GoogleIcon />}
                            >
@@ -279,14 +278,14 @@ export default function Login() {
                         </Box>
                         <Grid container>
                            <Grid item xs>
-                              <Link href='/forgot' variant='body2'>
+                              <Button onClick={()=>navigate('/forgot')}  size="small" sx={{textTransform: "none"}}>
                               <Trans txt="Forgot Password" />
-                              </Link>
+                              </Button>
                            </Grid>
                            <Grid item>
-                              <Link href='/sign-up' variant='body2'>
+                              <Button onClick={()=>navigate("/sign-up")}  size="small" sx={{textTransform: "none"}}>
                               <Trans txt="Don't have an account? Sign Up" />
-                              </Link>
+                              </Button>
                            </Grid>
                         </Grid>
                      </Box>

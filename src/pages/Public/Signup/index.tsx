@@ -2,7 +2,6 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -12,28 +11,14 @@ import Paper from "@mui/material/Paper";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
-import { signInWithGoogle } from "../../../firebase";
 import {
-   GoogleAuthProvider,
    getAuth,
-   signInWithPopup,
-   signInWithEmailAndPassword,
    createUserWithEmailAndPassword,
 } from "firebase/auth";
 import {
-   getFirestore,
-   query,
-   getDocs,
-   collection,
-   where,
-   addDoc,
+   getFirestore
 } from "firebase/firestore";
-import {
-   LoginEmailPwdProps,
-   RegisterWithEmailPasswordProps,
-} from "../../../firebase.d";
 
 import {
    REACT_APP_API_KEY,
@@ -60,6 +45,7 @@ import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
 import { SessionState } from "../../../features/session/session";
+import Trans from "../../../widgets/Trans";
 
 const firebaseConfig = {
    apiKey: REACT_APP_API_KEY,
@@ -133,7 +119,7 @@ export default function SignUp() {
    return (
       <div className='vertical-center center-outer'>
          <div className='center-inner'>
-            <Paper sx={{ marginTop: 10, ml: 5, mr: 5, padding: 3 }}>
+            <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
                <Container component='main' maxWidth='xs'>
                   <CssBaseline />
                   <Box
@@ -158,15 +144,15 @@ export default function SignUp() {
                      />
 
                      <Typography component='h1' variant='h5'>
-                        Client Signup
+                        <Trans txt="Create Account" />
                      </Typography>
                      {success ? (
                         <>
-                           New Account success
+                           New account success
                            <div style={{ padding: 20 }} />
-                           <Link href='/login' variant='body2'>
-                              Got to login
-                           </Link>
+                           <Button onClick={()=>navigate('/login')}  size="small" sx={{textTransform: "none"}}>
+                              Go To Login
+                           </Button>
                         </>
                      ) : (
                         <Box
@@ -182,7 +168,7 @@ export default function SignUp() {
                                     fullWidth
                                     size='small'
                                     id='email'
-                                    label='Email Address'
+                                    label={<Trans txt='Email Address' />}
                                     name='email'
                                     autoComplete='email'
                                  />
@@ -194,7 +180,7 @@ export default function SignUp() {
                                     variant='outlined'
                                  >
                                     <InputLabel htmlFor='outlined-adornment-password'>
-                                       Password
+                                    <Trans txt="Password" />
                                     </InputLabel>
                                     <OutlinedInput
                                        size='small'
@@ -229,14 +215,37 @@ export default function SignUp() {
                                  </FormControl>
                               </Grid>
                               <Grid item xs={12}>
+                                 <TextField
+                                    required
+                                    fullWidth
+                                    size='small'
+                                    id='First_Name'
+                                    label={<Trans txt="First Name" />}
+                                    name='First_Name'
+                                    autoComplete='first_name'
+                                 />
+                              </Grid>
+                              <Grid item xs={12}>
+                                 <TextField
+                                    required
+                                    fullWidth
+                                    size='small'
+                                    id='Last_Name'
+                                    label={<Trans txt='Last Name' />}
+                                    name='Last_Name'
+                                    autoComplete='last_name'
+                                 />
+                              </Grid>
+                              <Grid item xs={12}>
                                  <Button
                                     fullWidth
                                     type='submit'
                                     size='small'
                                     variant='contained'
                                     disabled={loading}
+                                    sx={{textTransform: "none"}}
                                  >
-                                    Signup
+                                    <Trans txt="Continue" />
                                  </Button>
                                  {loading && (
                                     <CircularProgress
@@ -254,9 +263,9 @@ export default function SignUp() {
                            </Grid>
                            <Grid container justifyContent='flex-end'>
                               <Grid item>
-                                 <Link href='/login' variant='body2'>
-                                    Already have an account? Log in
-                                 </Link>
+                                 <Button onClick={()=>navigate('/login')} size="small" sx={{textTransform: "none"}}>
+                                 <Trans txt="Already have an account? Log in" />
+                                 </Button>
                               </Grid>
                            </Grid>
                         </Box>
