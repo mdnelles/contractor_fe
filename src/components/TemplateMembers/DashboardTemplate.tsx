@@ -9,50 +9,50 @@ import { AppBarTop } from "./AppBarTop";
 const drawerWidth = 230;
 
 interface DashboardTemplateProps {
-   children: any;
+  children: any;
 }
 
 export default (props: DashboardTemplateProps) => {
-   const { children } = props;
-   const [open, setOpen] = React.useState(false);
-   const toggleDrawer = () => {
-      setOpen(!open);
-   };
+  const { children } = props;
+  const [open, setOpen] = React.useState(false);
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
-   return (
-      <>
-         <Box sx={{ display: "flex" }}>
-            <CssBaseline />
-            <AppBarTop
-               drawerWidth={drawerWidth}
-               toggleDrawer={toggleDrawer}
-               propsopen={open}
-            />
+  return (
+    <>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBarTop
+          drawerWidth={drawerWidth}
+          toggleDrawer={toggleDrawer}
+          propsopen={open}
+        />
 
-            <DrawerLeft
-               variant='permanent'
-               open={open}
-               drawerWidth={drawerWidth}
-               toggleDrawer={toggleDrawer}
-            />
-            <Box
-               component='main'
-               sx={{
-                  backgroundColor: (theme) =>
-                     theme.palette.mode === "light"
-                        ? theme.palette.grey[100]
-                        : theme.palette.grey[900],
-                  flexGrow: 1,
-                  height: "100vh",
-                  overflow: "auto",
-               }}
-            >
-               <Toolbar />
-               <Container maxWidth='lg' sx={{ mt: 4, mb: 4 }}>
-                  {children}
-               </Container>
-            </Box>
-         </Box>
-      </>
-   );
+        <DrawerLeft
+          variant="permanent"
+          open={open}
+          drawerWidth={drawerWidth}
+          toggleDrawer={toggleDrawer}
+        />
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === "light"
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+            flexGrow: 1,
+            height: "100vh",
+            overflow: "auto",
+          }}
+        >
+          <Toolbar />
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            {children}
+          </Container>
+        </Box>
+      </Box>
+    </>
+  );
 };

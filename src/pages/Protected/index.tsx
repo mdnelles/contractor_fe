@@ -9,23 +9,23 @@ import Profile from "./Profile/Profile";
 import Todo from "./Todo";
 
 export default function Clients(): JSX.Element {
-   const { page } = useParams();
-   const pageChooser = () => {
-      switch (page) {
-         case "account":
-            return <Account />;
-         case "support":
-            return <Ticket />;
-         case "calendar":
-            return <Calendar />;
-         case "todo":
-            return <Todo />;
-         case "profile":
-            return <Profile />;
+  const { page } = useParams();
+  const pageChooser = () => {
+    switch (page) {
+      case "account":
+        return <Account />;
+      case "support":
+        return <Ticket />;
+      case "calendar":
+        return <Calendar />;
+      case "todo":
+        return <Todo />;
+      case "profile":
+        return <Profile />;
 
-         default:
-            return <Profile />;
-      }
-   };
-   return <DashboardTemplate>{pageChooser()}</DashboardTemplate>;
+      default:
+        return <Profile />;
+    }
+  };
+  return <DashboardTemplate>{pageChooser()}</DashboardTemplate>;
 }
