@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
@@ -32,16 +32,7 @@ import Trans from "../../../widgets/Trans";
 import * as fb from "../../../firebase/firebase.config";
 import { registerWithEmailAndPassword } from "../../../firebase/firebase";
 
-const firebaseConfig = {
-  apiKey: fb.REACT_APP_API_KEY,
-  authDomain: fb.REACT_APP_AUTH_DOMAIN,
-  databaseURL: fb.REACT_APP_DATABASE_URL,
-  projectId: fb.REACT_APP_PROJECT_ID,
-  storageBucket: fb.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: fb.REACT_APP_MESSAGING_SENDER_ID,
-  appId: fb.REACT_APP_APP_ID,
-  measurementId: fb.REACT_APP_MEASUREMENT_ID,
-};
+import { firebaseConfig } from "../../../firebase/constants";
 
 const theme = createTheme();
 
