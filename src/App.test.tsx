@@ -7,12 +7,11 @@ import { BrowserRouter } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 
 test("renders learn react link", () => {
-   const { getByText } = render(
-      <Provider store={store}>
-         <App />
-      </Provider>
-   );
+  const { getByText } = render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 
-
-   expect(getByText(/learn/i)).toBeInTheDocument();
+  expect(getByText(/learn/i)).toBeInTheDocument();
 });

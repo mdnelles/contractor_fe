@@ -7,8 +7,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { useNavigate } from "react-router-dom";
 import {
-   clearSnackbar,
-   setSnackbar,
+  clearSnackbar,
+  setSnackbar,
 } from "../../../features/snackbar/snackbarSlice";
 import { clearSession } from "../../../features/session/sessionSlice";
 import { clearTodo } from "../../../features/todo/todoSlice";
@@ -20,88 +20,88 @@ import ProfSetting from "../../../pages/Protected/Profile/ProfSetting";
 import { clearUsers } from "../../../features/users/usersSlice";
 
 export default (): JSX.Element => {
-   const navigate = useNavigate();
-   const dis = useAppDispatch();
+  const navigate = useNavigate();
+  const dis = useAppDispatch();
 
-   const [anchorSe, setAnchorSe] = useState<null | HTMLElement>(null);
-   const openSe = Boolean(anchorSe);
-   const [anchorPr, setAnchorPr] = useState<null | HTMLElement>(null);
-   const openPr = Boolean(anchorPr);
+  const [anchorSe, setAnchorSe] = useState<null | HTMLElement>(null);
+  const openSe = Boolean(anchorSe);
+  const [anchorPr, setAnchorPr] = useState<null | HTMLElement>(null);
+  const openPr = Boolean(anchorPr);
 
-   const handleMenuCloseSe = () => setAnchorSe(null);
-   const handleMenuClosePr = () => setAnchorPr(null);
+  const handleMenuCloseSe = () => setAnchorSe(null);
+  const handleMenuClosePr = () => setAnchorPr(null);
 
-   const handleProfile = () => {
-      setAnchorPr(null);
-      dis(setSnackbar(msg(`Loading Profile`, "info")));
-      navigate(`/clients/profile`);
-   };
+  const handleProfile = () => {
+    setAnchorPr(null);
+    dis(setSnackbar(msg(`Loading Profile`, "info")));
+    navigate(`/clients/profile`);
+  };
 
-   const handleLogout = (
-      event: React.MouseEvent<HTMLButtonElement> | any
-   ): void => {
-      dis(setSnackbar(msg(`Logging out`, "info")));
-      setAnchorPr(event.currentTarget);
-      dis(clearTodo());
-      dis(clearSuggest());
-      dis(clearUsers());
-      dis(clearSnackbar());
-      dis(clearSession());
-      setTimeout(() => navigate(`/login`), 1200);
-   };
-   const handleClickSe = (event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorSe(event.currentTarget);
-   };
-   const handleClickPr = (event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorPr(event.currentTarget);
-   };
+  const handleLogout = (
+    event: React.MouseEvent<HTMLButtonElement> | any
+  ): void => {
+    dis(setSnackbar(msg(`Logging out`, "info")));
+    setAnchorPr(event.currentTarget);
+    dis(clearTodo());
+    dis(clearSuggest());
+    dis(clearUsers());
+    dis(clearSnackbar());
+    dis(clearSession());
+    setTimeout(() => navigate(`/login`), 1200);
+  };
+  const handleClickSe = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorSe(event.currentTarget);
+  };
+  const handleClickPr = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorPr(event.currentTarget);
+  };
 
-   return (
-      <div style={{ minWidth: 80 }}>
-         <IconButton
-            id='basic-button'
-            aria-controls={openSe ? "basic-menu" : undefined}
-            aria-haspopup='true'
-            aria-expanded={openSe ? "true" : undefined}
-            onClick={handleClickSe}
-         >
-            <SettingsIcon style={{ color: "white" }} />
-         </IconButton>
-         <Menu
-            id='basic-menu'
-            anchorEl={anchorSe}
-            open={openSe}
-            onClose={handleMenuCloseSe}
-            MenuListProps={{
-               "aria-labelledby": "basic-button",
-            }}
-         >
-            <Box sx={{ padding: 2 }}>
-               <ProfSetting />
-            </Box>
-         </Menu>
+  return (
+    <div style={{ minWidth: 80 }}>
+      <IconButton
+        id="basic-button"
+        aria-controls={openSe ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={openSe ? "true" : undefined}
+        onClick={handleClickSe}
+      >
+        <SettingsIcon style={{ color: "white" }} />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorSe}
+        open={openSe}
+        onClose={handleMenuCloseSe}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <Box sx={{ padding: 2 }}>
+          <ProfSetting />
+        </Box>
+      </Menu>
 
-         <IconButton
-            id='basic-button'
-            aria-controls={openPr ? "basic-menu" : undefined}
-            aria-haspopup='true'
-            aria-expanded={openPr ? "true" : undefined}
-            onClick={handleClickPr}
-         >
-            <PersonIcon style={{ color: "white" }} />
-         </IconButton>
-         <Menu
-            id='basic-menu'
-            anchorEl={anchorPr}
-            open={openPr}
-            onClose={handleMenuClosePr}
-            MenuListProps={{
-               "aria-labelledby": "basic-button",
-            }}
-         >
-            <MenuItem onClick={handleProfile}>Profile</MenuItem>
-            <MenuItem onClick={(event) => handleLogout(event)}>Logout</MenuItem>
-         </Menu>
-      </div>
-   );
+      <IconButton
+        id="basic-button"
+        aria-controls={openPr ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={openPr ? "true" : undefined}
+        onClick={handleClickPr}
+      >
+        <PersonIcon style={{ color: "white" }} />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorPr}
+        open={openPr}
+        onClose={handleMenuClosePr}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
+        <MenuItem onClick={(event) => handleLogout(event)}>Logout</MenuItem>
+      </Menu>
+    </div>
+  );
 };

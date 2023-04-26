@@ -1,4 +1,4 @@
 export interface SnackbarState {
-   open: boolean;
-   alert: Alert;
+  open: boolean;
+  alert: Alert;
 }

@@ -12,42 +12,42 @@ const minDate = dayjs("2020-01-01T00:00:00.000");
 const maxDate = dayjs("2034-01-01T00:00:00.000");
 
 export default function SubComponentsPickers() {
-   let yourDate = new Date();
+  let yourDate = new Date();
 
-   const [date, setDate] = React.useState<Dayjs | null>(
-      dayjs(yourDate.toISOString().split("T")[0])
-   );
+  const [date, setDate] = React.useState<Dayjs | null>(
+    dayjs(yourDate.toISOString().split("T")[0])
+  );
 
-   return (
-      <div style={{ marginTop: 50, padding: 10 }}>
-         <Paper>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-               <Grid container spacing={3}>
-                  <Grid item xs={12} md={6}>
-                     <CalendarPicker
-                        date={date}
-                        onChange={(newDate) => setDate(newDate)}
-                     />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                     <MonthPicker
-                        date={date}
-                        minDate={minDate}
-                        maxDate={maxDate}
-                        onChange={(newDate) => setDate(newDate)}
-                     />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                     <YearPicker
-                        date={date}
-                        minDate={minDate}
-                        maxDate={maxDate}
-                        onChange={(newDate) => setDate(newDate)}
-                     />
-                  </Grid>
-               </Grid>
-            </LocalizationProvider>
-         </Paper>
-      </div>
-   );
+  return (
+    <div style={{ marginTop: 50, padding: 10 }}>
+      <Paper>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <CalendarPicker
+                date={date}
+                onChange={(newDate) => setDate(newDate)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <MonthPicker
+                date={date}
+                minDate={minDate}
+                maxDate={maxDate}
+                onChange={(newDate) => setDate(newDate)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <YearPicker
+                date={date}
+                minDate={minDate}
+                maxDate={maxDate}
+                onChange={(newDate) => setDate(newDate)}
+              />
+            </Grid>
+          </Grid>
+        </LocalizationProvider>
+      </Paper>
+    </div>
+  );
 }

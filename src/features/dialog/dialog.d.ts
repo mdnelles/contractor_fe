@@ -1,6 +1,6 @@
 export interface DialogState {
-   open: boolean;
-   title: string | number;
-   content: any;
-   params: any;
+  open: boolean;
+  title: string | number;
+  content: any;
+  params: any;
 }

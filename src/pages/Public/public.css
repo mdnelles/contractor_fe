@@ -1,19 +1,19 @@
 .header1 {
-   font-size: 2vh;
-   font-weight: 400;
-   text-transform: uppercase;
-   color: #ddd;
-   text-align: justify;
+  font-size: 2vh;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #ddd;
+  text-align: justify;
 }
 .para1 {
-   border-radius: 5px;
-   background: rgb(222, 222, 222, 0.1);
-   font-weight: 200;
-   font-size: 15px;
-   padding: 20px;
-   margin-top: 80px;
-   margin-bottom: 80px;
+  border-radius: 5px;
+  background: rgb(222, 222, 222, 0.1);
+  font-weight: 200;
+  font-size: 15px;
+  padding: 20px;
+  margin-top: 80px;
+  margin-bottom: 80px;
 }
 ul.a {
-   list-style-type: circle;
+  list-style-type: circle;
 }
