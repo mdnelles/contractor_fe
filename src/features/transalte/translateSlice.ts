@@ -124,12 +124,12 @@ const initialState: TransState = {
         en: "Please enter valid valusp",
     },
     {
-        sp: "",
-        en: "",
+        sp: "Éxito de la nueva cuenta",
+        en: "New account success",
     },
     {
-        sp: "",
-        en: "",
+        sp: "Ir a iniciar sesión",
+        en: "Go To Login",
     },
     {
         sp: "",
