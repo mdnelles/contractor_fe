@@ -32,8 +32,6 @@ export const sessionSlice = createSlice({
    reducers: {
       setSession: (state, action: PayloadAction<SessionState>) => {
          const o: SessionState = action.payload;
-         console.log("------o-----");
-         console.log(o);
 
          try {
             if (o.user.email) state.user.email = o.user.email;

@@ -20,10 +20,10 @@ export default function LangChose(): JSX.Element {
         dis(setSession({ ...session, lang }));
     }
     return (
-        <div style={{position:"fixed",bottom:10,left:10}} >
-            {session.lang === 'es' ? 
+        <div style={{position:"fixed",bottom:10,left:10,zIndex:1250}} >
+            {session.lang === 'sp' ? 
             <Button size='small' onClick={() => startSetLanguage('en')}><img src="./img/flags/gb.png" alt="English" style={fStyle}  /> English</Button> :             
-            <Button size='small' onClick={() => startSetLanguage('es')}><img src="./img/flags/es.png" alt="Spanish" style={fStyle} /> Español</Button>
+            <Button size='small' onClick={() => startSetLanguage('sp')}><img src="./img/flags/es.png" alt="Spanish" style={fStyle} /> Español</Button>
             }
         </div>
     )

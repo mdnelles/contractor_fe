@@ -6,30 +6,13 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
 import { initializeApp } from "firebase/app";
-import {
-   getAuth,
-   createUserWithEmailAndPassword,
-} from "firebase/auth";
-import {
-   getFirestore
-} from "firebase/firestore";
-
-import {
-   REACT_APP_API_KEY,
-   REACT_APP_APP_ID,
-   REACT_APP_AUTH_DOMAIN,
-   REACT_APP_DATABASE_URL,
-   REACT_APP_MEASUREMENT_ID,
-   REACT_APP_MESSAGING_SENDER_ID,
-   REACT_APP_PROJECT_ID,
-   REACT_APP_STORAGE_BUCKET,
-} from "../../../firebase.config";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { SnackbarState } from "../../../features/snackbar/snackbar";
@@ -46,16 +29,17 @@ import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
 import { SessionState } from "../../../features/session/session";
 import Trans from "../../../widgets/Trans";
+import * as fb from  "../../../firebase.config";
 
 const firebaseConfig = {
-   apiKey: REACT_APP_API_KEY,
-   authDomain: REACT_APP_AUTH_DOMAIN,
-   databaseURL: REACT_APP_DATABASE_URL,
-   projectId: REACT_APP_PROJECT_ID,
-   storageBucket: REACT_APP_STORAGE_BUCKET,
-   messagingSenderId: REACT_APP_MESSAGING_SENDER_ID,
-   appId: REACT_APP_APP_ID,
-   measurementId: REACT_APP_MEASUREMENT_ID,
+   apiKey: fb.REACT_APP_API_KEY,
+   authDomain: fb.REACT_APP_AUTH_DOMAIN,
+   databaseURL: fb.REACT_APP_DATABASE_URL,
+   projectId: fb.REACT_APP_PROJECT_ID,
+   storageBucket: fb.REACT_APP_STORAGE_BUCKET,
+   messagingSenderId: fb.REACT_APP_MESSAGING_SENDER_ID,
+   appId: fb.REACT_APP_APP_ID,
+   measurementId: fb.REACT_APP_MEASUREMENT_ID,
 };
 
 const theme = createTheme();

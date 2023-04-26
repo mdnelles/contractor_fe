@@ -68,20 +68,20 @@ export default function SignUp() {
       const email: any = data.get("email");
 
       if (isValidEmail(email)) {
-         dispatch(setSnackbar(msg(<Trans txt="Searching for account." />, "info")));
+         //dispatch(setSnackbar(msg(<Trans txt="Searching for account" />, "info")));
          try {
             const resp: any = await sendPasswordResetEmail(auth, email);
             console.log(resp);
             setSuccess(true);
-            dispatch(setSnackbar(msg(<Trans txt="Password Reset" />, "success")));
+            dispatch(setSnackbar(msg(<Trans txt="Password Reset Success" />, "success")));
          } catch (error: any) {
-            dispatch(setSnackbar(msg(<Trans txt="Email not in system" />, "error")));
+            dispatch(setSnackbar(msg(<Trans txt="Email not found" />, "error")));
 
             setLoading(false);
          }
       } else {
          setLoading(false);
-         dispatch(setSnackbar(msg(<Trans txt="Please enter valid credentials" />, "error")));
+         dispatch(setSnackbar(msg(<Trans txt="Please enter a valid email" />, "error")));
       }
    };
 
