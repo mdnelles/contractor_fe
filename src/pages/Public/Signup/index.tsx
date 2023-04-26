@@ -74,8 +74,7 @@ export default function SignUp() {
       const password: any = data.get("password");
 
       if (isValidEmail(email) && isValidPassword(password)) {
-         dispatch(setSnackbar(msg(lang === 'es'? `
-         Intentando registrarse` : `Attempting Signup...`, "info")));
+         dispatch(setSnackbar(msg(<Trans txt="Attempting Signup" />, "info")));
          try {
             const resp: any = await createUserWithEmailAndPassword(
                auth,
@@ -84,17 +83,17 @@ export default function SignUp() {
             );
             console.log(resp);
             setSuccess(true);
-            dispatch(setSnackbar(msg(`Signup Success`, "success")));
+            dispatch(setSnackbar(msg(<Trans txt="Signup Success" />, "success")));
          } catch (error: any) {
             error.toString().includes("email-already-in-use")
-               ? dispatch(setSnackbar(msg(`Email already in use`, "error")))
-               : dispatch(setSnackbar(msg(`Signup Failed`, "error")));
+               ? dispatch(setSnackbar(msg(<Trans txt="Email already in use" />, "error")))
+               : dispatch(setSnackbar(msg(<Trans txt="Signup Failed" />, "error")));
 
             setLoading(false);
          }
       } else {
          setLoading(false);
-         dispatch(setSnackbar(msg(`Please enter valid credentials`, "error")));
+         dispatch(setSnackbar(msg(<Trans txt="Please enter valid values" />, "error")));
       }
    };
 
@@ -132,10 +131,10 @@ export default function SignUp() {
                      </Typography>
                      {success ? (
                         <>
-                           New account success
+                          <Trans txt=" New account success" />
                            <div style={{ padding: 20 }} />
                            <Button onClick={()=>navigate('/login')}  size="small" sx={{textTransform: "none"}}>
-                              Go To Login
+                              <Trans txt="Go To Login" />
                            </Button>
                         </>
                      ) : (
