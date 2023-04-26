@@ -23,6 +23,10 @@ export const store = configureStore({
       trans: transReducer,
       users: usersReducer,
    },
+   middleware: (getDefaultMiddleware) =>
+   getDefaultMiddleware({
+      serializableCheck: false,
+   }),
 });
 
 export type AppDispatch = typeof store.dispatch;

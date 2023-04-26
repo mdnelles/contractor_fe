@@ -23,11 +23,9 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { UserType } from "../features/session/session";
 
-import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { signInWithGoogle } from "../firebase";
 import {
-   GoogleAuthProvider,
    getAuth,
    signInWithEmailAndPassword,
 } from "firebase/auth";
@@ -39,32 +37,21 @@ import {
    where,
    addDoc,
 } from "firebase/firestore";
-import {
-   LoginEmailPwdProps,
-   RegisterWithEmailPasswordProps,
-} from "../firebase.d";
 
-import {
-   REACT_APP_API_KEY,
-   REACT_APP_APP_ID,
-   REACT_APP_AUTH_DOMAIN,
-   REACT_APP_DATABASE_URL,
-   REACT_APP_MEASUREMENT_ID,
-   REACT_APP_MESSAGING_SENDER_ID,
-   REACT_APP_PROJECT_ID,
-   REACT_APP_STORAGE_BUCKET,
-} from "../firebase.config";
+
+import * as fb from "../firebase.config";
+
 import Trans from "../widgets/Trans";
 
 const firebaseConfig = {
-   apiKey: REACT_APP_API_KEY,
-   authDomain: REACT_APP_AUTH_DOMAIN,
-   databaseURL: REACT_APP_DATABASE_URL,
-   projectId: REACT_APP_PROJECT_ID,
-   storageBucket: REACT_APP_STORAGE_BUCKET,
-   messagingSenderId: REACT_APP_MESSAGING_SENDER_ID,
-   appId: REACT_APP_APP_ID,
-   measurementId: REACT_APP_MEASUREMENT_ID,
+   apiKey: fb.REACT_APP_API_KEY,
+   authDomain: fb.REACT_APP_AUTH_DOMAIN,
+   databaseURL: fb.REACT_APP_DATABASE_URL,
+   projectId: fb.REACT_APP_PROJECT_ID,
+   storageBucket: fb.REACT_APP_STORAGE_BUCKET,
+   messagingSenderId: fb.REACT_APP_MESSAGING_SENDER_ID,
+   appId: fb.REACT_APP_APP_ID,
+   measurementId: fb.REACT_APP_MEASUREMENT_ID,
 };
 
 export default function Login() {
@@ -80,13 +67,11 @@ export default function Login() {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
 
-   const startLoginWEP = async (
-      event: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
-   ) => {
+   const startLoginWEP = async (event: | any) => {
       event.preventDefault();
 
       if (isValidEmail(email) && isValidPassword(password)) {
-         dispatch(setSnackbar(msg(`Testing Credentials...`, "info")));
+         dispatch(setSnackbar(msg(<Trans txt="Log in with email" />, "info")));
 
          setLoading(true);
          try {
@@ -113,19 +98,19 @@ export default function Login() {
             return false;
          }
       } else {
-         dispatch(setSnackbar(msg(`Please enter valid credentials`, "error")));
+         dispatch(setSnackbar(msg(<Trans txt="Please enter valid credentials" />, "error")));
       }
    };
 
-   const startSignInWithGoogle = async (
-      event: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
-   ) => {
+   const startSignInWithGoogle = async (event: any) => {
       event.preventDefault();
       setLoading(true);
-      dispatch(setSnackbar(msg(`Attempting Google Signin`, "info")));
+      dispatch(setSnackbar(msg(<Trans txt="Attempting Google Log in" />, "info")));
 
       try {
          const res: any = await signInWithGoogle();
+         console.log("...response from startSignInWithGoogle");
+         console.log(res);
          startSetSession(res);
       } catch (error) {
          setLoading(false);
@@ -134,28 +119,35 @@ export default function Login() {
    };
 
    const startSetSession = (res: any) => {
-      const o = res.user;
-      const m = o.metadata;
-      let userObj: UserType = {
-         token: o.accessToken,
-         email: o.email,
-         displayName: o.displayName | o.email,
-         photoUrl: o.photoUrl,
-         uid: o.uid,
-         createdAt: m.createdAt,
-         creationTime: m.creationTime,
-         lastLoginAt: m.lastLoginAt,
-         lastSignInTime: m.lastSignInTime,
-      };
-      dispatch(setSession({ ...session, user: userObj }));
-   };
+      console.log("...response from startSetSession")
+      console.log(res);
+      try {
+         const o = res.user;
+         const m = o.metadata;
+         let userObj: UserType = {
+            token: o.accessToken,
+            email: o.email,
+            displayName: o.displayName | o.email,
+            photoUrl: o.photoUrl,
+            uid: o.uid,
+            createdAt: m.createdAt,
+            creationTime: m.creationTime,
+            lastLoginAt: m.lastLoginAt,
+            lastSignInTime: m.lastSignInTime,
+         };
+         dispatch(setSession({ ...session, user: userObj }));
+      
+      } catch(error) {
+         console.log(error);
+      }
+   }
 
    const goHome = () => navigate(`/`);
 
    if (session.user.token) navigate(`/clients`);
 
    useEffect(() => {
-      console.log("UE - session");
+      //console.log("UE - session");
    }, [session.user]);
 
    return (
@@ -230,7 +222,7 @@ export default function Login() {
                               onClick={(event) => startLoginWEP(event)}
                               sx={{textTransform: "none"}}
                            >
-                              <Trans txt="Login With Email" />
+                              <Trans txt="Log in With email" />
                            </Button>
                            {loading && (
                               <CircularProgress

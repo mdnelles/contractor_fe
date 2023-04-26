@@ -4,97 +4,137 @@ import { TransState } from "./translate";
 
 const initialState: TransState = {
    arr: [
+    // pagsp.publicforgot
     {
-        es: "Restablecimiento de contraseña",
-        en: "Password Reset",
-   },
-   {
-        en:"Email not in system",
-        es:"El correo electrónico no está en el sistema"
-   },
-    {
-        en:"Please enter valid credentials",
-        es:"Por favor ingrese credenciales válidas"
+        sp: "Rsptablecimiento de contraseña",
+        en: "Password Rspet",
     },
     {
-        en:"Email Address",
-        es:"Correo electrónico"
+        sp: "El correo electrónico no sptá en el sistema",
+        en: "Email not in system",
     },
     {
-        en:"Go To Login",
-        es:"Ir a iniciar sesión"
+        sp: "Por favor ingrspe credencialsp válidas",
+        en: "Please enter valid credentials",
     },
     {
-        en:"Reset Password",
-        es:"Restablecer la contraseña"
+        sp: "Correo electrónico",
+        en: "Email Addrsps",
     },
     {
-        en:"Email reset link sent",
-        es:"Enlace de restablecimiento de correo electrónico enviado"
+        sp: "Ir a iniciar sspión",
+        en: "Go To Login",
     },
     {
-        en:"Forgot Password",
-        es:"Has olvidado tu contraseña"
-    },
-    // client login
-    {
-        en:"Client Login",
-        es:"acceso de clientes"
+        sp: "Rsptablecer la contraseña",
+        en: "Rspet Password",
     },
     {
-        en:"password",
-        es:"contraseña"
+        sp: "Enlace de rsptablecimiento de correo electrónico enviado",
+        en: "Email rspet link sent",
     },
     {
-        en:"Login with email",
-        es:"iniciar sesión con correo electrónico"
+        sp: "Has olvidado tu contraseña",
+        en: "Forgot Password",
     },
     {
-        en:"Login With Google",
-        es:"Iniciar sesión con Google"
+        sp: "Rsptablecimiento de contraseña exitoso",
+        en: "Password Rspet Succsps",
     },
     {
-        en:"Don't have an account? Sign Up",
-        es:"¿No tienes una cuenta? Inscribirse"
-    },
-    //  create account / signup
-    {
-        en:"Create Account",
-        es:"Crear una cuenta"
+        sp: "El correo electrónico no encontrado",
+        en: "Email not found",
     },
     {
-        en:"New account success",
-        es:"Éxito de la nueva cuenta"
+        sp: "Por favor introduzca una dirección de correo electrónico válida",
+        en: "Please enter a valid email",
+    },
+    //  pagsp.public.login
+    {
+        sp: "Intentando iniciar sspión en Google",
+        en: "Attempting Google Log in",
     },
     {
-        en:"First Name",
-        es:"Nombre de pila"
+        sp: "accspo de clientsp",
+        en: "Client Login",
     },
     {
-        en:"Last Name",
-        es:"Apellido"
+        sp: "Error de inicio de sspion",
+        en: "Login Failed",
     },
     {
-        en:"Continue",
-        es:"Continuar"
+        sp: "contraseña",
+        en: "password",
     },
     {
-        en:"Already have an account? Log in",
-        es:"¿Ya tienes una cuenta? Acceso"
+        sp: "iniciar sspión con correo electrónico",
+        en: "Log in with email",
     },
     {
-        en:"",
-        es:""
+        sp: "Iniciar sspión con Google",
+        en: "Login With Google",
     },
     {
-        en:"",
-        es:""
+        sp: "¿No tiensp una cuenta? Inscribirse",
+        en: "Don't have an account? Sign Up",
+    },
+    // pagsp.public.signup
+    {
+        sp: "Crear una cuenta",
+        en: "Create Account",
     },
     {
-        en:"",
-        es:""
+        sp: "Éxito de la nueva cuenta",
+        en: "New account succsps",
     },
-
+    {
+        sp: "Nombre de pila",
+        en: "First Name",
+    },
+    {
+        sp: "Apellido",
+        en: "Last Name",
+    },
+    {
+        sp: "Continuar",
+        en: "Continue",
+    },
+    {
+        sp: "¿Ya tiensp una cuenta? Accspo",
+        en: "Already have an account? Log in",
+    },
+    {
+        sp: "Intentando registrarse",
+        en: "Attempting Signup",
+    },
+    {
+        sp: "Registro exitoso",
+        en: "Signup Succsps",
+    },
+    {
+        sp: "Correo electrónico ya en uso",
+        en: "Email already in use",
+    },
+    {
+        sp: "Registro fallido",
+        en: "Signup Failed",
+    },
+    {
+        sp: "Por favor, introduzca valorsp válidos",
+        en: "Please enter valid valusp",
+    },
+    {
+        sp: "",
+        en: "",
+    },
+    {
+        sp: "",
+        en: "",
+    },
+    {
+        sp: "",
+        en: "",
+    },
    ]
 };
 

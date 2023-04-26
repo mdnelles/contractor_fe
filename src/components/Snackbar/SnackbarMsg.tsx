@@ -30,10 +30,11 @@ export default function SnackbarMsg() {
    }, [snackbar]);
 
    return (
+      
       <Snackbar
          open={snackbar.open}
          onClose={handleClose}
-         anchorOrigin={{ vertical: "top", horizontal: "right" }}
+         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
          <Alert severity={severity} sx={{ width: "100%" }} variant='filled'>
             {msg}

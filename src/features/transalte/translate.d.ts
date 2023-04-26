@@ -1,5 +1,5 @@
 export type TransObj = {
-    es:string;
+    sp:string;
     en:string;
 }
 
