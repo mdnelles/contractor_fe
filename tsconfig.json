@@ -38,6 +38,7 @@
   ],
   "rules": {
     "prefer-const": "off",
-    "noImplicitAny": false 
+    "noImplicitAny": false,
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }

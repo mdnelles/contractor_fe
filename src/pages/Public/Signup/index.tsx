@@ -180,6 +180,7 @@ export default function SignUp() {
                           defaultValue=""
                           id="password"
                           name="password"
+                          autoComplete="current-password"
                           endAdornment={
                             <InputAdornment position="end">
                               <IconButton
