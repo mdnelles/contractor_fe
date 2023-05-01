@@ -1,14 +1,11 @@
-import * as fb from "./firebase.config";
-
 export const firebaseConfig = {
-  apiKey: fb.REACT_APP_API_KEY,
-  authDomain: fb.REACT_APP_AUTH_DOMAIN,
-  databaseURL: fb.REACT_APP_DATABASE_URL,
-  projectId: fb.REACT_APP_PROJECT_ID,
-  storageBucket: fb.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: fb.REACT_APP_MESSAGING_SENDER_ID,
-  appId: fb.REACT_APP_APP_ID,
-  measurementId: fb.REACT_APP_MEASUREMENT_ID,
+  apiKey: "AIzaSyAwiwqLbO92GfZxNDtQRVCWgL7T0JGCMY0",
+  authDomain: "servico-843c0.firebaseapp.com",
+  projectId: "servico-843c0",
+  storageBucket: "servico-843c0.appspot.com",
+  messagingSenderId: "1049273926251",
+  appId: "1:1049273926251:web:c89d49009a18ed6cdbe72e",
+  measurementId: "G-M99780BVM7"
 };
  export const actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for this

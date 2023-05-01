@@ -29,7 +29,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
 import { SessionState } from "../../../features/session/session";
 import Trans from "../../../widgets/Trans";
-import * as fb from "../../../firebase/firebase.config";
 import { registerWithEmailAndPassword } from "../../../firebase/firebase";
 
 import { firebaseConfig } from "../../../firebase/constants";
