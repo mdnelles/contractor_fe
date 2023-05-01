@@ -1,12 +1,11 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyBmPQUWE08m6pEr-owFMJbNmqbaAwd9AOU",
-  authDomain: "servicio-e12fb.firebaseapp.com",
-  projectId: "servicio-e12fb",
-  storageBucket: "servicio-e12fb.appspot.com",
-  messagingSenderId: "741858081099",
-  appId: "1:741858081099:web:d03f2d377d47012a4690ce",
-  measurementId: "G-TL8HZHGQSC",
-  token:"1//05OhV-kbZTrdTCgYIARAAGAUSNwF-L9Ir-68tZXfzO1tbjkDWMFoVxpIUjQoTkAaYdAGhx5CMNB-2vobp9EbL87bvp4YL5VpIq9g"
+  apiKey: "AIzaSyAwiwqLbO92GfZxNDtQRVCWgL7T0JGCMY0",
+  authDomain: "servico-843c0.firebaseapp.com",
+  projectId: "servico-843c0",
+  storageBucket: "servico-843c0.appspot.com",
+  messagingSenderId: "1049273926251",
+  appId: "1:1049273926251:web:c89d49009a18ed6cdbe72e",
+  measurementId: "G-M99780BVM7"
 };
  export const actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for this
