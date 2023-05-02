@@ -5,6 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import ProfileNav from "./components/ProfileNav";
+import Trans from "../../widgets/Trans";
 
 interface AppBarTopProps {
   drawerWidth?: any;
@@ -59,7 +60,9 @@ export const AppBarTop = (props: AppBarTopProps): JSX.Element => {
             </IconButton>
           ) : null}
 
-          <div className="logo">contratistaClient Area</div>
+          <div className="logo">
+            <Trans txt="Dashboard" />
+          </div>
           <div style={{ float: "right" }}>
             <ProfileNav />
           </div>

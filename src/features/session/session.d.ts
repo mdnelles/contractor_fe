@@ -27,6 +27,7 @@ export interface SessionState {
   loginDisplayLastClicked: number | string | undefined; // 0=close 1=logout, 2=login/info
   lang: string;
   paused: boolean;
+  notRobot: boolean;
   toggle: boolean;
   cookieConsent: boolean;
   status: "idle" | "loading" | "failed";

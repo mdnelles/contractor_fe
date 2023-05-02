@@ -57,7 +57,16 @@ export default (): JSX.Element => {
   };
 
   return (
-    <div style={{ minWidth: 80 }}>
+    <div
+      style={{
+        minWidth: 80,
+        position: "fixed",
+        right: 10,
+        top: 10,
+        padding: 0,
+        margin: 0,
+      }}
+    >
       <IconButton
         id="basic-button"
         aria-controls={openSe ? "basic-menu" : undefined}

@@ -34,19 +34,10 @@ const db = getFirestore(app);
 const analytics = getAnalytics(app);
 const googleProvider = new GoogleAuthProvider();
 
-const logInWithEmailAndPassword = async (props: LoginEmailPwdProps) => {
-  const { email, password } = props;
-  try {
-    const resp: any = await signInWithEmailAndPassword(auth, email, password);
-    return resp;
-  } catch (err: any) {
-    console.error(err);
-    return err.message;
-  }
-};
-
-const registerWithEmailAndPassword = async (email:string,password:string) => {
-
+const registerWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -57,12 +48,12 @@ const registerWithEmailAndPassword = async (email:string,password:string) => {
       emailVarified: false,
       authProvider: "firebase",
       email,
+      userLevel: 0,
       createdAt: Date.now(),
     };
 
     const resp = await addDoc(collection(db, "users"), userObj);
-    sendSignInLinkToEmail(auth, email, actionCodeSettings)
-
+    sendSignInLinkToEmail(auth, email, actionCodeSettings);
   } catch (err: any) {
     console.error(err);
     alert(err.message);
@@ -96,6 +87,7 @@ const signInWithGoogle = async () => {
         authProvider: "google",
         email: user.email,
         emailVerified: true,
+        userLevel: 0,
         createdAt: Date.now(),
       });
     }
@@ -115,7 +107,6 @@ export {
   auth,
   db,
   signInWithGoogle,
-  logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,

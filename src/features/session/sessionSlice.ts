@@ -6,6 +6,7 @@ const initialState: SessionState = {
   loginDisplayLastClicked: 0,
   lang: "en",
   paused: false,
+  notRobot: false,
   toggle: true,
   cookieConsent: true,
   darkMode: false,
@@ -39,6 +40,7 @@ export const sessionSlice = createSlice({
         if (o.speed) state.speed = o.speed;
         if (o.user.lastLoginAt) state.user.lastLoginAt = o.user.lastLoginAt;
         if (o.lang) state.lang = o.lang;
+        if (o.notRobot) state.notRobot = o.notRobot;
 
         state.darkMode = o.darkMode;
         state.paused = o.paused;

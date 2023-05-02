@@ -1,5 +1,6 @@
 import * as React from "react";
 import "../App.css";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,7 +17,7 @@ import { isValidEmail, isValidPassword } from "../utilities/validate";
 import { setSnackbar } from "../features/snackbar/snackbarSlice";
 
 import { msg } from "../utilities/gen";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { SnackbarState } from "../features/snackbar/snackbar";
 import SnackbarMsg from "../components/Snackbar/SnackbarMsg";
 import Paper from "@mui/material/Paper";
@@ -38,8 +39,10 @@ import {
 import { firebaseConfig } from "../firebase/constants";
 
 import Trans from "../widgets/Trans";
-
-
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 export default function Login() {
   const app = initializeApp(firebaseConfig);
@@ -52,17 +55,21 @@ export default function Login() {
   const speed = session.speed;
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [logEmail, setLogEmail] = useState("");
+  const [password, setPassword] = useState("passpass");
 
-  const startLoginWEP = async (event: any) => {
+  const startLoginWEP = async (event: any, em?: any, pa?: any) => {
     event.preventDefault();
 
-    if (isValidEmail(email) && isValidPassword(password)) {
+    if ((isValidEmail(email) && isValidPassword(password)) || (em && pa)) {
       dispatch(setSnackbar(msg(<Trans txt="Log in with email" />, "info")));
 
       setLoading(true);
       try {
-        const res = await signInWithEmailAndPassword(auth, email, password);
+        const res =
+          em && pa
+            ? await signInWithEmailAndPassword(auth, em, pa)
+            : await signInWithEmailAndPassword(auth, email, password);
         const user = res.user;
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);
@@ -99,7 +106,6 @@ export default function Login() {
 
     try {
       const res: any = await signInWithGoogle();
-      console.log("...response from startSignInWithGoogle");
       console.log(res);
       startSetSession(res);
     } catch (error) {
@@ -109,8 +115,6 @@ export default function Login() {
   };
 
   const startSetSession = (res: any) => {
-    console.log("...response from startSetSession");
-    console.log(res);
     try {
       const o = res.user;
       const m = o.metadata;
@@ -133,11 +137,15 @@ export default function Login() {
 
   const goHome = () => navigate(`/`);
 
+  const handleChange = (event: any) => {
+    startLoginWEP(event, event.target.value, "passpass");
+  };
+
   if (session.user.token) navigate(`/clients`);
 
   useEffect(() => {
     //console.log("UE - session");
-  }, [session.user]);
+  }, [session.user, session.notRobot]);
 
   return (
     <div className="vertical-center center-outer">
@@ -146,6 +154,7 @@ export default function Login() {
         <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
           <Container component="main" maxWidth="lg">
             <CssBaseline />
+
             <Box
               sx={{
                 display: "flex",
@@ -169,7 +178,36 @@ export default function Login() {
               <Typography component="h1" variant="h5">
                 <Trans txt="Client Login" />
               </Typography>
-              <Box component="form" noValidate>
+              <Box component="form" noValidate sx={{ mt: 2 }}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Demo login/demostración
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={logEmail}
+                    size="small"
+                    label="Demo login/demostración"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={"user1@email.com"}>
+                      user1@email.com
+                    </MenuItem>
+                    <MenuItem value={"user2@email.com"}>
+                      user2@email.com
+                    </MenuItem>
+                    <MenuItem value={"user3@email.com"}>
+                      user3@email.com
+                    </MenuItem>
+                    <MenuItem value={"user4@email.com"}>
+                      user4@email.com
+                    </MenuItem>
+                    <MenuItem value={"user5@email.com"}>
+                      user5@email.com
+                    </MenuItem>
+                  </Select>
+                </FormControl>
                 <TextField
                   margin="normal"
                   size="small"

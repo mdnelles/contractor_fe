@@ -16,7 +16,7 @@ import { getFirestore } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { SnackbarState } from "../../../features/snackbar/snackbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -32,6 +32,7 @@ import Trans from "../../../widgets/Trans";
 import { registerWithEmailAndPassword } from "../../../firebase/firebase";
 
 import { firebaseConfig } from "../../../firebase/constants";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const theme = createTheme();
 
@@ -48,6 +49,7 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [captcha, setCaptcha] = useState<boolean>(false);
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -67,11 +69,8 @@ export default function SignUp() {
     if (isValidEmail(email) && isValidPassword(password)) {
       dispatch(setSnackbar(msg(<Trans txt="Attempting Signup" />, "info")));
       try {
-         //const resp: any = await createUserWithEmailAndPassword(
-         const resp: any = await registerWithEmailAndPassword(
-          email,
-          password
-        );
+        //const resp: any = await createUserWithEmailAndPassword(
+        const resp: any = await registerWithEmailAndPassword(email, password);
         console.log(resp);
         setSuccess(true);
         dispatch(setSnackbar(msg(<Trans txt="Signup Success" />, "success")));
@@ -91,6 +90,7 @@ export default function SignUp() {
       );
     }
   };
+  const updateCaptcha = () => setCaptcha(true);
 
   const goHome = () => navigate(`/`);
 
@@ -100,6 +100,7 @@ export default function SignUp() {
         <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
+
             <Box
               sx={{
                 marginTop: 2,
@@ -192,6 +193,15 @@ export default function SignUp() {
                       </FormControl>
                     </Grid>
 
+                    {/*<Grid container  >
+                      <Grid item>
+                    <ReCAPTCHA
+                      sitekey="6Le16dAlAAAAAK3T7ZWebJoUPU4ByU73JBzjTJSE"
+                      onChange={updateCaptcha}
+                    />
+                    </Grid>
+                        </Grid> */}
+
                     <Grid item xs={12}>
                       <Button
                         fullWidth
@@ -203,6 +213,7 @@ export default function SignUp() {
                       >
                         <Trans txt="Continue" />
                       </Button>
+
                       {loading && (
                         <CircularProgress
                           size={24}
@@ -217,6 +228,7 @@ export default function SignUp() {
                       )}
                     </Grid>
                   </Grid>
+
                   <Grid container justifyContent="flex-end">
                     <Grid item>
                       <Button
