@@ -132,6 +132,10 @@ const initialState: TransState = {
       en: "Go To Login",
     },
     {
+      sp: "Panel",
+      en: "Dashboard",
+    },
+    {
       sp: "",
       en: "",
     },

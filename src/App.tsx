@@ -17,7 +17,7 @@ import LangChose from "./widgets/LangChoose";
 export default function App() {
   // import session from redux store
 
-  const session: SessionState = useAppSelector((state:any) => state.session);
+  const session: SessionState = useAppSelector((state: any) => state.session);
   const { darkMode, lang } = session;
   useEffect(() => {
     // update template
@@ -39,7 +39,6 @@ export default function App() {
             </Route>
           </Routes>
         </ThemeProvider>
-        <LangChose />
       </Suspense>
     </div>
   );

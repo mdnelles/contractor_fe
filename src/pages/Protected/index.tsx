@@ -7,6 +7,7 @@ import Calendar from "./Calendar";
 
 import Profile from "./Profile/Profile";
 import Todo from "./Todo";
+import Guide from "./Guide";
 
 export default function Clients(): JSX.Element {
   const { page } = useParams();
@@ -16,6 +17,8 @@ export default function Clients(): JSX.Element {
         return <Account />;
       case "support":
         return <Ticket />;
+      case "guide":
+        return <Guide />;
       case "calendar":
         return <Calendar />;
       case "todo":

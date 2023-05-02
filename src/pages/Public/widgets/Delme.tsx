@@ -1,11 +1,5 @@
-
 import React from "react";
 
-
-export default function Delme():JSX.Element {
-    return (
-        <>
-           
-        </>
-    )
+export default function Delme(): JSX.Element {
+  return <></>;
 }

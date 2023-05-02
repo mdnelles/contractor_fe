@@ -7,6 +7,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -44,9 +45,15 @@ export const LeftNav = (props: LeftNavProps) => {
 
         <ListItemButton onClick={() => goPage(`/clients/support`)}>
           <ListItemIcon>
-            <ContactSupportIcon />
+            <ConfirmationNumberIcon />
           </ListItemIcon>
           <ListItemText primary="Support Ticket" />
+        </ListItemButton>
+        <ListItemButton onClick={() => goPage(`/clients/guide`)}>
+          <ListItemIcon>
+            <ContactSupportIcon />
+          </ListItemIcon>
+          <ListItemText primary="App Guide" />
         </ListItemButton>
         <ListItemButton onClick={() => goPage(`/clients/calendar`)}>
           <ListItemIcon>
