@@ -6,8 +6,6 @@ import {
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
   sendSignInLinkToEmail,
@@ -34,31 +32,7 @@ const db = getFirestore(app);
 const analytics = getAnalytics(app);
 const googleProvider = new GoogleAuthProvider();
 
-const registerWithEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
 
-    const user = res.user;
-
-    const userObj = {
-      uid: res.user.uid,
-      emailVarified: false,
-      authProvider: "firebase",
-      email,
-      userLevel: 0,
-      createdAt: Date.now(),
-    };
-
-    const resp = await addDoc(collection(db, "users"), userObj);
-    sendSignInLinkToEmail(auth, email, actionCodeSettings);
-  } catch (err: any) {
-    console.error(err);
-    alert(err.message);
-  }
-};
 interface SendPasswordResetProps {
   email: string | any;
 }
@@ -107,7 +81,6 @@ export {
   auth,
   db,
   signInWithGoogle,
-  registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
 };

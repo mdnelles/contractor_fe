@@ -69,15 +69,25 @@ export const apiGet = async (path: string, args: object = {}) => {
   });
 };
 
-export const apiPost = async (path: string, args: object = {}) => {
+interface Headers {
+  [key: string]: string;
+}
+
+export const apiPost = async (path: string, args: object = {}, token?: string | null) => {
+  const headers:Headers = {
+    "Content-Type": "application/json; charset=UTF-8",
+    Accept: "Token",
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  if (token) {
+    headers["token"] = token;
+  }
+
   return await axios.request({
     method: "POST",
     url: API_URL + path,
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      Accept: "Token",
-      "Access-Control-Allow-Origin": "*",
-    },
+    headers: headers,
     data: args,
   });
 };
