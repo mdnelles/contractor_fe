@@ -21,8 +21,6 @@ import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
 import Trans from "../../../widgets/Trans";
-import DummyDataUsers from "../widgets/DummyDataUsers";
-import DummyDataCards from "../widgets/DummyDataCards";
 
 const theme = createTheme();
 
@@ -71,6 +69,7 @@ export default function SignUp() {
     <div className="vertical-center center-outer">
       <div className="center-inner">
         <SnackbarMsg />
+
         <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />

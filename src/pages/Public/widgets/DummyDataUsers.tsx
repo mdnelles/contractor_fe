@@ -1,20 +1,23 @@
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
+// import { getAuth } from "firebase/auth";
+// import { getFirestore, collection, addDoc } from "firebase/firestore";
+// import { firebaseConfig } from "../../../firebase/constants";
 
-import { getAuth } from "firebase/auth";
+// const app = initializeApp(firebaseConfig);
+// const auth = getAuth(app);
+// const db = getFirestore(app);
 
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-
-import { firebaseConfig } from "../../../firebase/constants";
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+import { addDoc } from "../../../utilities/MongoRequest";
 
 function generateEmail(firstName: string, lastName: string) {
   const emailProviders = [
     "gmail.com",
     "yahoo.com",
     "hotmail.com",
+    "outlook.com",
+    "mail.com",
+    "imail.io",
+    "zmail.cc",
     "testmail.co",
   ];
   const randomProviderIndex = Math.floor(Math.random() * emailProviders.length);
@@ -56,7 +59,7 @@ function generateRandomName() {
   return names[randomIndex];
 }
 
-function generateRandomUsers(numRecords: number) {
+async function generateRandomUsers(numRecords: number) {
   const data = [];
   for (let i = 0; i < numRecords; i++) {
     const firstName = generateRandomName();
@@ -70,15 +73,17 @@ function generateRandomUsers(numRecords: number) {
       email,
       lastName,
       firstName,
-      userLevel: 4,
+      userLevel: 1,
       createdAt: Date.now(),
     };
+    
     //addDoc(collection(db, "users"), userObj);
+    //console.log(await addDoc("users", userObj,"ncrerfererer"));
   }
   return data;
 }
 
 export default function (): JSX.Element {
-  generateRandomUsers(25);
+  generateRandomUsers(233);
   return <>loaded...4</>;
 }
