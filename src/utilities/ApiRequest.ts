@@ -1,10 +1,7 @@
 import axios from "axios";
-import { API_REMOTE, API_LOCAL } from "../constants/api";
+import { API_URL } from "../constants/api";
 
-export const API_URL =
-  !!window && window.location.href.toString().includes("localhost")
-    ? API_LOCAL
-    : API_REMOTE;
+console.log(API_URL)
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -86,7 +83,7 @@ export const apiPost = async (path: string, args: object = {}, token?: string | 
 
   return await axios.request({
     method: "POST",
-    url: API_URL + path,
+    url: path,
     headers: headers,
     data: args,
   });

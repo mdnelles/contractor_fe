@@ -8,7 +8,6 @@ import {
   signInWithPopup,
   sendPasswordResetEmail,
   signOut,
-  sendSignInLinkToEmail,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -19,19 +18,13 @@ import {
   addDoc,
 } from "firebase/firestore";
 
-import {
-  LoginEmailPwdProps,
-  RegisterWithEmailPasswordProps,
-} from "./firebase.d";
-import { actionCodeSettings, firebaseConfig } from "./constants";
+import {  firebaseConfig } from "./constants";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const analytics = getAnalytics(app);
 const googleProvider = new GoogleAuthProvider();
-
 
 interface SendPasswordResetProps {
   email: string | any;

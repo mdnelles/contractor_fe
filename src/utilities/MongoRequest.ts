@@ -1,8 +1,9 @@
-import { API_URL, apiPost } from "./ApiRequest";
+import { API_URL } from "../constants/api";
+import {  apiPost } from "./ApiRequest";
 
-const addDoc = async (collection: any, data: any, token: string) => {
+const addDoc = async (collection: any, doc: any, token: string) => {
     try {
-        return await apiPost(API_URL + "/doc_add", { collection, data },token);
+        return await apiPost(API_URL + "/doc_add", { collection, doc },token);
     } catch(error) {
         console.error(error);
         return [];

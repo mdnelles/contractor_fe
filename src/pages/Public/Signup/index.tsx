@@ -29,10 +29,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
 import { SessionState } from "../../../features/session/session";
 import Trans from "../../../widgets/Trans";
-import { registerWithEmailAndPassword } from "../../../firebase/firebase";
 
 import { firebaseConfig } from "../../../firebase/constants";
 import ReCAPTCHA from "react-google-recaptcha";
+import { addDoc } from "../../../utilities/MongoRequest";
 
 const theme = createTheme();
 
@@ -70,8 +70,11 @@ export default function SignUp() {
       dispatch(setSnackbar(msg(<Trans txt="Attempting Signup" />, "info")));
       try {
         //const resp: any = await createUserWithEmailAndPassword(
-        const resp: any = await registerWithEmailAndPassword(email, password);
-        console.log(resp);
+        // const resp: any = await addDoc(db, "users", {
+        //   email: email,
+        //   password: password,
+        //   })
+        //console.log(resp);
         setSuccess(true);
         dispatch(setSnackbar(msg(<Trans txt="Signup Success" />, "success")));
       } catch (error: any) {
