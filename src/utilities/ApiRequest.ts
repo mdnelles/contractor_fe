@@ -71,6 +71,8 @@ interface Headers {
 }
 
 export const apiPost = async (path: string, args: object = {}, token?: string | null) => {
+  console.log("------path-----");
+  console.log(path);
   const headers:Headers = {
     "Content-Type": "application/json; charset=UTF-8",
     Accept: "Token",

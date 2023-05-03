@@ -1,5 +1,6 @@
 //import { initializeApp } from "firebase/app";
 
+import React from "react";
 import { addDoc } from "../../../utilities/MongoRequest";
 
 //import { getAuth } from "firebase/auth";
@@ -109,7 +110,7 @@ function getStage() {
   return Math.floor(Math.random() * 5) + 1;
 }
 
-function generateRandomLoop(numRecords: number) {
+async function generateRandomLoop(numRecords: number) {
   for (let i = 0; i < numRecords; i++) {
     const contract = generateRandomContract();
     const stage = getStage();
@@ -123,13 +124,17 @@ function generateRandomLoop(numRecords: number) {
       stage,
       createdAt,
     };
-    addDoc("contracts", contractsObj,"ncrn9u34hf93u4hf394fhu349ufh34fuh");
+    //console.log("....addDoc");
+    //console.log(await addDoc("contracts", contractsObj,"ncrn9u34hf93u4hf394fhu349ufh34fuh"));
 
   }
   return 1;
 }
 
-export default function (): JSX.Element {
-  generateRandomLoop(1);
+const DummyDataCards = (): JSX.Element => {
+  generateRandomLoop(120);
   return <>loaded...tasks</>;
 }
+
+export default DummyDataCards;
+//export default React.memo(DummyDataCards);

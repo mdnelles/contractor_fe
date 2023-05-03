@@ -3,6 +3,7 @@ import {  apiPost } from "./ApiRequest";
 
 const addDoc = async (collection: any, doc: any, token: string) => {
     try {
+        console.log('trying to add doc')
         return await apiPost(API_URL + "/doc_add", { collection, doc },token);
     } catch(error) {
         console.error(error);
