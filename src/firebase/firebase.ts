@@ -6,11 +6,8 @@ import {
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
-  sendSignInLinkToEmail,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -21,44 +18,14 @@ import {
   addDoc,
 } from "firebase/firestore";
 
-import {
-  LoginEmailPwdProps,
-  RegisterWithEmailPasswordProps,
-} from "./firebase.d";
-import { actionCodeSettings, firebaseConfig } from "./constants";
+import {  firebaseConfig } from "./constants";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const analytics = getAnalytics(app);
 const googleProvider = new GoogleAuthProvider();
 
-const registerWithEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-
-    const user = res.user;
-
-    const userObj = {
-      uid: res.user.uid,
-      emailVarified: false,
-      authProvider: "firebase",
-      email,
-      userLevel: 0,
-      createdAt: Date.now(),
-    };
-
-    const resp = await addDoc(collection(db, "users"), userObj);
-    sendSignInLinkToEmail(auth, email, actionCodeSettings);
-  } catch (err: any) {
-    console.error(err);
-    alert(err.message);
-  }
-};
 interface SendPasswordResetProps {
   email: string | any;
 }
@@ -107,7 +74,6 @@ export {
   auth,
   db,
   signInWithGoogle,
-  registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
 };

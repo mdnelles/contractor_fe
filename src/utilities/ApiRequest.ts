@@ -1,10 +1,7 @@
 import axios from "axios";
-import { API_REMOTE, API_LOCAL } from "../constants/api";
+import { API_URL } from "../constants/api";
 
-export const API_URL =
-  !!window && window.location.href.toString().includes("localhost")
-    ? API_LOCAL
-    : API_REMOTE;
+console.log(API_URL)
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -69,15 +66,25 @@ export const apiGet = async (path: string, args: object = {}) => {
   });
 };
 
-export const apiPost = async (path: string, args: object = {}) => {
+interface Headers {
+  [key: string]: string;
+}
+
+export const apiPost = async (path: string, args: object = {}, token?: string | null) => {
+  const headers:Headers = {
+    "Content-Type": "application/json; charset=UTF-8",
+    Accept: "Token",
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  if (token) {
+    headers["token"] = token;
+  }
+
   return await axios.request({
     method: "POST",
-    url: API_URL + path,
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      Accept: "Token",
-      "Access-Control-Allow-Origin": "*",
-    },
+    url: path,
+    headers: headers,
     data: args,
   });
 };

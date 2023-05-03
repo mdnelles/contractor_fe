@@ -1,14 +1,16 @@
-import { initializeApp } from "firebase/app";
+//import { initializeApp } from "firebase/app";
 
-import { getAuth } from "firebase/auth";
+import { addDoc } from "../../../utilities/MongoRequest";
 
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+//import { getAuth } from "firebase/auth";
 
-import { firebaseConfig } from "../../../firebase/constants";
+//import { getFirestore, collection, addDoc } from "firebase/firestore";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+//import { firebaseConfig } from "../../../firebase/constants";
+
+// const app = initializeApp(firebaseConfig);
+// const auth = getAuth(app);
+// const db = getFirestore(app);
 
 function getRandomDate() {
   const now = Date.now(); // current date in epoch format
@@ -113,7 +115,7 @@ function generateRandomLoop(numRecords: number) {
     const stage = getStage();
     const createdAt = getRandomDate();
     const contractsObj = {
-      jobTitle: "tarjeta: " + createdAt + " (" + contract.room + ")",
+      jobTitle: "cards: " + createdAt + " (" + contract.room + ")",
       task: contract.task,
       room: contract.room,
       description: generateLoremIpsum(),
@@ -121,12 +123,13 @@ function generateRandomLoop(numRecords: number) {
       stage,
       createdAt,
     };
-    //addDoc(collection(db, "contracts"), contractsObj);
+    addDoc("contracts", contractsObj,"ncrn9u34hf93u4hf394fhu349ufh34fuh");
+
   }
   return 1;
 }
 
 export default function (): JSX.Element {
-  generateRandomLoop(155);
+  generateRandomLoop(1);
   return <>loaded...tasks</>;
 }

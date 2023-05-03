@@ -43,6 +43,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import DummyDataCards from "./Public/widgets/DummyDataCards";
 
 export default function Login() {
   const app = initializeApp(firebaseConfig);
@@ -151,6 +152,7 @@ export default function Login() {
     <div className="vertical-center center-outer">
       <div className="center-inner">
         <SnackbarMsg />
+        <DummyDataCards />
         <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
           <Container component="main" maxWidth="lg">
             <CssBaseline />
