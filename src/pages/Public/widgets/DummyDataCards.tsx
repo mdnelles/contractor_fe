@@ -126,7 +126,6 @@ async function generateRandomLoop(numRecords: number) {
     };
     //console.log("....addDoc");
     //console.log(await addDoc("contracts", contractsObj,"ncrn9u34hf93u4hf394fhu349ufh34fuh"));
-
   }
   return 1;
 }
@@ -134,7 +133,7 @@ async function generateRandomLoop(numRecords: number) {
 const DummyDataCards = (): JSX.Element => {
   generateRandomLoop(120);
   return <>loaded...tasks</>;
-}
+};
 
 export default DummyDataCards;
 //export default React.memo(DummyDataCards);

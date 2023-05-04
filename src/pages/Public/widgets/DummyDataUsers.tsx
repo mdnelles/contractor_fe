@@ -76,7 +76,7 @@ async function generateRandomUsers(numRecords: number) {
       userLevel: 1,
       createdAt: Date.now(),
     };
-    
+
     //addDoc(collection(db, "users"), userObj);
     //console.log(await addDoc("users", userObj,"ncrerfererer"));
   }
