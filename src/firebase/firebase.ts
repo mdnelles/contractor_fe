@@ -18,7 +18,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 
-import {  firebaseConfig } from "./constants";
+import { firebaseConfig } from "./constants";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -70,10 +70,4 @@ const logout = () => {
   signOut(auth);
 };
 
-export {
-  auth,
-  db,
-  signInWithGoogle,
-  sendPasswordReset,
-  logout,
-};
+export { auth, db, signInWithGoogle, sendPasswordReset, logout };
