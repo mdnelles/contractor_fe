@@ -24,7 +24,8 @@ import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import { getDoc } from "../../../utilities/MongoRequest";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
-import { msg } from "../../../utilities/gen";
+import { findDataArray, msg } from "../../../utilities/gen";
+import { setSession } from "../../../features/session/sessionSlice";
 
 interface ExpandMoreProps extends IconButtonProps {
    expand: boolean;
@@ -53,6 +54,7 @@ export default function ProfileDisplay(): JSX.Element {
       uid = "NA",
       createdAt,
       bio,
+      userLevel,
       lastLoginAt,
    } = session.user;
    const d = new Date(lastLoginAt);
@@ -61,11 +63,21 @@ export default function ProfileDisplay(): JSX.Element {
 
    const initProfile = async () => {
       try {
-         let tmp: any = await getDoc("users", "email", email, token);
-         console.log(tmp.data.data[0]);
+         const resp: any = await getDoc("users", "email", email, token);
+         const arr: any = findDataArray(resp);
+         const o = arr[0];
+         let user = session.user;
+         user = {
+            ...user,
+            userLevel: o.userLevel,
+            displayName: o.firstName + " " + o.lastName,
+         };
+
+         dispatch(setSession({ ...session, user }));
+         dispatch(setSnackbar(msg("profile loaded", "success")));
       } catch (error) {
          console.log(error);
-         dispatch(setSnackbar(msg("could not find user", "error")));
+         dispatch(setSnackbar(msg("profile not found", "error")));
       }
    };
 
@@ -80,11 +92,13 @@ export default function ProfileDisplay(): JSX.Element {
    return (
       <>
          <Grid container spacing={2}>
-            <Grid item>
+            <Grid item xs={12}>
                <Card sx={{ minWidth: 250 }}>
                   <CardContent>
                      <Typography variant='body2' color='text.secondary'>
-                        <strong>User Profile {displayName}</strong>
+                        <strong>
+                           User Profile {displayName} ({userLevel})
+                        </strong>
                      </Typography>
                      <List
                         sx={{

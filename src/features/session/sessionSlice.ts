@@ -42,7 +42,8 @@ export const sessionSlice = createSlice({
             if (o.user.lastLoginAt) state.user.lastLoginAt = o.user.lastLoginAt;
             if (o.lang) state.lang = o.lang;
             if (o.notRobot) state.notRobot = o.notRobot;
-
+            state.user.userLevel = o.user.userLevel;
+            state.user.displayName = o.user.displayName;
             state.darkMode = o.darkMode;
             state.paused = o.paused;
             state.loginDisplayLastClicked = o.loginDisplayLastClicked;
