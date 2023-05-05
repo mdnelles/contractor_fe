@@ -61,6 +61,22 @@ export default function ProfileDisplay(): JSX.Element {
    const c = new Date(createdAt);
    const [profileLoaded, setProfileLoaded] = React.useState<boolean>(false);
 
+   const startGather = (userLevel: string, homeStore: string) => {
+      switch (userLevel) {
+         case "admin":
+            // gather all stores
+            break;
+         case "manager":
+            // gather all stores
+            break;
+         case "member":
+            // gather home store
+            break;
+         default:
+            break;
+      }
+   };
+
    const initProfile = async () => {
       try {
          const resp: any = await getDoc("users", "email", email, token);
@@ -72,7 +88,7 @@ export default function ProfileDisplay(): JSX.Element {
             userLevel: o.userLevel,
             displayName: o.firstName + " " + o.lastName,
          };
-
+         startGather(userLevel, user.homeStore);
          dispatch(setSession({ ...session, user }));
          dispatch(setSnackbar(msg("profile loaded", "success")));
       } catch (error) {
