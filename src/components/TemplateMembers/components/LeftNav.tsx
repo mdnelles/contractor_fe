@@ -3,71 +3,107 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import HomeIcon from "@mui/icons-material/Home";
+import EngineeringIcon from "@mui/icons-material/Engineering";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import PeopleIcon from "@mui/icons-material/People";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
+import { useAppSelector } from "../../../app/hooks";
+import Tooltip from "@mui/material/Tooltip";
 
 interface LeftNavProps {
-  goPage: any;
+   goPage: any;
 }
 
 export const LeftNav = (props: LeftNavProps) => {
-  const { goPage } = props;
+   const { goPage } = props;
+   const userLevel: any = useAppSelector(
+      (state) => state.session.user.userLevel
+   );
 
-  return (
-    <div>
-      <List component="nav">
-        <ListItemButton onClick={() => goPage(`/clients`)}>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItemButton>
-        <ListItemButton onClick={() => goPage(`/clients/account`)}>
-          <ListItemIcon>
-            <AccountBalanceIcon />
-          </ListItemIcon>
-          <ListItemText primary="My Account" />
-        </ListItemButton>
-        <ListItemButton onClick={() => goPage(`/clients/todo`)}>
-          <ListItemIcon>
-            <FormatListBulletedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Project Notes" />
-        </ListItemButton>
+   const menuItems = [
+      {
+         text: "Dashboard",
+         icon: <DashboardIcon />,
+         path: "/clients",
+         userLevel: [1, 2, 3, 4, 5],
+      },
+      {
+         text: "Project Notes",
+         icon: <FormatListBulletedIcon />,
+         path: "/clients/todo",
+         userLevel: [0],
+      },
+      {
+         text: "Stores",
+         icon: <LocalGroceryStoreIcon />,
+         path: "/clients/stores",
+         userLevel: [1, 2, 3],
+      },
+      {
+         text: "Orders",
+         icon: <EngineeringIcon />,
+         path: "/clients/orders",
+         userLevel: [1, 2, 3, 4, 5],
+      },
+      {
+         text: "Members",
+         icon: <PeopleIcon />,
+         path: "/clients/members",
+         userLevel: [1, 2],
+      },
+      {
+         text: "Support Ticket",
+         icon: <ConfirmationNumberIcon />,
+         path: "/clients/support",
+         userLevel: [0],
+      },
+      {
+         text: "App Guide",
+         icon: <ContactSupportIcon />,
+         path: "/clients/guide",
+         userLevel: [1, 2, 3, 4, 5],
+      },
+      {
+         text: "My Account",
+         icon: <AccountBalanceIcon />,
+         path: "/clients/account",
+         userLevel: [1, 2, 3, 4, 5],
+      },
+      {
+         text: "Calendar",
+         icon: <CalendarMonthIcon />,
+         path: "/clients/calendar",
+         userLevel: [1, 2, 3, 4, 5],
+      },
+   ];
 
-        <Divider sx={{ my: 1 }} />
-
-        <ListItemButton onClick={() => goPage(`/clients/support`)}>
-          <ListItemIcon>
-            <ConfirmationNumberIcon />
-          </ListItemIcon>
-          <ListItemText primary="Support Ticket" />
-        </ListItemButton>
-        <ListItemButton onClick={() => goPage(`/clients/guide`)}>
-          <ListItemIcon>
-            <ContactSupportIcon />
-          </ListItemIcon>
-          <ListItemText primary="App Guide" />
-        </ListItemButton>
-        <ListItemButton onClick={() => goPage(`/clients/calendar`)}>
-          <ListItemIcon>
-            <CalendarMonthIcon />
-          </ListItemIcon>
-          <ListItemText primary="Calendar" />
-        </ListItemButton>
-        <ListItemButton onClick={() => goPage(`/`)}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItemButton>
-      </List>
-    </div>
-  );
+   return (
+      <>
+         <List component='nav'>
+            {menuItems.map((item, index) => {
+               if (!item.userLevel.includes(userLevel)) {
+                  return null; // exclude item from the list if it doesn't match the user level
+               }
+               return (
+                  <React.Fragment key={index}>
+                     {item.userLevel.includes(1) && (
+                        <Tooltip title={item.text} placement='right'>
+                           <ListItemButton onClick={() => goPage(item.path)}>
+                              <ListItemIcon>{item.icon}</ListItemIcon>
+                              <ListItemText primary={item.text} />
+                           </ListItemButton>
+                        </Tooltip>
+                     )}
+                  </React.Fragment>
+               );
+            })}
+         </List>
+      </>
+   );
 };
