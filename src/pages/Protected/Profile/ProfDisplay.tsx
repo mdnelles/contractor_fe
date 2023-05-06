@@ -22,10 +22,12 @@ import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-import { getDoc } from "../../../utilities/MongoRequest";
+import { getDoc, getDocs } from "../../../utilities/MongoRequest";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { findDataArray, msg } from "../../../utilities/gen";
 import { setSession } from "../../../features/session/sessionSlice";
+import { setUsers } from "../../../features/users/usersSlice";
+import { setContracts } from "../../../features/contracts/contractsSlice";
 
 interface ExpandMoreProps extends IconButtonProps {
    expand: boolean;
@@ -61,16 +63,39 @@ export default function ProfileDisplay(): JSX.Element {
    const c = new Date(createdAt);
    const [profileLoaded, setProfileLoaded] = React.useState<boolean>(false);
 
-   const startGather = (userLevel: string, homeStore: string) => {
+   const startGather = async (
+      id: string,
+      userLevel: number,
+      homeStore: string,
+      token: string
+   ) => {
+      let users, contracts;
       switch (userLevel) {
-         case "admin":
-            // gather all stores
+         case 1: // super admin
+            users = findDataArray(await getDocs("users", token));
+            contracts = findDataArray(await getDocs("contracts", token));
+            dispatch(setUsers(users));
+            dispatch(setContracts(contracts));
             break;
-         case "manager":
-            // gather all stores
+         case 2: // store admin
+         case 3: // order picker
+            users = findDataArray(
+               await getDoc("users", "homeStore", homeStore, token)
+            );
+            contracts = findDataArray(
+               await getDoc("contracts", "homeStore", homeStore, token)
+            );
+            dispatch(setUsers(users));
+            dispatch(setContracts(contracts));
             break;
-         case "member":
-            // gather home store
+         case 4: // delivery / contractor
+            //users = findDataArray(await getDoc("users","homeStore",homeStore, token));
+            contracts = findDataArray(
+               await getDoc("contracts", "assignedTo", id, token)
+            );
+            dispatch(setUsers(users));
+            dispatch(setContracts(contracts));
+
             break;
          default:
             break;
@@ -88,7 +113,7 @@ export default function ProfileDisplay(): JSX.Element {
             userLevel: o.userLevel,
             displayName: o.firstName + " " + o.lastName,
          };
-         startGather(userLevel, user.homeStore);
+         startGather(user._id, o.userLevel, user.homeStore, token);
          dispatch(setSession({ ...session, user }));
          dispatch(setSnackbar(msg("profile loaded", "success")));
       } catch (error) {

@@ -8,7 +8,7 @@ import Calendar from "./Calendar";
 import Profile from "./Profile/Profile";
 import Todo from "./Todo";
 import Guide from "./Guide";
-import Orders from "./Orders";
+import Contracts from "./Contracts";
 import Members from "./Members";
 import Stores from "./Stores";
 
@@ -24,8 +24,8 @@ export default function Clients(): JSX.Element {
             return <Guide />;
          case "calendar":
             return <Calendar />;
-         case "orders":
-            return <Orders />;
+         case "contracts":
+            return <Contracts />;
          case "members":
             return <Members />;
          case "stores":

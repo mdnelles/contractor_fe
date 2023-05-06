@@ -13,7 +13,7 @@ export const usersSlice = createSlice({
    reducers: {
       setUsers: (state, action: PayloadAction<any>) => {
          try {
-            state.arr = action.payload.arr;
+            state.arr = action.payload;
          } catch (error) {
             console.log(error);
          }
