@@ -46,9 +46,9 @@ export const LeftNav = (props: LeftNavProps) => {
          userLevel: [1, 2, 3],
       },
       {
-         text: "Orders",
+         text: "Contracts",
          icon: <EngineeringIcon />,
-         path: "/clients/orders",
+         path: "/clients/contracts",
          userLevel: [1, 2, 3, 4, 5],
       },
       {
