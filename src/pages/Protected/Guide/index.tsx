@@ -17,141 +17,155 @@ import Grid from "@mui/material/Grid";
 import Chip from "@mui/material/Chip";
 
 export default function FolderList() {
-  return (
-    <>
-      <Chip label="C : Create" variant="outlined" sx={{ m: 1 }} />
-      <Chip label="R: Read" variant="outlined" sx={{ m: 1 }} />
-      <Chip label="U: Update" variant="outlined" sx={{ m: 1 }} />
-      <Chip label="D: Delete" variant="outlined" sx={{ m: 1 }} />
-      <Grid container>
-        <Grid item xs={12} md={6} sx={{ p: 1 }}>
-          <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-          >
-            <ListItem>
-              <ListItemAvatar></ListItemAvatar>
-              <ListItemText primary="User Levels" secondary="" />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <LooksOneIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Super Admin"
-                secondary="CRUD all other member types"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <LooksTwoIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Store Manager"
-                secondary="CRUD Level 3 and level 4"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <Looks3RoundedIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Order Picker"
-                secondary="RU from the orders database"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <Looks4RoundedIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Delivery & or Contractor"
-                secondary="Execute the deliver +/ Contract"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <Looks5RoundedIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Client" secondary="CR own orders" />
-            </ListItem>
-          </List>
-        </Grid>
-        <Grid item xs={12} md={6} sx={{ p: 1 }}>
-          <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-          >
-            <ListItem>
-              <ListItemAvatar></ListItemAvatar>
-              <ListItemText primary="Card or Contract Levels" secondary="" />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <LooksOneIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="New Order"
-                secondary="Client has requested a new order"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <LooksTwoIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Picked Order"
-                secondary="Order Picker has assemlbed the order"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <Looks3RoundedIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary=" Order Delivered"
-                secondary="Contractor has delivered the order"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <Looks4RoundedIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Work started"
-                secondary="Unless it is just a delivery"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <Looks5RoundedIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Life Cycle completed"
-                secondary="Clients signed goods/services finished"
-              />
-            </ListItem>
-          </List>
-        </Grid>
-      </Grid>
-    </>
-  );
+   return (
+      <>
+         <Chip label='C : Create' variant='outlined' sx={{ m: 1 }} />
+         <Chip label='R: Read' variant='outlined' sx={{ m: 1 }} />
+         <Chip label='U: Update' variant='outlined' sx={{ m: 1 }} />
+         <Chip label='D: Delete' variant='outlined' sx={{ m: 1 }} />
+         <Grid container>
+            <Grid item xs={12} md={6} sx={{ p: 1 }}>
+               <List
+                  sx={{
+                     width: "100%",
+                     maxWidth: 360,
+                     bgcolor: "background.paper",
+                  }}
+               >
+                  <ListItem>
+                     <ListItemAvatar></ListItemAvatar>
+                     <ListItemText primary='User Levels' secondary='' />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <LooksOneIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='Super Admin'
+                        secondary='CRUD all other member types'
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <LooksTwoIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='Store Manager'
+                        secondary='CRUD Level 3 and level 4'
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <Looks3RoundedIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='Order Picker'
+                        secondary='RU from the contracts database'
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <Looks4RoundedIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='Delivery & or Contractor'
+                        secondary='Execute the deliver +/ Contract'
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <Looks5RoundedIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='Client'
+                        secondary='CR own contracts'
+                     />
+                  </ListItem>
+               </List>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{ p: 1 }}>
+               <List
+                  sx={{
+                     width: "100%",
+                     maxWidth: 360,
+                     bgcolor: "background.paper",
+                  }}
+               >
+                  <ListItem>
+                     <ListItemAvatar></ListItemAvatar>
+                     <ListItemText
+                        primary='Card or Contract Levels'
+                        secondary=''
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <LooksOneIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='New Order'
+                        secondary='Client has requested a new order'
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <LooksTwoIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='Picked Order'
+                        secondary='Order Picker has assemlbed the order'
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <Looks3RoundedIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary=' Order Delivered'
+                        secondary='Contractor has delivered the order'
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <Looks4RoundedIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='Work started'
+                        secondary='Unless it is just a delivery'
+                     />
+                  </ListItem>
+                  <ListItem>
+                     <ListItemAvatar>
+                        <Avatar>
+                           <Looks5RoundedIcon />
+                        </Avatar>
+                     </ListItemAvatar>
+                     <ListItemText
+                        primary='Life Cycle completed'
+                        secondary='Clients signed goods/services finished'
+                     />
+                  </ListItem>
+               </List>
+            </Grid>
+         </Grid>
+      </>
+   );
 }

@@ -146,8 +146,11 @@ export default function Login() {
       startLoginWEP(event, event.target.value, "passpass");
    };
 
-   if (session.user.token) navigate(`/clients`);
-
+   if (session.user.token) {
+      setTimeout(() => {
+         navigate(`/clients`);
+      }, 600);
+   }
    useEffect(() => {
       //console.log("UE - session");
    }, [session.user, session.notRobot]);

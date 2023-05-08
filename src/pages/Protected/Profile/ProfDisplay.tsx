@@ -22,10 +22,12 @@ import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-import { getDoc } from "../../../utilities/MongoRequest";
+import { getDoc, getDocs } from "../../../utilities/MongoRequest";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { findDataArray, msg } from "../../../utilities/gen";
 import { setSession } from "../../../features/session/sessionSlice";
+import { setUsers } from "../../../features/users/usersSlice";
+import { setContracts } from "../../../features/contracts/contractsSlice";
 
 interface ExpandMoreProps extends IconButtonProps {
    expand: boolean;
@@ -61,6 +63,45 @@ export default function ProfileDisplay(): JSX.Element {
    const c = new Date(createdAt);
    const [profileLoaded, setProfileLoaded] = React.useState<boolean>(false);
 
+   const startGather = async (
+      id: string,
+      userLevel: number,
+      homeStore: string,
+      token: string
+   ) => {
+      let users, contracts;
+      switch (userLevel) {
+         case 1: // super admin
+            users = findDataArray(await getDocs("users", token));
+            contracts = findDataArray(await getDocs("contracts", token));
+            dispatch(setUsers(users));
+            dispatch(setContracts(contracts));
+            break;
+         case 2: // store admin
+         case 3: // order picker
+            users = findDataArray(
+               await getDoc("users", "homeStore", homeStore, token)
+            );
+            contracts = findDataArray(
+               await getDoc("contracts", "homeStore", homeStore, token)
+            );
+            dispatch(setUsers(users));
+            dispatch(setContracts(contracts));
+            break;
+         case 4: // delivery / contractor
+            //users = findDataArray(await getDoc("users","homeStore",homeStore, token));
+            contracts = findDataArray(
+               await getDoc("contracts", "assignedTo", id, token)
+            );
+            dispatch(setUsers(users));
+            dispatch(setContracts(contracts));
+
+            break;
+         default:
+            break;
+      }
+   };
+
    const initProfile = async () => {
       try {
          const resp: any = await getDoc("users", "email", email, token);
@@ -72,7 +113,7 @@ export default function ProfileDisplay(): JSX.Element {
             userLevel: o.userLevel,
             displayName: o.firstName + " " + o.lastName,
          };
-
+         startGather(user._id, o.userLevel, user.homeStore, token);
          dispatch(setSession({ ...session, user }));
          dispatch(setSnackbar(msg("profile loaded", "success")));
       } catch (error) {
@@ -97,7 +138,7 @@ export default function ProfileDisplay(): JSX.Element {
                   <CardContent>
                      <Typography variant='body2' color='text.secondary'>
                         <strong>
-                           User Profile {displayName} ({userLevel})
+                           Dashboard: {displayName} ({userLevel})
                         </strong>
                      </Typography>
                      <List
@@ -140,12 +181,12 @@ export default function ProfileDisplay(): JSX.Element {
                   </CardContent>
                </Card>
             </Grid>
-            <Grid item>
+            <Grid item xs={12}>
                {!profileLoaded ? (
-                  <Card sx={{ minWidth: 250, maxWidth: "100%" }}>
+                  <Card sx={{ minWidth: 250, maxWidth: "100%", p: 1 }}>
                      <Box sx={{ width: "100%", textAlign: "center" }}>
                         Loading profile...
-                        {/* <LinearProgress /> */}
+                        <LinearProgress />
                      </Box>
                   </Card>
                ) : (

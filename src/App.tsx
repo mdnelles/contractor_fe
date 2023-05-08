@@ -15,31 +15,31 @@ import { useAppSelector } from "./app/hooks";
 import LangChose from "./widgets/LangChoose";
 
 export default function App() {
-  // import session from redux store
+   // import session from redux store
 
-  const session: SessionState = useAppSelector((state: any) => state.session);
-  const { darkMode, lang } = session;
-  useEffect(() => {
-    // update template
-  }, [darkMode, lang]);
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-          <CssBaseline />
-          <Routes>
-            <Route path="" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/forgot" element={<Forgot />} />
+   const session: SessionState = useAppSelector((state: any) => state.session);
+   const { darkMode, lang } = session;
+   useEffect(() => {
+      // update template
+   }, [darkMode, lang]);
+   return (
+      <>
+         <Suspense fallback={<div>Loading...</div>}>
+            <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+               <CssBaseline />
+               <Routes>
+                  <Route path='' element={<Login />} />
+                  <Route path='/login' element={<Login />} />
+                  <Route path='/sign-up' element={<SignUp />} />
+                  <Route path='/forgot' element={<Forgot />} />
 
-            <Route element={<ProtectedRoute />}>
-              <Route path="/clients/:page" element={<Clients />} />
-              <Route path="/clients" element={<Clients />} />
-            </Route>
-          </Routes>
-        </ThemeProvider>
-      </Suspense>
-    </div>
-  );
+                  <Route element={<ProtectedRoute />}>
+                     <Route path='/clients/:page' element={<Clients />} />
+                     <Route path='/clients' element={<Clients />} />
+                  </Route>
+               </Routes>
+            </ThemeProvider>
+         </Suspense>
+      </>
+   );
 }

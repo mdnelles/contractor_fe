@@ -9,31 +9,33 @@ import menuReducer from "../features/menu/menuSlice";
 import pageReducer from "../features/page/pageSlice";
 import animsReducer from "../features/anims/animsSlice";
 import transReducer from "../features/transalte/translateSlice";
+import contractsReducer from "../features/contracts/contractsSlice";
 
 export const store = configureStore({
-  reducer: {
-    anims: animsReducer,
-    dialog: dialogReducer,
-    menu: menuReducer,
-    page: pageReducer,
-    session: sessionReducer,
-    snackbar: snackbarReducer,
-    suggest: suggestReducer,
-    todo: todoReducer,
-    trans: transReducer,
-    users: usersReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+   reducer: {
+      anims: animsReducer,
+      dialog: dialogReducer,
+      menu: menuReducer,
+      page: pageReducer,
+      session: sessionReducer,
+      snackbar: snackbarReducer,
+      suggest: suggestReducer,
+      todo: todoReducer,
+      trans: transReducer,
+      users: usersReducer,
+      contracts: contractsReducer,
+   },
+   middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+         serializableCheck: false,
+      }),
 });
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
+   ReturnType,
+   RootState,
+   unknown,
+   Action<string>
 >;
