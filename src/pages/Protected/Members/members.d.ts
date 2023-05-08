@@ -1,7 +1,6 @@
 export interface Column {
    email: string;
    firstName: number;
-   lastName: number;
    userLevel: number;
    homeStore: number;
    createdAt: number;
@@ -12,12 +11,7 @@ export const columns: readonly Column[] | any[] = [
    { id: "email", label: "email", minWidth: 100 },
    {
       id: "firstName",
-      label: "F. Name",
-      minWidth: 100,
-   },
-   {
-      id: "lastName",
-      label: "L. Name",
+      label: "Name",
       minWidth: 100,
    },
    {

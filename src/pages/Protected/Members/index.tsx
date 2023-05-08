@@ -11,6 +11,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import HistoryIcon from "@mui/icons-material/History";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
    Button,
@@ -20,13 +22,17 @@ import {
    Tooltip,
    Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { epochToDate } from "../../../utilities/gen";
+import { useEffect, useState } from "react";
+import { dia, epochToDate, msg } from "../../../utilities/gen";
 import { Level } from "../../../widgets/Level";
 import { columns } from "./members.d";
 import { useDispatch } from "react-redux";
+import { setDialog } from "../../../features/dialog/dialogSlice";
+import { setUsers } from "../../../features/users/usersSlice";
+import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 
 export default function StickyHeadTable() {
+   const dispatch = useDispatch();
    const [page, setPage] = useState(0);
    const [rowsPerPage, setRowsPerPage] = useState(10);
    const [searchQuery, setSearchQuery] = useState("");
@@ -36,22 +42,72 @@ export default function StickyHeadTable() {
    const session: any = useAppSelector((state) => state.session);
    const { userLevel } = session.user;
 
+   const userToggle = (row: any) => {
+      if (row.isDisabled) {
+         dispatch(
+            setUsers({
+               ...users,
+               arr: users.arr.map((e: any) =>
+                  e._id === row._id ? { ...e, isDisabled: false } : e
+               ),
+            })
+         );
+         dispatch(
+            setSnackbar(
+               msg(`User ${row.firstName} ${row.lastName} Enabled`, "success")
+            )
+         );
+      } else {
+         dispatch(
+            setUsers({
+               ...users,
+               arr: users.arr.map((e: any) =>
+                  e._id === row._id ? { ...e, isDisabled: true } : e
+               ),
+            })
+         );
+
+         dispatch(
+            setSnackbar(
+               msg(`User ${row.firstName} ${row.lastName} Disabled`, "success")
+            )
+         );
+      }
+   };
+
    const btnView = (id: string) => {
       //
    };
 
-   const btnEdit = (id: string) => {
-      //
+   const btnEdit = (id: string, row: any, collection: string) => {
+      dispatch(
+         setDialog(
+            dia(true, `Edit `, "User Edit", {
+               row,
+               table: "users",
+               uid: "_id",
+               disabled: ["createdAt", "emailVarified"],
+               hidden: ["authProvider"],
+            })
+         )
+      );
    };
    const btnHistory = (id: string) => {
       //
    };
 
-   const filteredUsers = users.arr.filter(
-      (user: any) =>
-         user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         user.firstName.toLowerCase().includes(searchQuery.toLowerCase())
-   );
+   const filteredUsers =
+      !users || !users.arr
+         ? []
+         : users.arr.filter(
+              (user: any) =>
+                 user.lastName
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                 user.firstName
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase())
+           );
 
    const handleChangePage = (event: unknown, newPage: number) => {
       setPage(newPage);
@@ -81,6 +137,10 @@ export default function StickyHeadTable() {
       setRowsPerPage(+event.target.value);
       setPage(0);
    };
+
+   useEffect(() => {
+      //
+   }, [users]);
 
    return (
       <>
@@ -137,7 +197,7 @@ export default function StickyHeadTable() {
                                        hover
                                        role='checkbox'
                                        tabIndex={-1}
-                                       key={row.code}
+                                       key={row._id}
                                     >
                                        <TableCell>
                                           <Tooltip title={row._id}>
@@ -149,16 +209,13 @@ export default function StickyHeadTable() {
                                              {row.email}
                                           </a>
                                        </TableCell>
-                                       <TableCell>{row.firstName}</TableCell>
-                                       <TableCell>{row.lastName}</TableCell>
+                                       <TableCell>
+                                          {row.firstName}, {row.lastName}
+                                       </TableCell>
                                        <TableCell>
                                           <Level level={row.userLevel} />
                                        </TableCell>
-                                       <TableCell>
-                                          <a href={"mainto:" + row.email}>
-                                             {row.email}
-                                          </a>
-                                       </TableCell>
+                                       <TableCell>{row.homeStore}</TableCell>
                                        <TableCell>
                                           {epochToDate(row["createdAt"])}
                                        </TableCell>
@@ -186,15 +243,57 @@ export default function StickyHeadTable() {
                                              </Button>
                                              {(userLevel === 1 ||
                                                 userLevel === 2) && (
-                                                <Button
-                                                   onClick={() =>
-                                                      btnEdit(row._id)
-                                                   }
-                                                >
-                                                   <Tooltip title='Edit user'>
-                                                      <EditIcon />
-                                                   </Tooltip>
-                                                </Button>
+                                                <>
+                                                   <Button
+                                                      onClick={() =>
+                                                         btnEdit(
+                                                            row._id,
+                                                            row,
+                                                            "users"
+                                                         )
+                                                      }
+                                                      disabled={
+                                                         row.isDisabled &&
+                                                         row.isDisabled !== true
+                                                      }
+                                                   >
+                                                      <Tooltip title='Edit user'>
+                                                         <EditIcon />
+                                                      </Tooltip>
+                                                   </Button>
+                                                   {row.isDisabled === true && (
+                                                      <Button
+                                                         onClick={() =>
+                                                            userToggle(row)
+                                                         }
+                                                      >
+                                                         <Tooltip title='Enable User'>
+                                                            <CheckCircleIcon
+                                                               sx={{
+                                                                  color: "green",
+                                                               }}
+                                                            />
+                                                         </Tooltip>
+                                                      </Button>
+                                                   )}
+                                                   {!row.isDisabled &&
+                                                      row.isDisabled !==
+                                                         true && (
+                                                         <Button
+                                                            onClick={() =>
+                                                               userToggle(row)
+                                                            }
+                                                         >
+                                                            <Tooltip title='Disable User'>
+                                                               <RemoveCircleIcon
+                                                                  sx={{
+                                                                     color: "red",
+                                                                  }}
+                                                               />
+                                                            </Tooltip>
+                                                         </Button>
+                                                      )}
+                                                </>
                                              )}
                                           </ButtonGroup>
                                        </TableCell>
@@ -222,4 +321,7 @@ export default function StickyHeadTable() {
          </Paper>
       </>
    );
+}
+function dis(arg0: any) {
+   throw new Error("Function not implemented.");
 }

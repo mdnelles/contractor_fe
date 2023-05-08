@@ -57,11 +57,15 @@ export default function (): JSX.Element {
    };
 
    useEffect(() => {
-      setRows(
-         view === "members"
-            ? users.arr.filter((u: any) => u.homeStore === num)
-            : contracts.arr.filter((c) => c.homeStore === num)
-      );
+      try {
+         setRows(
+            view === "members"
+               ? users.arr.filter((u: any) => u.homeStore === num)
+               : contracts.arr.filter((c) => c.homeStore === num)
+         );
+      } catch (err) {
+         console.log(err);
+      }
    }, [num, view]);
 
    useEffect(() => {
