@@ -138,7 +138,7 @@ export default function ProfileDisplay(): JSX.Element {
                   <CardContent>
                      <Typography variant='body2' color='text.secondary'>
                         <strong>
-                           User Profile {displayName} ({userLevel})
+                           Dashboard: {displayName} ({userLevel})
                         </strong>
                      </Typography>
                      <List
@@ -181,12 +181,12 @@ export default function ProfileDisplay(): JSX.Element {
                   </CardContent>
                </Card>
             </Grid>
-            <Grid item>
+            <Grid item xs={12}>
                {!profileLoaded ? (
-                  <Card sx={{ minWidth: 250, maxWidth: "100%" }}>
+                  <Card sx={{ minWidth: 250, maxWidth: "100%", p: 1 }}>
                      <Box sx={{ width: "100%", textAlign: "center" }}>
                         Loading profile...
-                        {/* <LinearProgress /> */}
+                        <LinearProgress />
                      </Box>
                   </Card>
                ) : (
