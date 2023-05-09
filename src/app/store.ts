@@ -10,6 +10,7 @@ import pageReducer from "../features/page/pageSlice";
 import animsReducer from "../features/anims/animsSlice";
 import transReducer from "../features/transalte/translateSlice";
 import contractsReducer from "../features/contracts/contractsSlice";
+import storesReducer from "../features/stores/storesSlice";
 
 export const store = configureStore({
    reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
       trans: transReducer,
       users: usersReducer,
       contracts: contractsReducer,
+      stores: storesReducer,
    },
    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

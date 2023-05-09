@@ -12,7 +12,6 @@ export const usersSlice = createSlice({
 
    reducers: {
       setUsers: (state, action: PayloadAction<any>) => {
-         console.log(action.payload);
          try {
             state.arr = action.payload.arr || action.payload;
          } catch (error) {

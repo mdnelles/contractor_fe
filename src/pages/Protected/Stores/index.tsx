@@ -42,7 +42,7 @@ export default function (): JSX.Element {
    const session: any = useAppSelector((state) => state.session);
    const { userLevel } = session.user;
 
-   const [num, setNum] = React.useState<number>(10);
+   const [num, setNum] = React.useState<number>(1);
    const [view, setView] = React.useState<string>("");
    const [rows, setRows] = React.useState<any[]>([]);
    const [page, setPage] = React.useState(0);
@@ -128,7 +128,7 @@ export default function (): JSX.Element {
                      <MenuItem key={"all"} value={""}>
                         all stores
                      </MenuItem>
-                     {Array.from({ length: 62 }, (_, i) => i + 10).map((i) => (
+                     {Array.from({ length: 10 }, (_, i) => i + 1).map((i) => (
                         <MenuItem key={i} value={i}>
                            {"store #" + i}
                         </MenuItem>
