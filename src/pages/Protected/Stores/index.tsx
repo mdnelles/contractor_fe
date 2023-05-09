@@ -119,23 +119,23 @@ export default function (): JSX.Element {
                   <>
                      <Chip
                         label='New Order'
-                        sx={{ backgroundColor: "#fcc9ff", m: 0.5 }}
+                        sx={{ backgroundColor: color1, m: 0.5 }}
                      />
                      <Chip
                         label='Picked Order'
-                        sx={{ backgroundColor: "#fffdc9", m: 0.5 }}
+                        sx={{ backgroundColor: color2, m: 0.5 }}
                      />
                      <Chip
                         label='Order Delivered'
-                        sx={{ backgroundColor: "#a9d8ff", m: 0.5 }}
+                        sx={{ backgroundColor: color3, m: 0.5 }}
                      />
                      <Chip
                         label='Work Started'
-                        sx={{ backgroundColor: "#fcc9ff", m: 0.5 }}
+                        sx={{ backgroundColor: color4, m: 0.5 }}
                      />
                      <Chip
                         label='Life Cylce Complete'
-                        sx={{ backgroundColor: "#e0ffc9", m: 0.5 }}
+                        sx={{ backgroundColor: color5, m: 0.5 }}
                      />
                      <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label='simple table'>

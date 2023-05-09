@@ -85,7 +85,7 @@ export default function DialogMemberView(props: UseEditProps): JSX.Element {
                   component='div'
                   sx={{ flexGrow: 1, paddingLeft: 1 }}
                >
-                  {" Edit " + table}{" "}
+                  {"View " + table}{" "}
                </Typography>
             </Toolbar>
          </AppBar>
@@ -112,59 +112,11 @@ export default function DialogMemberView(props: UseEditProps): JSX.Element {
                                              .replaceAll("_", " ")
                                              .toUpperCase()}
                                        </TableCell>
-                                       <TableCell>
-                                          {disabled.includes(n) ? (
-                                             <TextField
-                                                size='small'
-                                                defaultValue={row[n]}
-                                                id={n}
-                                                label={n}
-                                                variant='outlined'
-                                                disabled
-                                             />
-                                          ) : n === uid ? (
-                                             <Typography color='secondary'>
-                                                {row[n]}
-                                             </Typography>
-                                          ) : (
-                                             row[n]
-                                          )}
-                                       </TableCell>
+                                       <TableCell>{row[n]}</TableCell>
                                     </TableRow>
                                  );
                               }
                            })}
-                           <TableRow>
-                              <TableCell colSpan={2}>
-                                 <Button
-                                    type='submit'
-                                    fullWidth
-                                    variant='contained'
-                                    color='secondary'
-                                    sx={{
-                                       mt: 1,
-                                       mb: 1,
-                                       height: 50,
-                                    }}
-                                    disabled={loading}
-                                    onClick={() => handleSubmit}
-                                 >
-                                    Edit
-                                 </Button>
-                                 {loading && (
-                                    <CircularProgress
-                                       size={24}
-                                       sx={{
-                                          position: "absolute",
-                                          top: "50%",
-                                          left: "50%",
-                                          marginTop: "-12px",
-                                          marginLeft: "-12px",
-                                       }}
-                                    />
-                                 )}
-                              </TableCell>
-                           </TableRow>
                         </TableBody>
                      </Table>
                   </TableContainer>

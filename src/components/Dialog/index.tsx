@@ -6,6 +6,8 @@ import { DialogState } from "../../features/dialog/dialog";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { clearDialog } from "../../features/dialog/dialogSlice";
 import DialogMemberEdit from "../../pages/Protected/Members/DialogMemberEdit";
+import DialogMemberView from "../../pages/Protected/Members/DialoagMemberView";
+import DialogMemberHistory from "../../pages/Protected/Members/DialogMemberHistory";
 
 const Transition = React.forwardRef(function Transition(
    props: TransitionProps & {
@@ -27,7 +29,11 @@ export default React.memo((): JSX.Element => {
 
    const compPicker = (content: string, params: any): any => {
       switch (content) {
-         case "Details":
+         case "History":
+            return <DialogMemberHistory params={params} />;
+         case "View":
+            return <DialogMemberView params={params} />;
+         case "Edit":
             return <DialogMemberEdit params={params} />;
 
          default:
