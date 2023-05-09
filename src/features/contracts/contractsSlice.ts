@@ -14,7 +14,7 @@ export const contractsSlice = createSlice({
    reducers: {
       setContracts: (state, action: PayloadAction<any>) => {
          try {
-            state.arr = action.payload;
+            state.arr = action.payload.arr || action.payload;
             state.init = action.payload.init;
          } catch (error) {
             console.log(error);

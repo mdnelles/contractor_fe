@@ -8,6 +8,8 @@ import { clearDialog } from "../../features/dialog/dialogSlice";
 import DialogMemberEdit from "../../pages/Protected/Members/DialogMemberEdit";
 import DialogMemberView from "../../pages/Protected/Members/DialoagMemberView";
 import DialogMemberHistory from "../../pages/Protected/Members/DialogMemberHistory";
+import DialogContractEdit from "../../pages/Protected/Contracts/DialogContractEdit";
+import DialogContractView from "../../pages/Protected/Contracts/DialogContractView";
 
 const Transition = React.forwardRef(function Transition(
    props: TransitionProps & {
@@ -35,6 +37,11 @@ export default React.memo((): JSX.Element => {
             return <DialogMemberView params={params} />;
          case "Edit":
             return <DialogMemberEdit params={params} />;
+
+         case "ViewContract":
+            return <DialogContractView params={params} />;
+         case "EditContract":
+            return <DialogContractEdit params={params} />;
 
          default:
             return <DialogMemberEdit params={params} />;
