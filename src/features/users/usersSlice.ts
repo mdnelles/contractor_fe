@@ -12,13 +12,14 @@ export const usersSlice = createSlice({
 
    reducers: {
       setUsers: (state, action: PayloadAction<any>) => {
+         console.log(action.payload);
          try {
-            state.arr = action.payload;
+            state.arr = action.payload.arr || action.payload;
          } catch (error) {
             console.log(error);
          }
       },
-      clearUsers: (state) => initialState,
+      clearUsers: () => initialState,
    },
 });
 

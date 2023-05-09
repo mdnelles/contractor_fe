@@ -27,6 +27,7 @@ export const msg = (msg: string | any, severity: string) => {
       severity,
    };
 };
+
 export const dia = (
    open: boolean,
    title: string,
