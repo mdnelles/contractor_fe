@@ -1,6 +1,6 @@
 import { color1, color2, color3, color4, color5 } from "../../constants/colors";
 
-export const Level = (props: { level: number; children?: any }) => {
+export const Rect = (props: { level: number; children?: any }) => {
    const { level, children } = props;
    const color =
       level === 1
@@ -18,11 +18,13 @@ export const Level = (props: { level: number; children?: any }) => {
       <div
          style={{
             backgroundColor: color,
-            border: "1px solid #bbb",
-            width: "25px",
-            height: "25px",
+            width: 255,
+            height: 25,
             padding: "2px 5px",
             textAlign: "center",
+            borderRadius: 15,
+            overflow: "hidden",
+            fontSize: 12,
          }}
       >
          {children || level}

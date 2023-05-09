@@ -13,10 +13,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import HistoryIcon from "@mui/icons-material/History";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppSelector } from "../../../app/hooks";
 import {
    Button,
    ButtonGroup,
+   FormControl,
+   InputLabel,
+   MenuItem,
+   Select,
    TableSortLabel,
    TextField,
    Tooltip,
@@ -75,14 +79,22 @@ export default function StickyHeadTable() {
       }
    };
 
-   const btnView = (id: string) => {
-      //
-   };
-
-   const btnEdit = (id: string, row: any, collection: string) => {
+   const btnView = (row: any) => {
       dispatch(
          setDialog(
-            dia(true, `Edit `, "User Edit", {
+            dia(true, `View`, "View", {
+               row,
+               table: "users",
+               uid: "_id",
+            })
+         )
+      );
+   };
+
+   const btnEdit = (row: any) => {
+      dispatch(
+         setDialog(
+            dia(true, `Edit`, "User Edit", {
                row,
                table: "users",
                uid: "_id",
@@ -92,8 +104,16 @@ export default function StickyHeadTable() {
          )
       );
    };
-   const btnHistory = (id: string) => {
-      //
+   const btnHistory = (row: any) => {
+      dispatch(
+         setDialog(
+            dia(true, `history`, "History", {
+               row,
+               table: "users",
+               uid: "_id",
+            })
+         )
+      );
    };
 
    const filteredUsers =
@@ -226,7 +246,7 @@ export default function StickyHeadTable() {
                                              size='small'
                                           >
                                              <Button
-                                                onClick={() => btnView(row._id)}
+                                                onClick={() => btnView(row)}
                                              >
                                                 <Tooltip title='View details'>
                                                    <VisibilityIcon />
@@ -246,11 +266,7 @@ export default function StickyHeadTable() {
                                                 <>
                                                    <Button
                                                       onClick={() =>
-                                                         btnEdit(
-                                                            row._id,
-                                                            row,
-                                                            "users"
-                                                         )
+                                                         btnEdit(row)
                                                       }
                                                       disabled={
                                                          row.isDisabled &&

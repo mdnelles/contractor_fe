@@ -1,23 +1,25 @@
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import InfoIcon from "@mui/icons-material/Info";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
-import { DataGrid } from "@mui/x-data-grid/DataGrid";
-import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import React, { useEffect } from "react";
+import { useAppSelector } from "../../../app/hooks";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import InfoIcon from "@mui/icons-material/Info";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import HistoryIcon from "@mui/icons-material/History";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Paper from "@mui/material/Paper";
-import { epochToDate } from "../../../utilities/gen";
+import { dia, epochToDate } from "../../../utilities/gen";
 import Chip from "@mui/material/Chip";
 import TablePagination from "@mui/material/TablePagination";
 import {
@@ -27,23 +29,31 @@ import {
    color4,
    color5,
 } from "../../../constants/colors";
+import { Level } from "../../../widgets/Level";
+import { Rect } from "../../../widgets/Level/Rect";
+import { ButtonGroup, Tooltip, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setDialog } from "../../../features/dialog/dialogSlice";
 
 export default function (): JSX.Element {
+   const dispatch = useDispatch();
    const users = useAppSelector((state) => state.users);
    const contracts = useAppSelector((state) => state.contracts);
-   const session = useAppSelector((state) => state.session);
+   const session: any = useAppSelector((state) => state.session);
+   const { userLevel } = session.user;
 
    const [num, setNum] = React.useState<number>(10);
    const [view, setView] = React.useState<string>("");
    const [rows, setRows] = React.useState<any[]>([]);
-   const [selected, setSelected] = React.useState<readonly string[]>([]);
    const [page, setPage] = React.useState(0);
    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+   const handleChange = (event: SelectChangeEvent) => {
+      //
+   };
+
    const handleChangeStore = (event: any) =>
       setNum(event.target.value as number);
-   const handleChangeView = (event: any) =>
-      setView(event.target.value as string);
 
    const handleChangePage = (event: unknown, newPage: number) => {
       setPage(newPage);
@@ -54,6 +64,32 @@ export default function (): JSX.Element {
    ) => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
+   };
+
+   const btnView = (row: any) => {
+      dispatch(
+         setDialog(
+            dia(true, `ViewContract`, "ViewContract", {
+               row,
+               table: "contract",
+               uid: "_id",
+            })
+         )
+      );
+   };
+
+   const btnEdit = (row: any) => {
+      dispatch(
+         setDialog(
+            dia(true, `EditContract`, "EditContract", {
+               row,
+               table: "contract",
+               uid: "_id",
+               disabled: ["createdAt", "emailVarified"],
+               hidden: ["authProvider"],
+            })
+         )
+      );
    };
 
    useEffect(() => {
@@ -72,16 +108,20 @@ export default function (): JSX.Element {
       console.log("rows", rows);
    }, [rows]);
 
+   useEffect(() => {
+      console.log("users");
+   }, [users]);
+
    return (
       <>
          <h3>Stores</h3>
          <Grid container spacing={1}>
             <Grid item xs={12} sm={6}>
                <FormControl fullWidth>
-                  <InputLabel id='store-no'>Store Num</InputLabel>
+                  <InputLabel id='store-no'>Select Store</InputLabel>
                   <Select
                      size='small'
-                     label='Store Number'
+                     label='Select Store'
                      onChange={handleChangeStore}
                      value={num}
                   >
@@ -96,56 +136,44 @@ export default function (): JSX.Element {
                   </Select>
                </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
-               <FormControl fullWidth>
-                  <InputLabel id='view-no'>View</InputLabel>
-                  <Select
-                     size='small'
-                     label='View'
-                     onChange={handleChangeView}
-                     value={view}
-                  >
-                     <MenuItem key={"members"} value={"members"}>
-                        members
-                     </MenuItem>
-                     <MenuItem key={"contracts"} value={"contracts"}>
-                        contracts
-                     </MenuItem>
-                  </Select>
-               </FormControl>
-            </Grid>
+
             <Grid item xs={12}>
                {rows && rows.length > 0 && rows[0] && (
                   <>
                      <Chip
                         label='New Order'
-                        sx={{ backgroundColor: "#fcc9ff", m: 0.5 }}
+                        sx={{ backgroundColor: color1, m: 0.5 }}
                      />
                      <Chip
                         label='Picked Order'
-                        sx={{ backgroundColor: "#fffdc9", m: 0.5 }}
+                        sx={{ backgroundColor: color2, m: 0.5 }}
                      />
                      <Chip
                         label='Order Delivered'
-                        sx={{ backgroundColor: "#a9d8ff", m: 0.5 }}
+                        sx={{ backgroundColor: color3, m: 0.5 }}
                      />
                      <Chip
                         label='Work Started'
-                        sx={{ backgroundColor: "#fcc9ff", m: 0.5 }}
+                        sx={{ backgroundColor: color4, m: 0.5 }}
                      />
                      <Chip
                         label='Life Cylce Complete'
-                        sx={{ backgroundColor: "#e0ffc9", m: 0.5 }}
+                        sx={{ backgroundColor: color5, m: 0.5 }}
                      />
                      <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+                        <Table
+                           stickyHeader
+                           aria-label='sticky table'
+                           size='small'
+                        >
                            <TableHead>
                               <TableRow sx={{ p: 1 }}>
                                  <TableCell>Job</TableCell>
                                  <TableCell>Task</TableCell>
-                                 <TableCell>Store</TableCell>
+                                 <TableCell>#</TableCell>
                                  <TableCell>Date</TableCell>
                                  <TableCell>Action</TableCell>
+                                 <TableCell></TableCell>
                               </TableRow>
                            </TableHead>
 
@@ -153,12 +181,14 @@ export default function (): JSX.Element {
                               {rows.map((row: any) => (
                                  <TableRow key={row._id}>
                                     <TableCell sx={{ p: 1 }}>
-                                       {row.jobTitle
-                                          .toString()
-                                          .replace("cards:", "")}
+                                       <Typography color='primary' gutterBottom>
+                                          {row.jobTitle
+                                             .toString()
+                                             .replace("cards:", "")}
+                                       </Typography>
                                     </TableCell>
                                     <TableCell sx={{ p: 1 }}>
-                                       {row.task}
+                                       <Rect level={row.stage}>{row.task}</Rect>
                                     </TableCell>
                                     <TableCell sx={{ p: 1 }}>
                                        {row.homeStore}
@@ -185,9 +215,50 @@ export default function (): JSX.Element {
                                                    : "inherit",
                                           }}
                                        />
-                                       <Button variant='contained' size='small'>
-                                          Update
-                                       </Button>
+                                       <ButtonGroup variant='text' size='small'>
+                                          <Button onClick={() => btnView(row)}>
+                                             <Tooltip title='View details'>
+                                                <VisibilityIcon />
+                                             </Tooltip>
+                                          </Button>
+
+                                          {(userLevel === 1 ||
+                                             userLevel === 2) && (
+                                             <>
+                                                <Button
+                                                   onClick={() => btnEdit(row)}
+                                                   disabled={
+                                                      row.isDisabled &&
+                                                      row.isDisabled !== true
+                                                   }
+                                                >
+                                                   <Tooltip title='Edit user'>
+                                                      <EditIcon />
+                                                   </Tooltip>
+                                                </Button>
+                                             </>
+                                          )}
+                                       </ButtonGroup>
+                                    </TableCell>
+                                    <TableCell sx={{ m: 0, p: 0 }}>
+                                       <FormControl sx={{ m: 0, p: 0 }}>
+                                          <InputLabel size='small'>
+                                             Stage
+                                          </InputLabel>
+                                          <Select
+                                             value={row.stage}
+                                             label='Stage'
+                                             onChange={handleChange}
+                                             size='small'
+                                             sx={{ width: 80 }}
+                                          >
+                                             <MenuItem value={1}>1</MenuItem>
+                                             <MenuItem value={2}>2</MenuItem>
+                                             <MenuItem value={3}>3</MenuItem>
+                                             <MenuItem value={4}>4</MenuItem>
+                                             <MenuItem value={5}>5</MenuItem>
+                                          </Select>
+                                       </FormControl>
                                     </TableCell>
                                  </TableRow>
                               ))}
@@ -195,7 +266,7 @@ export default function (): JSX.Element {
                         </Table>
                      </TableContainer>
                      <TablePagination
-                        rowsPerPageOptions={[10, 25, 50]}
+                        rowsPerPageOptions={[5, 10, 25, 50]}
                         component='div'
                         count={rows.length}
                         rowsPerPage={rowsPerPage}

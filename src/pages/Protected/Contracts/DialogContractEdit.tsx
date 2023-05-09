@@ -21,6 +21,11 @@ import { setDialog } from "../../../features/dialog/dialogSlice";
 import { UserObj, UsersState } from "../../../features/users/users";
 import { dia, rand } from "../../../utilities/gen";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import {
+   ContractsArrType,
+   ContractsState,
+} from "../../../features/contracts/contracts";
+import { setContracts } from "../../../features/contracts/contractsSlice";
 
 interface UseEditProps {
    params: {
@@ -32,7 +37,7 @@ interface UseEditProps {
    };
 }
 
-export default function DialogMemberView(props: UseEditProps): JSX.Element {
+export default function DialogContractEdit(props: UseEditProps): JSX.Element {
    const { register, handleSubmit } = useForm();
    const {
       row,
@@ -50,8 +55,10 @@ export default function DialogMemberView(props: UseEditProps): JSX.Element {
       (state: { session: any }) => state.session
    );
 
-   const users: UsersState = useAppSelector((state: any) => state.users);
-   const manArr: UserObj[] = users.arr;
+   const contracts: ContractsState = useAppSelector(
+      (state: any) => state.contracts
+   );
+   const manArr: any[] = contracts.arr;
    const token = session.user.token;
    let nam: string[] = [];
 
@@ -60,8 +67,8 @@ export default function DialogMemberView(props: UseEditProps): JSX.Element {
          setLoading(true);
          console.log(fields);
          dis(
-            setUsers({
-               ...users,
+            setContracts({
+               ...contracts,
                arr: manArr.map((e: { [x: string]: any }) =>
                   e[uid] === row[uid] ? { ...e, ...fields } : e
                ),
@@ -85,7 +92,7 @@ export default function DialogMemberView(props: UseEditProps): JSX.Element {
                   component='div'
                   sx={{ flexGrow: 1, paddingLeft: 1 }}
                >
-                  {"View " + table}{" "}
+                  {" Edit " + table}{" "}
                </Typography>
             </Toolbar>
          </AppBar>
@@ -112,11 +119,66 @@ export default function DialogMemberView(props: UseEditProps): JSX.Element {
                                              .replaceAll("_", " ")
                                              .toUpperCase()}
                                        </TableCell>
-                                       <TableCell>{row[n]}</TableCell>
+                                       <TableCell>
+                                          {disabled.includes(n) ? (
+                                             <TextField
+                                                size='small'
+                                                defaultValue={row[n]}
+                                                id={n}
+                                                label={n}
+                                                variant='outlined'
+                                                disabled
+                                             />
+                                          ) : n === uid ? (
+                                             <Typography color='secondary'>
+                                                {row[n]}
+                                             </Typography>
+                                          ) : (
+                                             <TextField
+                                                size='small'
+                                                defaultValue={row[n]}
+                                                id={n}
+                                                label={n}
+                                                variant='outlined'
+                                                {...register(n)}
+                                             />
+                                          )}
+                                       </TableCell>
                                     </TableRow>
                                  );
                               }
                            })}
+                           <TableRow>
+                              <TableCell colSpan={2}>
+                                 <Button
+                                    type='submit'
+                                    fullWidth
+                                    variant='contained'
+                                    color='secondary'
+                                    sx={{
+                                       mt: 1,
+                                       mb: 1,
+                                       height: 50,
+                                    }}
+                                    disabled={loading}
+                                    onClick={() => handleSubmit}
+                                 >
+                                    Edit
+                                 </Button>
+                                 {loading && (
+                                    <CircularProgress
+                                       size={24}
+                                       sx={{
+                                          position: "absolute",
+                                          top: "50%",
+                                          left: "50%",
+                                          marginTop: "-12px",
+                                          marginLeft: "-12px",
+                                       }}
+                                    />
+                                 )}
+                              </TableCell>
+                           </TableRow>
                         </TableBody>
                      </Table>
                   </TableContainer>

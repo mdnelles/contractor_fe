@@ -12,8 +12,6 @@ import TableRow from "@mui/material/TableRow";
 
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import { useForm } from "react-hook-form";
 import { setUsers } from "../../../features/users/usersSlice";
@@ -32,7 +30,7 @@ interface UseEditProps {
    };
 }
 
-export default function DialogMemberView(props: UseEditProps): JSX.Element {
+export default function DialogContractView(props: UseEditProps): JSX.Element {
    const { register, handleSubmit } = useForm();
    const {
       row,
