@@ -96,8 +96,8 @@ export default function (): JSX.Element {
       try {
          setRows(
             view === "members"
-               ? users.arr.filter((u: any) => u.homeStore === num)
-               : contracts.arr.filter((c) => c.homeStore === num)
+               ? users.arr.filter((u: any) => parseInt(u.homeStore) === num)
+               : contracts.arr.filter((c: any) => parseInt(c.homeStore) === num)
          );
       } catch (err) {
          console.log(err);
@@ -105,11 +105,11 @@ export default function (): JSX.Element {
    }, [num, view]);
 
    useEffect(() => {
-      console.log("rows", rows);
+      //console.log("rows", rows);
    }, [rows]);
 
    useEffect(() => {
-      console.log("users");
+      //console.log("users");
    }, [users]);
 
    return (
@@ -178,90 +178,111 @@ export default function (): JSX.Element {
                            </TableHead>
 
                            <TableBody>
-                              {rows.map((row: any) => (
-                                 <TableRow key={row._id}>
-                                    <TableCell sx={{ p: 1 }}>
-                                       <Typography color='primary' gutterBottom>
-                                          {row.jobTitle
-                                             .toString()
-                                             .replace("cards:", "")}
-                                       </Typography>
-                                    </TableCell>
-                                    <TableCell sx={{ p: 1 }}>
-                                       <Rect level={row.stage}>{row.task}</Rect>
-                                    </TableCell>
-                                    <TableCell sx={{ p: 1 }}>
-                                       {row.homeStore}
-                                    </TableCell>
-                                    <TableCell sx={{ p: 1 }}>
-                                       {epochToDate(parseInt(row.createdAt))}
-                                    </TableCell>
-                                    <TableCell sx={{ p: 1 }}>
-                                       <Chip
-                                          label={row.stage}
-                                          sx={{
-                                             mr: 1,
-                                             backgroundColor:
-                                                row.stage === 1
-                                                   ? color1
-                                                   : row.stage === 2
-                                                   ? color2
-                                                   : row.stage === 3
-                                                   ? color3
-                                                   : row.stage === 4
-                                                   ? color4
-                                                   : row.stage === 5
-                                                   ? color5
-                                                   : "inherit",
-                                          }}
-                                       />
-                                       <ButtonGroup variant='text' size='small'>
-                                          <Button onClick={() => btnView(row)}>
-                                             <Tooltip title='View details'>
-                                                <VisibilityIcon />
-                                             </Tooltip>
-                                          </Button>
-
-                                          {(userLevel === 1 ||
-                                             userLevel === 2) && (
-                                             <>
-                                                <Button
-                                                   onClick={() => btnEdit(row)}
-                                                   disabled={
-                                                      row.isDisabled &&
-                                                      row.isDisabled !== true
-                                                   }
-                                                >
-                                                   <Tooltip title='Edit user'>
-                                                      <EditIcon />
-                                                   </Tooltip>
-                                                </Button>
-                                             </>
-                                          )}
-                                       </ButtonGroup>
-                                    </TableCell>
-                                    <TableCell sx={{ m: 0, p: 0 }}>
-                                       <FormControl sx={{ m: 0, p: 0 }}>
-                                          <InputLabel size='small'>
-                                             Stage
-                                          </InputLabel>
-                                          <Select
-                                             value={row.stage}
-                                             label='Stage'
-                                             onChange={handleChange}
-                                             size='small'
-                                             sx={{ width: 80 }}
+                              {rows
+                                 .slice(
+                                    page * rowsPerPage,
+                                    page * rowsPerPage + rowsPerPage
+                                 )
+                                 .map((row: any) => (
+                                    <TableRow key={row._id}>
+                                       <TableCell sx={{ p: 1 }}>
+                                          <Typography
+                                             color='primary'
+                                             gutterBottom
                                           >
-                                             <MenuItem value={1}>1</MenuItem>
-                                             <MenuItem value={2}>2</MenuItem>
-                                             <MenuItem value={3}>3</MenuItem>
-                                             <MenuItem value={4}>4</MenuItem>
-                                             <MenuItem value={5}>5</MenuItem>
-                                          </Select>
-                                       </FormControl>
-                                    </TableCell>
-                                 </TableRow>
-                              ))}
+                                             {row.jobTitle
+                                                .toString()
+                                                .replace("cards:", "")}
+                                          </Typography>
+                                       </TableCell>
+                                       <TableCell sx={{ p: 1 }}>
+                                          <Rect level={parseInt(row.stage)}>
+                                             {row.task}
+                                          </Rect>
+                                       </TableCell>
+                                       <TableCell sx={{ p: 1 }}>
+                                          {row.homeStore}
+                                       </TableCell>
+                                       <TableCell sx={{ p: 1 }}>
+                                          {epochToDate(parseInt(row.createdAt))}
+                                       </TableCell>
+                                       <TableCell sx={{ p: 1 }}>
+                                          <Chip
+                                             label={row.stage}
+                                             sx={{
+                                                mr: 1,
+                                                backgroundColor:
+                                                   parseInt(row.stage) === 1
+                                                      ? color1
+                                                      : parseInt(row.stage) ===
+                                                        2
+                                                      ? color2
+                                                      : parseInt(row.stage) ===
+                                                        3
+                                                      ? color3
+                                                      : parseInt(row.stage) ===
+                                                        4
+                                                      ? color4
+                                                      : parseInt(row.stage) ===
+                                                        5
+                                                      ? color5
+                                                      : "inherit",
+                                             }}
+                                          />
+                                          <ButtonGroup
+                                             variant='text'
+                                             size='small'
+                                          >
+                                             <Button
+                                                onClick={() => btnView(row)}
+                                             >
+                                                <Tooltip title='View details'>
+                                                   <VisibilityIcon />
+                                                </Tooltip>
+                                             </Button>
+
+                                             {(userLevel === 1 ||
+                                                userLevel === 2) && (
+                                                <>
+                                                   <Button
+                                                      onClick={() =>
+                                                         btnEdit(row)
+                                                      }
+                                                      disabled={
+                                                         row.isDisabled &&
+                                                         row.isDisabled !== true
+                                                      }
+                                                   >
+                                                      <Tooltip title='Edit user'>
+                                                         <EditIcon />
+                                                      </Tooltip>
+                                                   </Button>
+                                                </>
+                                             )}
+                                          </ButtonGroup>
+                                       </TableCell>
+                                       <TableCell sx={{ m: 0, p: 0 }}>
+                                          <FormControl sx={{ m: 0, p: 0 }}>
+                                             <InputLabel size='small'>
+                                                Stage
+                                             </InputLabel>
+                                             <Select
+                                                value={row.stage}
+                                                label='Stage'
+                                                onChange={handleChange}
+                                                size='small'
+                                                sx={{ width: 80 }}
+                                             >
+                                                <MenuItem value={1}>1</MenuItem>
+                                                <MenuItem value={2}>2</MenuItem>
+                                                <MenuItem value={3}>3</MenuItem>
+                                                <MenuItem value={4}>4</MenuItem>
+                                                <MenuItem value={5}>5</MenuItem>
+                                             </Select>
+                                          </FormControl>
+                                       </TableCell>
+                                    </TableRow>
+                                 ))}
                            </TableBody>
                         </Table>
                      </TableContainer>

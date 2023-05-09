@@ -18,6 +18,18 @@ const getDocs = async (collection: any, token: string) => {
       return [];
    }
 };
+const getDocsByObj = async (collection: any, obj: any, token: string) => {
+   try {
+      return await apiPost(
+         API_URL + "/doc_get_by_obj_match",
+         { collection, obj },
+         token
+      );
+   } catch (error) {
+      console.error(error);
+      return [];
+   }
+};
 
 // get document by matching attribute with valye
 const getDoc = async (
@@ -66,4 +78,4 @@ const deleteDoc = async (collection: any, id: any, token: string) => {
    }
 };
 
-export { addDoc, getDocs, getDoc, updateDoc, deleteDoc };
+export { addDoc, getDocs, getDocsByObj, getDoc, updateDoc, deleteDoc };
