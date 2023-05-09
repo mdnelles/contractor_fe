@@ -16,7 +16,7 @@ import { setSession } from "../features/session/sessionSlice";
 import { isValidEmail, isValidPassword } from "../utilities/validate";
 import { setSnackbar } from "../features/snackbar/snackbarSlice";
 
-import { msg } from "../utilities/gen";
+import { findDataArray, msg } from "../utilities/gen";
 import { Suspense, useEffect, useState } from "react";
 import { SnackbarState } from "../features/snackbar/snackbar";
 import SnackbarMsg from "../components/Snackbar/SnackbarMsg";
@@ -44,6 +44,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import DummyDataCards from "./Public/widgets/DummyDataCards";
+import { getDocsByObj } from "../utilities/MongoRequest";
 
 export default function Login() {
    const app = initializeApp(firebaseConfig);
@@ -71,13 +72,15 @@ export default function Login() {
                em && pa
                   ? await signInWithEmailAndPassword(auth, em, pa)
                   : await signInWithEmailAndPassword(auth, email, password);
-            const user = res.user;
-            const q = query(
-               collection(db, "users"),
-               where("uid", "==", user.uid)
+            const { user } = res;
+            const token: any = { token: session.user.token };
+            const q: any = findDataArray(
+               await getDocsByObj("users", { email: user.email }, token)
             );
-            const docs = await getDocs(q);
-            if (docs.docs.length === 0) {
+            console.log("------q-----");
+            console.log(q);
+
+            if (q !== undefined) {
                await addDoc(collection(db, "users"), {
                   uid: user.uid,
                   name: user.displayName,
@@ -85,7 +88,7 @@ export default function Login() {
                   email: user.email,
                });
             }
-            startSetSession(res);
+            startSetSession(res, q[0]);
          } catch (err: any) {
             setLoading(false);
             dispatch(setSnackbar(msg(`Login Failed`, "error")));
@@ -110,15 +113,15 @@ export default function Login() {
 
       try {
          const res: any = await signInWithGoogle();
-         console.log(res);
-         startSetSession(res);
+         const q: any = await getDocsByObj("users", { email }, "token");
+         startSetSession(res, q);
       } catch (error) {
          setLoading(false);
          console.log(error);
       }
    };
 
-   const startSetSession = (res: any) => {
+   const startSetSession = (res: any, q: any) => {
       try {
          const o = res.user;
          const m = o.metadata;
@@ -130,6 +133,7 @@ export default function Login() {
             uid: o.uid,
             createdAt: m.createdAt,
             creationTime: m.creationTime,
+            homeStore: q.homeStore,
             lastLoginAt: m.lastLoginAt,
             lastSignInTime: m.lastSignInTime,
             userLevel: 0,

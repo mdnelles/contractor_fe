@@ -7,6 +7,7 @@ type UserType = {
    uid?: string | number | undefined;
    createdAt: number;
    creationTime?: string | undefined;
+   homeStore: number;
    lastLoginAt: number;
    lastSignInTime?: string | undefined;
    userLevel: number;

@@ -12,12 +12,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import InfoIcon from "@mui/icons-material/Info";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
-import HistoryIcon from "@mui/icons-material/History";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Paper from "@mui/material/Paper";
 import { dia, epochToDate } from "../../../utilities/gen";
 import Chip from "@mui/material/Chip";
@@ -29,7 +25,6 @@ import {
    color4,
    color5,
 } from "../../../constants/colors";
-import { Level } from "../../../widgets/Level";
 import { Rect } from "../../../widgets/Level/Rect";
 import { ButtonGroup, Tooltip, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";

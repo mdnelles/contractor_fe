@@ -15,14 +15,18 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import LinearProgress from "@mui/material/LinearProgress";
 import { getDoc, getDocs, getDocsByObj } from "../../../utilities/MongoRequest";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { findDataArray, msg } from "../../../utilities/gen";
 import { setSession } from "../../../features/session/sessionSlice";
-import { setUsers } from "../../../features/users/usersSlice";
-import { setContracts } from "../../../features/contracts/contractsSlice";
-import { setStores } from "../../../features/stores/storesSlice";
+import { clearUsers, setUsers } from "../../../features/users/usersSlice";
+import {
+   clearContracts,
+   setContracts,
+} from "../../../features/contracts/contractsSlice";
+import { clearStores, setStores } from "../../../features/stores/storesSlice";
 import { StoresState } from "../../../features/stores/stores";
 import CircularProgress from "@mui/material/CircularProgress";
 import { UsersState } from "../../../features/users/users";
@@ -36,6 +40,7 @@ import {
    color4,
    color5,
 } from "../../../constants/colors";
+import { Tooltip } from "@mui/material";
 
 interface ExpandMoreProps extends IconButtonProps {
    expand: boolean;
@@ -71,9 +76,11 @@ export default function ProfileDisplay(): JSX.Element {
       uid = "NA",
       createdAt,
       bio,
+      homeStore,
       userLevel,
       lastLoginAt,
    } = session.user;
+
    const d = new Date(lastLoginAt);
    const c = new Date(createdAt);
    const [profileLoaded, setProfileLoaded] = React.useState<boolean>(false);
@@ -136,12 +143,15 @@ export default function ProfileDisplay(): JSX.Element {
    };
 
    const reUsers = async () => {
+      clearUsers();
+      setUsersLoaded(false);
       try {
          const resp: any = await getDocs("users", token);
          setTimeout(() => {
             const arr: any = findDataArray(resp);
             dispatch(setUsers(arr));
             dispatch(setSnackbar(msg("users loaded", "success")));
+            setUsersLoaded(true);
          }, 1500);
       } catch (error) {
          console.log(error);
@@ -150,13 +160,16 @@ export default function ProfileDisplay(): JSX.Element {
    };
 
    const reContracts = async () => {
+      clearContracts();
+      setContractsLoaded(false);
       try {
          const resp: any = await getDocs("contracts", token);
          setTimeout(() => {
             const arr: any = findDataArray(resp);
             dispatch(setContracts(arr));
             dispatch(setSnackbar(msg("contracts loaded", "success")));
-         }, 3000);
+            setContractsLoaded(true);
+         }, 2000);
       } catch (error) {
          console.log(error);
          dispatch(setSnackbar(msg("contracts not found", "error")));
@@ -164,12 +177,15 @@ export default function ProfileDisplay(): JSX.Element {
    };
 
    const reStores = async () => {
+      clearStores();
+      setStoresLoaded(false);
       try {
          const resp: any = await getDocs("stores", token);
          setTimeout(() => {
             const arr: any = findDataArray(resp);
             dispatch(setStores(arr));
             dispatch(setSnackbar(msg("stores loaded", "success")));
+            setStoresLoaded(true);
          }, 1000);
       } catch (error) {
          console.log(error);
@@ -231,6 +247,7 @@ export default function ProfileDisplay(): JSX.Element {
                                     : "inherit",
                            }}
                         />
+                        <Chip label={`Store: ${homeStore}`} />
                      </Typography>
                      <List
                         sx={{
@@ -306,14 +323,18 @@ export default function ProfileDisplay(): JSX.Element {
                                     label={`Loaded:  ${stores.arr.length}`}
                                     sx={{ p: 3, mt: 2, mb: 3 }}
                                  />
+
                                  <br />
-                                 <Button
-                                    size='small'
-                                    variant='contained'
-                                    onClick={() => reStores()}
-                                 >
-                                    <RefreshIcon /> Refresh
-                                 </Button>
+                                 <Tooltip title='get the latest from the cloud'>
+                                    <Button
+                                       size='small'
+                                       variant='contained'
+                                       onClick={() => reStores()}
+                                    >
+                                       <CloudDownloadIcon sx={{ mr: 2 }} />{" "}
+                                       Refresh
+                                    </Button>
+                                 </Tooltip>
                               </>
                            ) : (
                               <CircularProgress />
@@ -334,20 +355,23 @@ export default function ProfileDisplay(): JSX.Element {
                            >
                               Contracts
                            </Typography>
-                           {contractsLoaded && contracts.arr.length > 0 ? (
+                           {contractsLoaded ? (
                               <>
                                  <Chip
                                     label={`Loaded: ${contracts.arr.length}`}
                                     sx={{ p: 3, mt: 2, mb: 3 }}
                                  />
                                  <br />
-                                 <Button
-                                    size='small'
-                                    variant='contained'
-                                    onClick={() => reContracts()}
-                                 >
-                                    <RefreshIcon /> Refresh
-                                 </Button>
+                                 <Tooltip title='get latest data from the cloud'>
+                                    <Button
+                                       size='small'
+                                       variant='contained'
+                                       onClick={() => reContracts()}
+                                    >
+                                       <CloudDownloadIcon sx={{ mr: 2 }} />{" "}
+                                       Refresh
+                                    </Button>
+                                 </Tooltip>
                               </>
                            ) : (
                               <CircularProgress />
@@ -371,20 +395,23 @@ export default function ProfileDisplay(): JSX.Element {
                               >
                                  Users
                               </Typography>
-                              {usersLoaded && users.arr.length > 0 ? (
+                              {usersLoaded ? (
                                  <>
                                     <Chip
                                        label={`Loaded: ${users.arr.length}`}
                                        sx={{ p: 3, mt: 2, mb: 3 }}
                                     />
                                     <br />
-                                    <Button
-                                       size='small'
-                                       variant='contained'
-                                       onClick={() => reUsers()}
-                                    >
-                                       <RefreshIcon /> Refresh
-                                    </Button>
+                                    <Tooltip title='get latest data from the cloud'>
+                                       <Button
+                                          size='small'
+                                          variant='contained'
+                                          onClick={() => reUsers()}
+                                       >
+                                          <CloudDownloadIcon sx={{ mr: 2 }} />{" "}
+                                          Refresh
+                                       </Button>
+                                    </Tooltip>
                                  </>
                               ) : (
                                  <CircularProgress />
