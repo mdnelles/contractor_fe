@@ -1,7 +1,8 @@
 //import { initializeApp } from "firebase/app";
 
 import React from "react";
-import { addDoc } from "../../../utilities/MongoRequest";
+import { addDoc, getDocsByObj } from "../../../utilities/MongoRequest";
+import { findDataArray } from "../../../utilities/gen";
 
 //import { getAuth } from "firebase/auth";
 
@@ -97,7 +98,7 @@ function generateLoremIpsum() {
    const words = loremIpsum.split(" ");
    let randomWords = "";
 
-   for (let i = 0; i < 100; i++) {
+   for (let i = 0; i < 30; i++) {
       const randomIndex = Math.floor(Math.random() * words.length);
       randomWords += words[randomIndex] + " ";
    }
@@ -106,41 +107,63 @@ function generateLoremIpsum() {
 }
 
 // crete function getStage which returns a random number between but including 1 and 5
-function getStage() {
-   return Math.floor(Math.random() * 5) + 1;
-}
+const getStage = () => Math.floor(Math.random() * 5) + 1;
 
-// generate random number between 10 and 78
+const random1to20 = () => Math.floor(Math.random() * 20) + 1;
 
-async function generateRandomLoop(numRecords: number) {
+const getContractor = (homeStore: number, contractors: any) => {
+   const storeContractors = contractors.filter(
+      (sc: any) => sc.homeStore === homeStore
+   );
+   return storeContractors.length > 0
+      ? storeContractors[Math.floor(Math.random() * storeContractors.length)]
+           ._id
+      : contractors[Math.floor(Math.random() * contractors.length)]._id;
+};
+
+async function generateRandomLoop(
+   numRecords: number,
+   users: any,
+   contractors: any
+) {
    for (let i = 0; i < numRecords; i++) {
       const contract = generateRandomContract();
       const stage = getStage();
       const createdAt = getRandomDate();
+      const homeStore = random1to20();
+      const contractorId = getContractor(homeStore, contractors);
+      const clientID = users[Math.floor(Math.random() * users.length)]._id;
       const contractsObj = {
-         jobTitle: "cards: " + createdAt + " (" + contract.room + ")",
+         jobTitle: createdAt + " -" + contract.room,
          task: contract.task,
          room: contract.room,
          description: generateLoremIpsum(),
-         clientId: "NA",
-         homeStore: Math.floor(Math.random() * 68) + 10,
+         clientId: clientID,
+         contractorId,
+         homeStore,
          stage,
          createdAt,
       };
-      // console.log(
-      //    await addDoc(
-      //       "contracts",
-      //       contractsObj,
-      //       "ncrn9u34hf93u4hf394fhu349ufh34fuh"
-      //    )
-      // );
+      await addDoc(
+         "contracts",
+         contractsObj,
+         "ncrn9u34hf93u4hf394fhu349ufh34fuh"
+      );
    }
    return 1;
 }
 
 const DummyDataCards = (): JSX.Element => {
-   generateRandomLoop(1);
-   return <>loaded...tasks</>;
+   (async () => {
+      const users: any = findDataArray(
+         await getDocsByObj("users", { userLevel: 5 }, "xyz")
+      );
+      const contractors: any = findDataArray(
+         await getDocsByObj("users", { userLevel: 4 }, "xyz")
+      );
+      //generateRandomLoop(222, users, contractors);
+   })();
+   return <>loaded...contracts</>;
 };
 
 export default DummyDataCards;

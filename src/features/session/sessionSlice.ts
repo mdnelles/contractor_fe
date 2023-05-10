@@ -22,6 +22,7 @@ const initialState: SessionState = {
       bio: `NA `,
       lastLoginAt: 1661467511061,
       lastSignInTime: "1661467511061",
+      homeStore: -1,
       userLevel: 0,
    },
    value: 0,
@@ -42,6 +43,8 @@ export const sessionSlice = createSlice({
             if (o.user.lastLoginAt) state.user.lastLoginAt = o.user.lastLoginAt;
             if (o.lang) state.lang = o.lang;
             if (o.notRobot) state.notRobot = o.notRobot;
+            state.user.uid = o.user.uid;
+            state.user.homeStore = o.user.homeStore;
             state.user.userLevel = o.user.userLevel;
             state.user.displayName = o.user.displayName;
             state.darkMode = o.darkMode;

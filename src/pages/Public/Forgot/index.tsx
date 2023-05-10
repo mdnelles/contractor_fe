@@ -22,7 +22,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
 import Trans from "../../../widgets/Trans";
 import DummyDataCards from "../widgets/DummyDataCards";
-import DummyDataUsers from "../widgets/DummyDataUsers";
 
 const theme = createTheme();
 
