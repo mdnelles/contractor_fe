@@ -43,7 +43,6 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import DummyDataCards from "./Public/widgets/DummyDataCards";
 import { getDocsByObj } from "../utilities/MongoRequest";
 
 export default function Login() {
@@ -77,8 +76,6 @@ export default function Login() {
             const q: any = findDataArray(
                await getDocsByObj("users", { email: user.email }, token)
             );
-            console.log("------q-----");
-            console.log(q);
 
             if (q !== undefined) {
                await addDoc(collection(db, "users"), {

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { addDoc, getDocsByObj } from "../../../utilities/MongoRequest";
+import { findDataArray } from "../../../utilities/gen";
 
 //import { getAuth } from "firebase/auth";
 
@@ -110,11 +111,27 @@ const getStage = () => Math.floor(Math.random() * 5) + 1;
 
 const random1to20 = () => Math.floor(Math.random() * 20) + 1;
 
-async function generateRandomLoop(numRecords: number, users: any) {
+const getContractor = (homeStore: number, contractors: any) => {
+   const storeContractors = contractors.filter(
+      (sc: any) => sc.homeStore === homeStore
+   );
+   return storeContractors.length > 0
+      ? storeContractors[Math.floor(Math.random() * storeContractors.length)]
+           ._id
+      : contractors[Math.floor(Math.random() * contractors.length)]._id;
+};
+
+async function generateRandomLoop(
+   numRecords: number,
+   users: any,
+   contractors: any
+) {
    for (let i = 0; i < numRecords; i++) {
       const contract = generateRandomContract();
       const stage = getStage();
       const createdAt = getRandomDate();
+      const homeStore = random1to20();
+      const contractorId = getContractor(homeStore, contractors);
       const clientID = users[Math.floor(Math.random() * users.length)]._id;
       const contractsObj = {
          jobTitle: createdAt + " -" + contract.room,
@@ -122,26 +139,29 @@ async function generateRandomLoop(numRecords: number, users: any) {
          room: contract.room,
          description: generateLoremIpsum(),
          clientId: clientID,
-         homeStore: random1to20(),
+         contractorId,
+         homeStore,
          stage,
          createdAt,
       };
-      // console.log(
-      //    await addDoc(
-      //       "contracts",
-      //       contractsObj,
-      //       "ncrn9u34hf93u4hf394fhu349ufh34fuh"
-      //    )
-      // );
+      await addDoc(
+         "contracts",
+         contractsObj,
+         "ncrn9u34hf93u4hf394fhu349ufh34fuh"
+      );
    }
    return 1;
 }
 
 const DummyDataCards = (): JSX.Element => {
    (async () => {
-      const users: any = await getDocsByObj("users", { userLevel: 5 }, "xyz");
-      //console.log(users.data.arr);
-      generateRandomLoop(183, users.data.arr);
+      const users: any = findDataArray(
+         await getDocsByObj("users", { userLevel: 5 }, "xyz")
+      );
+      const contractors: any = findDataArray(
+         await getDocsByObj("users", { userLevel: 4 }, "xyz")
+      );
+      //generateRandomLoop(222, users, contractors);
    })();
    return <>loaded...contracts</>;
 };

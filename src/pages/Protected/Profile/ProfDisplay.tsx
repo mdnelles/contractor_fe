@@ -29,7 +29,7 @@ import {
 import { clearStores, setStores } from "../../../features/stores/storesSlice";
 import { StoresState } from "../../../features/stores/stores";
 import CircularProgress from "@mui/material/CircularProgress";
-import { UsersState } from "../../../features/users/users";
+import { UserObj, UsersState } from "../../../features/users/users";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
@@ -41,6 +41,7 @@ import {
    color5,
 } from "../../../constants/colors";
 import { Tooltip } from "@mui/material";
+import { UserType } from "../../../features/session/session";
 
 interface ExpandMoreProps extends IconButtonProps {
    expand: boolean;
@@ -85,12 +86,8 @@ export default function ProfileDisplay(): JSX.Element {
    const c = new Date(createdAt);
    const [profileLoaded, setProfileLoaded] = React.useState<boolean>(false);
 
-   const startGather = async (
-      id: string,
-      userLevel: number,
-      homeStore: string,
-      token: string
-   ) => {
+   const startGather = async (user: UserType, token: string) => {
+      const { uid, homeStore, userLevel } = user;
       let usersRedux, contractsRedux;
 
       const stores = findDataArray(await getDocs("stores", token));
@@ -122,7 +119,7 @@ export default function ProfileDisplay(): JSX.Element {
          case 4: // delivery / contractor
             //users = findDataArray(await getDoc("users","homeStore",homeStore, token));
             contractsRedux = findDataArray(
-               await getDocsByObj("contracts", { contractor: id }, token)
+               await getDocsByObj("contracts", { contractorId: uid }, token)
             );
             dispatch(setUsers(usersRedux));
             dispatch(setContracts(contractsRedux));
@@ -132,7 +129,7 @@ export default function ProfileDisplay(): JSX.Element {
          case 5: // delivery / contractor
             //users = findDataArray(await getDoc("users","homeStore",homeStore, token));
             contractsRedux = findDataArray(
-               await getDocsByObj("contracts", { clientid: id }, token)
+               await getDocsByObj("contracts", { clientId: uid }, token)
             );
             dispatch(setContracts(contractsRedux));
             setContractsLoaded(true);
@@ -203,8 +200,9 @@ export default function ProfileDisplay(): JSX.Element {
             ...user,
             userLevel: o.userLevel,
             displayName: o.firstName + " " + o.lastName,
+            homeStore: o.homeStore,
          };
-         startGather(user._id, o.userLevel, user.homeStore, token);
+         startGather(user, token);
          dispatch(setSession({ ...session, user }));
          dispatch(setSnackbar(msg("profile loaded", "success")));
       } catch (error) {

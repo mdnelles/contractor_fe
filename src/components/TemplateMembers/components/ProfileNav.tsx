@@ -48,7 +48,7 @@ export default (): JSX.Element => {
       dis(clearSuggest());
       dis(clearUsers());
       dis(clearStores());
-      // dis(clearContracts());
+      dis(clearContracts());
       dis(clearSnackbar());
       dis(clearSession());
       setTimeout(() => navigate(`/login`), 1200);

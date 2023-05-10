@@ -15,7 +15,7 @@ import TableBody from "@mui/material/TableBody";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import Paper from "@mui/material/Paper";
-import { dia, epochToDate } from "../../../utilities/gen";
+import { dia, epochToDate, msg } from "../../../utilities/gen";
 import Chip from "@mui/material/Chip";
 import TablePagination from "@mui/material/TablePagination";
 import {
@@ -29,6 +29,9 @@ import { Rect } from "../../../widgets/Level/Rect";
 import { ButtonGroup, Tooltip, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setDialog } from "../../../features/dialog/dialogSlice";
+import { setContracts } from "../../../features/contracts/contractsSlice";
+import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
+import Legend from "../../../widgets/Legend";
 
 export default function (): JSX.Element {
    const dispatch = useDispatch();
@@ -36,29 +39,57 @@ export default function (): JSX.Element {
    const contracts = useAppSelector((state) => state.contracts);
    const session: any = useAppSelector((state) => state.session);
    const { userLevel } = session.user;
+   const contractors = users.arr.filter((u: any) => u.userLevel === 4);
 
-   const [num, setNum] = React.useState<number>(1);
+   const [num, setNum] = React.useState<number>(session.user.homeStore);
    const [view, setView] = React.useState<string>("");
    const [rows, setRows] = React.useState<any[]>([]);
+   const [rowsTotal, setRowsTotal] = React.useState<number>(0);
    const [page, setPage] = React.useState(0);
    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-   const handleChange = (event: SelectChangeEvent) => {
-      //
+   const handleChangeStage = (event: any, row: any) => {
+      const val = event.target.value;
+      const { _id } = row;
+
+      const newContracts = { ...contracts };
+      newContracts.arr = newContracts.arr.map((c: any) =>
+         c._id === _id ? { ...c, stage: val } : c
+      );
+
+      dispatch(setContracts(newContracts));
+      dispatch(setSnackbar(msg("Contract stage updated.", "success")));
+
+      return true;
    };
 
    const handleChangeStore = (event: any) =>
       setNum(event.target.value as number);
 
-   const handleChangePage = (event: unknown, newPage: number) => {
-      setPage(newPage);
-   };
+   const handleChangePage = (event: any, newPage: number) => setPage(newPage);
 
    const handleChangeRowsPerPage = (
       event: React.ChangeEvent<HTMLInputElement>
    ) => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
+   };
+
+   const handleChangeContractor = (event: any, row: any) => {
+      const val = event.target.value;
+      const { _id } = row;
+
+      const newContracts = { ...contracts };
+      newContracts.arr = newContracts.arr.map((c: any) =>
+         c._id === _id ? { ...c, contractorId: val } : c
+      );
+
+      dispatch(setContracts(newContracts));
+      dispatch(
+         setSnackbar(
+            msg("New contractor has been assigned to this project", "success")
+         )
+      );
    };
 
    const btnView = (row: any) => {
@@ -90,18 +121,18 @@ export default function (): JSX.Element {
    useEffect(() => {
       try {
          setRows(
-            view === "members"
-               ? users.arr.filter((u: any) => parseInt(u.homeStore) === num)
-               : contracts.arr.filter((c: any) => parseInt(c.homeStore) === num)
+            contracts.arr
+               .filter((c: any) => parseInt(c.homeStore) === num)
+               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+         );
+         setRowsTotal(
+            contracts.arr.filter((c: any) => parseInt(c.homeStore) === num)
+               .length
          );
       } catch (err) {
          console.log(err);
       }
-   }, [num, view]);
-
-   useEffect(() => {
-      //console.log("rows", rows);
-   }, [rows]);
+   }, [num, view, page, rowsPerPage, contracts]);
 
    useEffect(() => {
       //console.log("users");
@@ -109,52 +140,42 @@ export default function (): JSX.Element {
 
    return (
       <>
-         <h3>Stores</h3>
+         <h3>Store View</h3>
          <Grid container spacing={1}>
-            <Grid item xs={12} sm={6}>
-               <FormControl fullWidth>
-                  <InputLabel id='store-no'>Select Store</InputLabel>
-                  <Select
-                     size='small'
-                     label='Select Store'
-                     onChange={handleChangeStore}
-                     value={num}
-                  >
-                     <MenuItem key={"all"} value={""}>
-                        all stores
-                     </MenuItem>
-                     {Array.from({ length: 10 }, (_, i) => i + 1).map((i) => (
-                        <MenuItem key={i} value={i}>
-                           {"store #" + i}
+            {session.user.userLevel === 1 && (
+               <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                     <InputLabel id='store-no'>Select Store</InputLabel>
+                     <Select
+                        size='small'
+                        label='Select Store'
+                        onChange={handleChangeStore}
+                        value={num}
+                     >
+                        <MenuItem key={"all"} value={""}>
+                           all stores
                         </MenuItem>
-                     ))}
-                  </Select>
-               </FormControl>
-            </Grid>
+                        {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                           (i) => (
+                              <MenuItem key={i} value={i}>
+                                 {"store #" + i}
+                              </MenuItem>
+                           )
+                        )}
+                     </Select>
+                  </FormControl>
+               </Grid>
+            )}
 
             <Grid item xs={12}>
                {rows && rows.length > 0 && rows[0] && (
                   <>
-                     <Chip
-                        label='New Order'
-                        sx={{ backgroundColor: color1, m: 0.5 }}
-                     />
-                     <Chip
-                        label='Picked Order'
-                        sx={{ backgroundColor: color2, m: 0.5 }}
-                     />
-                     <Chip
-                        label='Order Delivered'
-                        sx={{ backgroundColor: color3, m: 0.5 }}
-                     />
-                     <Chip
-                        label='Work Started'
-                        sx={{ backgroundColor: color4, m: 0.5 }}
-                     />
-                     <Chip
-                        label='Life Cylce Complete'
-                        sx={{ backgroundColor: color5, m: 0.5 }}
-                     />
+                     <Legend color={color1} label='New Order' num={1} />
+                     <Legend color={color2} label='In Progress' num={2} />
+                     <Legend color={color3} label='Ready for Pickup' num={3} />
+                     <Legend color={color4} label='Picked Up' num={4} />
+                     <Legend color={color5} label='Cancelled' num={5} />
+
                      <TableContainer component={Paper}>
                         <Table
                            stickyHeader
@@ -163,24 +184,20 @@ export default function (): JSX.Element {
                         >
                            <TableHead>
                               <TableRow sx={{ p: 1 }}>
-                                 <TableCell>Job</TableCell>
+                                 {/* <TableCell>Job</TableCell> */}
                                  <TableCell>Task</TableCell>
                                  <TableCell>#</TableCell>
                                  <TableCell>Date</TableCell>
-                                 <TableCell>Action</TableCell>
+                                 <TableCell></TableCell>
+                                 <TableCell></TableCell>
                                  <TableCell></TableCell>
                               </TableRow>
                            </TableHead>
 
                            <TableBody>
-                              {rows
-                                 .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                 )
-                                 .map((row: any) => (
-                                    <TableRow key={row._id}>
-                                       <TableCell sx={{ p: 1 }}>
+                              {rows.map((row: any) => (
+                                 <TableRow key={row._id}>
+                                    {/* <TableCell sx={{ p: 1 }}>
                                           <Typography
                                              color='primary'
                                              gutterBottom
@@ -189,102 +206,173 @@ export default function (): JSX.Element {
                                                 .toString()
                                                 .replace("cards:", "")}
                                           </Typography>
-                                       </TableCell>
-                                       <TableCell sx={{ p: 1 }}>
-                                          <Rect level={parseInt(row.stage)}>
-                                             {row.task}
-                                          </Rect>
-                                       </TableCell>
-                                       <TableCell sx={{ p: 1 }}>
-                                          {row.homeStore}
-                                       </TableCell>
-                                       <TableCell sx={{ p: 1 }}>
-                                          {epochToDate(parseInt(row.createdAt))}
-                                       </TableCell>
-                                       <TableCell sx={{ p: 1 }}>
-                                          <Chip
-                                             label={row.stage}
-                                             sx={{
-                                                mr: 1,
-                                                backgroundColor:
-                                                   parseInt(row.stage) === 1
-                                                      ? color1
-                                                      : parseInt(row.stage) ===
-                                                        2
-                                                      ? color2
-                                                      : parseInt(row.stage) ===
-                                                        3
-                                                      ? color3
-                                                      : parseInt(row.stage) ===
-                                                        4
-                                                      ? color4
-                                                      : parseInt(row.stage) ===
-                                                        5
-                                                      ? color5
-                                                      : "inherit",
-                                             }}
-                                          />
-                                          <ButtonGroup
-                                             variant='text'
-                                             size='small'
-                                          >
-                                             <Button
-                                                onClick={() => btnView(row)}
-                                             >
-                                                <Tooltip title='View details'>
-                                                   <VisibilityIcon />
-                                                </Tooltip>
-                                             </Button>
+                                       </TableCell> */}
+                                    <TableCell sx={{ p: 1 }}>
+                                       <Rect level={parseInt(row.stage)}>
+                                          {row.task}
+                                       </Rect>
+                                    </TableCell>
+                                    <TableCell sx={{ p: 1 }}>
+                                       {row.homeStore}
+                                    </TableCell>
+                                    <TableCell sx={{ p: 1 }}>
+                                       {epochToDate(parseInt(row.createdAt))}
+                                    </TableCell>
+                                    <TableCell sx={{ p: 1 }}>
+                                       <Chip
+                                          label={row.stage}
+                                          sx={{
+                                             mr: 1,
+                                             backgroundColor:
+                                                parseInt(row.stage) === 1
+                                                   ? color1
+                                                   : parseInt(row.stage) === 2
+                                                   ? color2
+                                                   : parseInt(row.stage) === 3
+                                                   ? color3
+                                                   : parseInt(row.stage) === 4
+                                                   ? color4
+                                                   : parseInt(row.stage) === 5
+                                                   ? color5
+                                                   : "inherit",
+                                          }}
+                                       />
+                                       <ButtonGroup variant='text' size='small'>
+                                          <Button onClick={() => btnView(row)}>
+                                             <Tooltip title='View details'>
+                                                <VisibilityIcon />
+                                             </Tooltip>
+                                          </Button>
 
-                                             {(userLevel === 1 ||
-                                                userLevel === 2) && (
-                                                <>
-                                                   <Button
-                                                      onClick={() =>
-                                                         btnEdit(row)
-                                                      }
-                                                      disabled={
-                                                         row.isDisabled &&
-                                                         row.isDisabled !== true
-                                                      }
-                                                   >
-                                                      <Tooltip title='Edit user'>
-                                                         <EditIcon />
-                                                      </Tooltip>
-                                                   </Button>
-                                                </>
-                                             )}
-                                          </ButtonGroup>
-                                       </TableCell>
-                                       <TableCell sx={{ m: 0, p: 0 }}>
-                                          <FormControl sx={{ m: 0, p: 0 }}>
-                                             <InputLabel size='small'>
-                                                Stage
-                                             </InputLabel>
-                                             <Select
-                                                value={row.stage}
-                                                label='Stage'
-                                                onChange={handleChange}
-                                                size='small'
-                                                sx={{ width: 80 }}
+                                          {(userLevel === 1 ||
+                                             userLevel === 2) && (
+                                             <>
+                                                <Button
+                                                   onClick={() => btnEdit(row)}
+                                                   disabled={
+                                                      row.isDisabled &&
+                                                      row.isDisabled !== true
+                                                   }
+                                                >
+                                                   <Tooltip title='Edit user'>
+                                                      <EditIcon />
+                                                   </Tooltip>
+                                                </Button>
+                                             </>
+                                          )}
+                                       </ButtonGroup>
+                                    </TableCell>
+                                    <TableCell sx={{ m: 0, p: 0 }}>
+                                       <FormControl sx={{ m: 0, p: 0 }}>
+                                          <InputLabel size='small'>
+                                             Stage
+                                          </InputLabel>
+                                          <Select
+                                             label='Stage'
+                                             onChange={(event) =>
+                                                handleChangeStage(event, row)
+                                             }
+                                             defaultValue={row.stage}
+                                             size='small'
+                                             sx={{
+                                                width: 60,
+                                                height: 28,
+                                                fontSize: 13,
+                                             }}
+                                          >
+                                             <MenuItem
+                                                value={1}
+                                                autoFocus={
+                                                   parseInt(row.stage) === 1
+                                                }
                                              >
-                                                <MenuItem value={1}>1</MenuItem>
-                                                <MenuItem value={2}>2</MenuItem>
-                                                <MenuItem value={3}>3</MenuItem>
-                                                <MenuItem value={4}>4</MenuItem>
-                                                <MenuItem value={5}>5</MenuItem>
-                                             </Select>
-                                          </FormControl>
-                                       </TableCell>
-                                    </TableRow>
-                                 ))}
+                                                1
+                                             </MenuItem>
+                                             <MenuItem
+                                                value={2}
+                                                autoFocus={
+                                                   parseInt(row.stage) === 2
+                                                }
+                                             >
+                                                2
+                                             </MenuItem>
+                                             <MenuItem
+                                                value={3}
+                                                autoFocus={
+                                                   parseInt(row.stage) === 3
+                                                }
+                                             >
+                                                3
+                                             </MenuItem>
+                                             <MenuItem
+                                                value={4}
+                                                autoFocus={
+                                                   parseInt(row.stage) === 4
+                                                }
+                                             >
+                                                4
+                                             </MenuItem>
+                                             <MenuItem
+                                                value={5}
+                                                autoFocus={
+                                                   parseInt(row.stage) === 5
+                                                }
+                                             >
+                                                5
+                                             </MenuItem>
+                                          </Select>
+                                       </FormControl>
+                                    </TableCell>
+                                    <TableCell sx={{ m: 0, p: 0 }}>
+                                       <FormControl sx={{ m: 0, p: 0 }}>
+                                          <InputLabel size='small'>
+                                             Contractor
+                                          </InputLabel>
+                                          <Select
+                                             defaultValue={row.contractorId}
+                                             label='contractor'
+                                             onChange={(event) =>
+                                                handleChangeContractor(
+                                                   event,
+                                                   row
+                                                )
+                                             }
+                                             size='small'
+                                             sx={{
+                                                minWidth: 140,
+                                                height: 28,
+                                                fontSize: 13,
+                                             }}
+                                          >
+                                             {rowsTotal < 1 ? (
+                                                <></>
+                                             ) : (
+                                                contractors.map((user: any) => (
+                                                   <MenuItem
+                                                      autoFocus={
+                                                         row.contractorId ===
+                                                         user._id
+                                                      }
+                                                      key={user._id}
+                                                      value={user._id}
+                                                   >
+                                                      {user.firstName}{" "}
+                                                      {user.lastName}
+                                                   </MenuItem>
+                                                ))
+                                             )}
+                                          </Select>
+                                       </FormControl>
+                                    </TableCell>
+                                 </TableRow>
+                              ))}
                            </TableBody>
                         </Table>
                      </TableContainer>
                      <TablePagination
                         rowsPerPageOptions={[5, 10, 25, 50]}
                         component='div'
-                        count={rows.length}
+                        count={rowsTotal}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
