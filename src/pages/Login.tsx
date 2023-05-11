@@ -202,19 +202,19 @@ export default function Login() {
                               onChange={handleChange}
                            >
                               <MenuItem value={"user1@email.com"}>
-                                 user1@email.com
+                                 Super User
                               </MenuItem>
                               <MenuItem value={"user2@email.com"}>
-                                 user2@email.com
+                                 Store Manager
                               </MenuItem>
                               <MenuItem value={"user3@email.com"}>
-                                 user3@email.com
+                                 Order Picker
                               </MenuItem>
                               <MenuItem value={"user4@email.com"}>
-                                 user4@email.com
+                                 Delivery & Contracter
                               </MenuItem>
                               <MenuItem value={"user5@email.com"}>
-                                 user5@email.com
+                                 Client
                               </MenuItem>
                            </Select>
                         </FormControl>
@@ -327,9 +327,13 @@ export default function Login() {
                         </Grid>
                      </Box>
                   </Box>
-               </Container>
+               </Container>{" "}
             </Paper>
+            <Typography variant='body2' color='text.secondary' align='center'>
+               Author: <a href='https://github.com/mdnelles'>@mdnelles</a>
+            </Typography>
          </div>
+         <br />
       </div>
    );
 }

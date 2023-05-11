@@ -140,7 +140,7 @@ export default function (): JSX.Element {
 
    return (
       <>
-         <h3>Store View</h3>
+         <h3>Contracts</h3>
          <Grid container spacing={1}>
             {session.user.userLevel === 1 && (
                <Grid item xs={12} sm={6}>
@@ -155,7 +155,7 @@ export default function (): JSX.Element {
                         <MenuItem key={"all"} value={""}>
                            all stores
                         </MenuItem>
-                        {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                        {Array.from({ length: 20 }, (_, i) => i + 1).map(
                            (i) => (
                               <MenuItem key={i} value={i}>
                                  {"store #" + i}
