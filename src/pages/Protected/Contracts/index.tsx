@@ -32,14 +32,33 @@ import { setDialog } from "../../../features/dialog/dialogSlice";
 import { setContracts } from "../../../features/contracts/contractsSlice";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import Legend from "../../../widgets/Legend";
+import { updateDocById } from "../../../utilities/MongoRequest";
+
+const nameSort = (arr: any) => {
+   arr.sort((a: any, b: any) =>
+      a.lastName > b.lastName
+         ? 1
+         : a.lastName < b.lastName
+         ? -1
+         : a.firstName > b.firstName
+         ? 1
+         : a.firstName < b.firstName
+         ? -1
+         : 0
+   );
+   return arr;
+};
 
 export default function (): JSX.Element {
    const dispatch = useDispatch();
    const users = useAppSelector((state) => state.users);
    const contracts = useAppSelector((state) => state.contracts);
    const session: any = useAppSelector((state) => state.session);
-   const { userLevel } = session.user;
-   const contractors = users.arr.filter((u: any) => u.userLevel === 4);
+   const { userLevel, token } = session.user;
+   const contractors = nameSort(
+      users.arr.filter((u: any) => u.userLevel === 4)
+   );
+   const pickers = nameSort(users.arr.filter((u: any) => u.userLevel === 3));
 
    const [num, setNum] = React.useState<number>(session.user.homeStore);
    const [view, setView] = React.useState<string>("");
@@ -84,10 +103,31 @@ export default function (): JSX.Element {
          c._id === _id ? { ...c, contractorId: val } : c
       );
 
+      updateDocById("contract", _id, { contractorId: val }, token);
+
       dispatch(setContracts(newContracts));
       dispatch(
          setSnackbar(
-            msg("New contractor has been assigned to this project", "success")
+            msg("New contractor has been assigned to this project", "warning")
+         )
+      );
+   };
+
+   const handleChangePicker = (event: any, row: any) => {
+      const val = event.target.value;
+      const { _id } = row;
+
+      const newContracts = { ...contracts };
+      newContracts.arr = newContracts.arr.map((c: any) =>
+         c._id === _id ? { ...c, orderPickedBy: val } : c
+      );
+
+      updateDocById("contract", _id, { orderPickedBy: val }, token);
+
+      dispatch(setContracts(newContracts));
+      dispatch(
+         setSnackbar(
+            msg("New picker has been assigned to this project", "warning")
          )
       );
    };
@@ -174,7 +214,7 @@ export default function (): JSX.Element {
                      <Legend color={color2} label='In Progress' num={2} />
                      <Legend color={color3} label='Ready for Pickup' num={3} />
                      <Legend color={color4} label='Picked Up' num={4} />
-                     <Legend color={color5} label='Cancelled' num={5} />
+                     <Legend color={color5} label='Completed' num={5} />
 
                      <TableContainer component={Paper}>
                         <Table
@@ -188,6 +228,7 @@ export default function (): JSX.Element {
                                  <TableCell>Task</TableCell>
                                  <TableCell>#</TableCell>
                                  <TableCell>Date</TableCell>
+                                 <TableCell></TableCell>
                                  <TableCell></TableCell>
                                  <TableCell></TableCell>
                                  <TableCell></TableCell>
@@ -351,6 +392,44 @@ export default function (): JSX.Element {
                                                    <MenuItem
                                                       autoFocus={
                                                          row.contractorId ===
+                                                         user._id
+                                                      }
+                                                      key={user._id}
+                                                      value={user._id}
+                                                   >
+                                                      {user.firstName}{" "}
+                                                      {user.lastName}
+                                                   </MenuItem>
+                                                ))
+                                             )}
+                                          </Select>
+                                       </FormControl>
+                                    </TableCell>
+                                    <TableCell sx={{ m: 0, p: 0 }}>
+                                       <FormControl sx={{ m: 0, p: 0 }}>
+                                          <InputLabel size='small'>
+                                             Picker
+                                          </InputLabel>
+                                          <Select
+                                             defaultValue={row.orderPickedBy}
+                                             label='Picker'
+                                             onChange={(event) =>
+                                                handleChangePicker(event, row)
+                                             }
+                                             size='small'
+                                             sx={{
+                                                minWidth: 140,
+                                                height: 28,
+                                                fontSize: 13,
+                                             }}
+                                          >
+                                             {rowsTotal < 1 ? (
+                                                <></>
+                                             ) : (
+                                                pickers.map((user: any) => (
+                                                   <MenuItem
+                                                      autoFocus={
+                                                         row.orderPickedBy ===
                                                          user._id
                                                       }
                                                       key={user._id}

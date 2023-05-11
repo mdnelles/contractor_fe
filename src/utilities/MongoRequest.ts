@@ -53,14 +53,33 @@ const getDoc = async (
 
 const updateDoc = async (
    collection: any,
-   id: any,
+   _id: any,
    data: any,
    token: string
 ) => {
    try {
       return await apiPost(
-         API_URL + "/doc_update",
-         { collection, id, data },
+         API_URL + "/doc_edit",
+         { collection, _id, data },
+         token
+      );
+   } catch (error) {
+      console.error(error);
+      return [];
+   }
+};
+
+// example changeObj = {name: "John", address: "Highway 71"}
+const updateDocById = async (
+   collection: any,
+   id: any,
+   changeObj: any,
+   token: string
+) => {
+   try {
+      return await apiPost(
+         API_URL + "/doc_edit_by_id",
+         { collection, id, changeObj },
          token
       );
    } catch (error) {
@@ -78,4 +97,12 @@ const deleteDoc = async (collection: any, id: any, token: string) => {
    }
 };
 
-export { addDoc, getDocs, getDocsByObj, getDoc, updateDoc, deleteDoc };
+export {
+   addDoc,
+   getDocs,
+   getDocsByObj,
+   getDoc,
+   updateDoc,
+   updateDocById,
+   deleteDoc,
+};
