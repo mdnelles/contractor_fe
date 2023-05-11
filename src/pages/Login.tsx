@@ -55,7 +55,8 @@ export default function Login() {
    const [password, setPassword] = useState("passpass");
 
    const handleClick = (url: string) => {
-      window.location.href = url;
+      //window.location.href = url;
+      window.open(url, "_blank");
    };
 
    const startLoginWEP = async (event: any, em?: any, pa?: any) => {
@@ -183,7 +184,6 @@ export default function Login() {
                            cursor: "pointer",
                         }}
                      />
-                     x
                      <Typography component='h1' variant='h5'>
                         <Trans txt='Client Login' />
                      </Typography>
@@ -353,6 +353,7 @@ export default function Login() {
                >
                   Node
                </Button>
+               <Button sx={{ color: "#999" }}>Ver: 0.2.04</Button>
             </ButtonGroup>
          </div>
          <br />

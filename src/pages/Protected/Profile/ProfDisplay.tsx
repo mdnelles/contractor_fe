@@ -17,7 +17,11 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import LinearProgress from "@mui/material/LinearProgress";
-import { getDoc, getDocs, getDocsByObj } from "../../../utilities/MongoRequest";
+import {
+   getDocByAttribute,
+   getDocs,
+   getDocsByObj,
+} from "../../../utilities/MongoRequest";
 import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { findDataArray, msg } from "../../../utilities/gen";
 import { setSession } from "../../../features/session/sessionSlice";
@@ -75,6 +79,7 @@ export default function ProfileDisplay(): JSX.Element {
       displayName = "NA",
       photoUrl = "https://i.ibb.co/PtDp2nH/noImage.png",
       uid = "NA",
+      _id = "",
       createdAt,
       bio,
       homeStore,
@@ -86,8 +91,8 @@ export default function ProfileDisplay(): JSX.Element {
    const c = new Date(createdAt);
    const [profileLoaded, setProfileLoaded] = React.useState<boolean>(false);
 
-   const startGather = async (user: UserType, token: string) => {
-      const { uid, homeStore, userLevel } = user;
+   const startGather = async (user: UserType | any, token: string) => {
+      const { _id, homeStore, userLevel } = user;
       let usersRedux, contractsRedux;
 
       const stores = findDataArray(await getDocs("stores", token));
@@ -104,12 +109,28 @@ export default function ProfileDisplay(): JSX.Element {
             setContractsLoaded(true);
             break;
          case 2: // store admin
-         case 3: // order picker
             usersRedux = findDataArray(
-               await getDoc("users", "homeStore", homeStore, token)
+               await getDocByAttribute("users", "homeStore", homeStore, token)
             );
             contractsRedux = findDataArray(
-               await getDoc("contracts", "homeStore", homeStore, token)
+               await getDocByAttribute(
+                  "contracts",
+                  "homeStore",
+                  homeStore,
+                  token
+               )
+            );
+            dispatch(setUsers(usersRedux));
+            dispatch(setContracts(contractsRedux));
+            setUsersLoaded(true);
+            setContractsLoaded(true);
+            break;
+         case 3: // order picker
+            usersRedux = findDataArray(
+               await getDocByAttribute("users", "homeStore", homeStore, token)
+            );
+            contractsRedux = findDataArray(
+               await getDocByAttribute("contracts", "orderPickedBy", _id, token)
             );
             dispatch(setUsers(usersRedux));
             dispatch(setContracts(contractsRedux));
@@ -119,7 +140,7 @@ export default function ProfileDisplay(): JSX.Element {
          case 4: // delivery / contractor
             //users = findDataArray(await getDoc("users","homeStore",homeStore, token));
             contractsRedux = findDataArray(
-               await getDocsByObj("contracts", { contractorId: uid }, token)
+               await getDocByAttribute("contracts", "contractorId", _id, token)
             );
             dispatch(setUsers(usersRedux));
             dispatch(setContracts(contractsRedux));
@@ -129,7 +150,7 @@ export default function ProfileDisplay(): JSX.Element {
          case 5: // delivery / contractor
             //users = findDataArray(await getDoc("users","homeStore",homeStore, token));
             contractsRedux = findDataArray(
-               await getDocsByObj("contracts", { clientId: uid }, token)
+               await getDocsByObj("contracts", { clientId: _id }, token)
             );
             dispatch(setContracts(contractsRedux));
             setContractsLoaded(true);
@@ -142,8 +163,17 @@ export default function ProfileDisplay(): JSX.Element {
    const reUsers = async () => {
       clearUsers();
       setUsersLoaded(false);
+      const obj =
+         userLevel === 1
+            ? { _id: { $ne: "" } }
+            : userLevel === 2
+            ? { homeStore }
+            : userLevel === 3
+            ? { homeStore, orderPickedBy: _id }
+            : {};
+
       try {
-         const resp: any = await getDocs("users", token);
+         const resp: any = await getDocsByObj("users", obj, "token");
          setTimeout(() => {
             const arr: any = findDataArray(resp);
             dispatch(setUsers(arr));
@@ -159,8 +189,18 @@ export default function ProfileDisplay(): JSX.Element {
    const reContracts = async () => {
       clearContracts();
       setContractsLoaded(false);
+      const obj =
+         userLevel === 1
+            ? { _id: { $ne: "" } }
+            : userLevel === 2
+            ? { homeStore }
+            : userLevel === 3
+            ? { homeStore, orderPickedBy: _id }
+            : {};
+
+      console.log(obj);
       try {
-         const resp: any = await getDocs("contracts", token);
+         const resp: any = await getDocsByObj("contracts", obj, "token");
          setTimeout(() => {
             const arr: any = findDataArray(resp);
             dispatch(setContracts(arr));
@@ -192,12 +232,18 @@ export default function ProfileDisplay(): JSX.Element {
 
    const initProfile = async () => {
       try {
-         const resp: any = await getDoc("users", "email", email, token);
+         const resp: any = await getDocByAttribute(
+            "users",
+            "email",
+            email,
+            token
+         );
          const arr: any = findDataArray(resp);
          const o = arr[0];
          let user = session.user;
          user = {
             ...user,
+            _id: o._id,
             userLevel: o.userLevel,
             displayName: o.firstName + " " + o.lastName,
             homeStore: o.homeStore,
@@ -278,10 +324,7 @@ export default function ProfileDisplay(): JSX.Element {
                                  <LockIcon />
                               </Avatar>
                            </ListItemAvatar>
-                           <ListItemText
-                              primary='Session ID'
-                              secondary={"" + token.toString().slice(0, 30)}
-                           />
+                           <ListItemText primary='Session ID' secondary={_id} />
                         </ListItem>
                      </List>
                   </CardContent>

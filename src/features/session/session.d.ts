@@ -1,4 +1,5 @@
 type UserType = {
+   id?: string | number | undefined;
    token: string;
    email: string | any;
    bio?: string | undefined;

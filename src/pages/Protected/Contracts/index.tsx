@@ -103,7 +103,7 @@ export default function (): JSX.Element {
          c._id === _id ? { ...c, contractorId: val } : c
       );
 
-      updateDocById("contract", _id, { contractorId: val }, token);
+      updateDocById("contracts", _id, { contractorId: val }, token);
 
       dispatch(setContracts(newContracts));
       dispatch(
@@ -122,7 +122,7 @@ export default function (): JSX.Element {
          c._id === _id ? { ...c, orderPickedBy: val } : c
       );
 
-      updateDocById("contract", _id, { orderPickedBy: val }, token);
+      updateDocById("contracts", _id, { orderPickedBy: val }, token);
 
       dispatch(setContracts(newContracts));
       dispatch(
