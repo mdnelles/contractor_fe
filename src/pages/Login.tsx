@@ -3,6 +3,8 @@ import "../App.css";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -17,7 +19,7 @@ import { isValidEmail, isValidPassword } from "../utilities/validate";
 import { setSnackbar } from "../features/snackbar/snackbarSlice";
 
 import { findDataArray, msg } from "../utilities/gen";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SnackbarState } from "../features/snackbar/snackbar";
 import SnackbarMsg from "../components/Snackbar/SnackbarMsg";
 import Paper from "@mui/material/Paper";
@@ -27,14 +29,7 @@ import { UserType } from "../features/session/session";
 import { initializeApp } from "firebase/app";
 import { signInWithGoogle } from "../firebase/firebase";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import {
-   getFirestore,
-   query,
-   getDocs,
-   collection,
-   where,
-   addDoc,
-} from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 import { firebaseConfig } from "../firebase/constants";
 
@@ -58,6 +53,10 @@ export default function Login() {
    const [email, setEmail] = useState("");
    const [logEmail, setLogEmail] = useState("");
    const [password, setPassword] = useState("passpass");
+
+   const handleClick = (url: string) => {
+      window.location.href = url;
+   };
 
    const startLoginWEP = async (event: any, em?: any, pa?: any) => {
       event.preventDefault();
@@ -184,7 +183,7 @@ export default function Login() {
                            cursor: "pointer",
                         }}
                      />
-
+                     x
                      <Typography component='h1' variant='h5'>
                         <Trans txt='Client Login' />
                      </Typography>
@@ -329,9 +328,32 @@ export default function Login() {
                   </Box>
                </Container>{" "}
             </Paper>
-            <Typography variant='body2' color='text.secondary' align='center'>
-               Author: <a href='https://github.com/mdnelles'>@mdnelles</a>
-            </Typography>
+            <ButtonGroup
+               variant='text'
+               size='small'
+               aria-label='outlined primary button group'
+               sx={{ ml: 5, mt: 1 }}
+            >
+               <Button
+                  onClick={() => handleClick("https://github.com/mdnelles")}
+               >
+                  <GitHubIcon />
+               </Button>
+               <Button
+                  onClick={() =>
+                     handleClick("https://github.com/mdnelles/contractor_fe")
+                  }
+               >
+                  React
+               </Button>
+               <Button
+                  onClick={() =>
+                     handleClick("https://github.com/mdnelles/contractor_be")
+                  }
+               >
+                  Node
+               </Button>
+            </ButtonGroup>
          </div>
          <br />
       </div>
