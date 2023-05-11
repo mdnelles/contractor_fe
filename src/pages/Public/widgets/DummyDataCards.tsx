@@ -121,16 +121,25 @@ const getContractor = (homeStore: number, contractors: any) => {
       : contractors[Math.floor(Math.random() * contractors.length)]._id;
 };
 
+const getPicker = (homeStore: number, pickers: any) => {
+   const storePickers = pickers.filter((sc: any) => sc.homeStore === homeStore);
+   return storePickers.length > 0
+      ? storePickers[Math.floor(Math.random() * storePickers.length)]._id
+      : pickers[Math.floor(Math.random() * pickers.length)]._id;
+};
+
 async function generateRandomLoop(
    numRecords: number,
    users: any,
-   contractors: any
+   contractors: any,
+   pickers: any
 ) {
    for (let i = 0; i < numRecords; i++) {
       const contract = generateRandomContract();
       const stage = getStage();
       const createdAt = getRandomDate();
       const homeStore = random1to20();
+      const orderPickedBy = getPicker(homeStore, pickers);
       const contractorId = getContractor(homeStore, contractors);
       const clientID = users[Math.floor(Math.random() * users.length)]._id;
       const contractsObj = {
@@ -140,6 +149,7 @@ async function generateRandomLoop(
          description: generateLoremIpsum(),
          clientId: clientID,
          contractorId,
+         orderPickedBy,
          homeStore,
          stage,
          createdAt,
@@ -161,7 +171,11 @@ const DummyDataCards = (): JSX.Element => {
       const contractors: any = findDataArray(
          await getDocsByObj("users", { userLevel: 4 }, "xyz")
       );
-      //generateRandomLoop(222, users, contractors);
+
+      const pickers: any = findDataArray(
+         await getDocsByObj("users", { userLevel: 3 }, "xyz")
+      );
+      //generateRandomLoop(733, users, contractors, pickers);
    })();
    return <>loaded...contracts</>;
 };

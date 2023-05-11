@@ -7,6 +7,7 @@ export interface ContractObj {
    clientId: string;
    homeStore: number;
    stage: number;
+   orderPickedBy?: string | any;
    createdAt: number;
 }
 export type ContractsArrType = ContractsObj[];

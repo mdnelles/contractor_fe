@@ -76,6 +76,7 @@ export default function SignUp() {
       <div className='vertical-center center-outer'>
          <div className='center-inner'>
             <SnackbarMsg />
+            <DummyDataCards />
             <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
                <Container component='main' maxWidth='xs'>
                   <CssBaseline />
