@@ -161,13 +161,20 @@ export default function (): JSX.Element {
    useEffect(() => {
       try {
          setRows(
-            contracts.arr
-               .filter((c: any) => parseInt(c.homeStore) === num)
-               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            userLevel === 1
+               ? contracts.arr
+                    .filter((c: any) => parseInt(c.homeStore) === num)
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+               : contracts.arr.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                 )
          );
          setRowsTotal(
-            contracts.arr.filter((c: any) => parseInt(c.homeStore) === num)
-               .length
+            userLevel === 1
+               ? contracts.arr.filter((c: any) => parseInt(c.homeStore) === num)
+                    .length
+               : contracts.arr.length
          );
       } catch (err) {
          console.log(err);
@@ -229,9 +236,13 @@ export default function (): JSX.Element {
                                  <TableCell>#</TableCell>
                                  <TableCell>Date</TableCell>
                                  <TableCell></TableCell>
-                                 <TableCell></TableCell>
-                                 <TableCell></TableCell>
-                                 <TableCell></TableCell>
+                                 {session.user.userLevel < 4 && (
+                                    <>
+                                       <TableCell></TableCell>
+                                       <TableCell></TableCell>
+                                       <TableCell></TableCell>
+                                    </>
+                                 )}
                               </TableRow>
                            </TableHead>
 
@@ -249,7 +260,10 @@ export default function (): JSX.Element {
                                           </Typography>
                                        </TableCell> */}
                                     <TableCell sx={{ p: 1 }}>
-                                       <Rect level={parseInt(row.stage)}>
+                                       <Rect
+                                          level={parseInt(row.stage)}
+                                          row={row}
+                                       >
                                           {row.task}
                                        </Rect>
                                     </TableCell>
@@ -303,146 +317,184 @@ export default function (): JSX.Element {
                                           )}
                                        </ButtonGroup>
                                     </TableCell>
-                                    <TableCell sx={{ m: 0, p: 0 }}>
-                                       <FormControl sx={{ m: 0, p: 0 }}>
-                                          <InputLabel size='small'>
-                                             Stage
-                                          </InputLabel>
-                                          <Select
-                                             label='Stage'
-                                             onChange={(event) =>
-                                                handleChangeStage(event, row)
-                                             }
-                                             defaultValue={row.stage}
-                                             size='small'
-                                             sx={{
-                                                width: 60,
-                                                height: 28,
-                                                fontSize: 13,
-                                             }}
-                                          >
-                                             <MenuItem
-                                                value={1}
-                                                autoFocus={
-                                                   parseInt(row.stage) === 1
-                                                }
-                                             >
-                                                1
-                                             </MenuItem>
-                                             <MenuItem
-                                                value={2}
-                                                autoFocus={
-                                                   parseInt(row.stage) === 2
-                                                }
-                                             >
-                                                2
-                                             </MenuItem>
-                                             <MenuItem
-                                                value={3}
-                                                autoFocus={
-                                                   parseInt(row.stage) === 3
-                                                }
-                                             >
-                                                3
-                                             </MenuItem>
-                                             <MenuItem
-                                                value={4}
-                                                autoFocus={
-                                                   parseInt(row.stage) === 4
-                                                }
-                                             >
-                                                4
-                                             </MenuItem>
-                                             <MenuItem
-                                                value={5}
-                                                autoFocus={
-                                                   parseInt(row.stage) === 5
-                                                }
-                                             >
-                                                5
-                                             </MenuItem>
-                                          </Select>
-                                       </FormControl>
-                                    </TableCell>
-                                    <TableCell sx={{ m: 0, p: 0 }}>
-                                       <FormControl sx={{ m: 0, p: 0 }}>
-                                          <InputLabel size='small'>
-                                             Contractor
-                                          </InputLabel>
-                                          <Select
-                                             defaultValue={row.contractorId}
-                                             label='contractor'
-                                             onChange={(event) =>
-                                                handleChangeContractor(
-                                                   event,
-                                                   row
-                                                )
-                                             }
-                                             size='small'
-                                             sx={{
-                                                minWidth: 140,
-                                                height: 28,
-                                                fontSize: 13,
-                                             }}
-                                          >
-                                             {rowsTotal < 1 ? (
-                                                <></>
-                                             ) : (
-                                                contractors.map((user: any) => (
+                                    {session.user.userLevel < 4 && (
+                                       <>
+                                          <TableCell sx={{ m: 0, p: 0 }}>
+                                             <FormControl sx={{ m: 0, p: 0 }}>
+                                                <InputLabel size='small'>
+                                                   Stage
+                                                </InputLabel>
+                                                <Select
+                                                   disabled={
+                                                      userLevel > 2
+                                                         ? true
+                                                         : false
+                                                   }
+                                                   label='Stage'
+                                                   onChange={(event) =>
+                                                      handleChangeStage(
+                                                         event,
+                                                         row
+                                                      )
+                                                   }
+                                                   defaultValue={row.stage}
+                                                   size='small'
+                                                   sx={{
+                                                      width: 60,
+                                                      height: 28,
+                                                      fontSize: 13,
+                                                   }}
+                                                >
                                                    <MenuItem
+                                                      value={1}
                                                       autoFocus={
-                                                         row.contractorId ===
-                                                         user._id
+                                                         parseInt(row.stage) ===
+                                                         1
                                                       }
-                                                      key={user._id}
-                                                      value={user._id}
                                                    >
-                                                      {user.firstName}{" "}
-                                                      {user.lastName}
+                                                      1
                                                    </MenuItem>
-                                                ))
-                                             )}
-                                          </Select>
-                                       </FormControl>
-                                    </TableCell>
-                                    <TableCell sx={{ m: 0, p: 0 }}>
-                                       <FormControl sx={{ m: 0, p: 0 }}>
-                                          <InputLabel size='small'>
-                                             Picker
-                                          </InputLabel>
-                                          <Select
-                                             defaultValue={row.orderPickedBy}
-                                             label='Picker'
-                                             onChange={(event) =>
-                                                handleChangePicker(event, row)
-                                             }
-                                             size='small'
-                                             sx={{
-                                                minWidth: 140,
-                                                height: 28,
-                                                fontSize: 13,
-                                             }}
-                                          >
-                                             {rowsTotal < 1 ? (
-                                                <></>
-                                             ) : (
-                                                pickers.map((user: any) => (
                                                    <MenuItem
+                                                      value={2}
                                                       autoFocus={
-                                                         row.orderPickedBy ===
-                                                         user._id
+                                                         parseInt(row.stage) ===
+                                                         2
                                                       }
-                                                      key={user._id}
-                                                      value={user._id}
                                                    >
-                                                      {user.firstName}{" "}
-                                                      {user.lastName}
+                                                      2
                                                    </MenuItem>
-                                                ))
-                                             )}
-                                          </Select>
-                                       </FormControl>
-                                    </TableCell>
+                                                   <MenuItem
+                                                      value={3}
+                                                      autoFocus={
+                                                         parseInt(row.stage) ===
+                                                         3
+                                                      }
+                                                   >
+                                                      3
+                                                   </MenuItem>
+                                                   <MenuItem
+                                                      value={4}
+                                                      autoFocus={
+                                                         parseInt(row.stage) ===
+                                                         4
+                                                      }
+                                                   >
+                                                      4
+                                                   </MenuItem>
+                                                   <MenuItem
+                                                      value={5}
+                                                      autoFocus={
+                                                         parseInt(row.stage) ===
+                                                         5
+                                                      }
+                                                   >
+                                                      5
+                                                   </MenuItem>
+                                                </Select>
+                                             </FormControl>
+                                          </TableCell>
+                                          <TableCell sx={{ m: 0, p: 0 }}>
+                                             <FormControl sx={{ m: 0, p: 0 }}>
+                                                <InputLabel size='small'>
+                                                   Contractor
+                                                </InputLabel>
+                                                <Select
+                                                   disabled={
+                                                      userLevel > 2
+                                                         ? true
+                                                         : false
+                                                   }
+                                                   defaultValue={
+                                                      row.contractorId
+                                                   }
+                                                   label='contractor'
+                                                   onChange={(event) =>
+                                                      handleChangeContractor(
+                                                         event,
+                                                         row
+                                                      )
+                                                   }
+                                                   size='small'
+                                                   sx={{
+                                                      minWidth: 140,
+                                                      height: 28,
+                                                      fontSize: 13,
+                                                   }}
+                                                >
+                                                   {rowsTotal < 1 ? (
+                                                      <></>
+                                                   ) : (
+                                                      contractors.map(
+                                                         (user: any) => (
+                                                            <MenuItem
+                                                               autoFocus={
+                                                                  row.contractorId ===
+                                                                  user._id
+                                                               }
+                                                               key={user._id}
+                                                               value={user._id}
+                                                            >
+                                                               {user.firstName}{" "}
+                                                               {user.lastName}
+                                                            </MenuItem>
+                                                         )
+                                                      )
+                                                   )}
+                                                </Select>
+                                             </FormControl>
+                                          </TableCell>
+                                          <TableCell sx={{ m: 0, p: 0 }}>
+                                             <FormControl sx={{ m: 0, p: 0 }}>
+                                                <InputLabel size='small'>
+                                                   Picker
+                                                </InputLabel>
+                                                <Select
+                                                   disabled={
+                                                      userLevel > 2
+                                                         ? true
+                                                         : false
+                                                   }
+                                                   defaultValue={
+                                                      row.orderPickedBy
+                                                   }
+                                                   label='Picker'
+                                                   onChange={(event) =>
+                                                      handleChangePicker(
+                                                         event,
+                                                         row
+                                                      )
+                                                   }
+                                                   size='small'
+                                                   sx={{
+                                                      minWidth: 140,
+                                                      height: 28,
+                                                      fontSize: 13,
+                                                   }}
+                                                >
+                                                   {rowsTotal < 1 ? (
+                                                      <></>
+                                                   ) : (
+                                                      pickers.map(
+                                                         (user: any) => (
+                                                            <MenuItem
+                                                               autoFocus={
+                                                                  row.orderPickedBy ===
+                                                                  user._id
+                                                               }
+                                                               key={user._id}
+                                                               value={user._id}
+                                                            >
+                                                               {user.firstName}{" "}
+                                                               {user.lastName}
+                                                            </MenuItem>
+                                                         )
+                                                      )
+                                                   )}
+                                                </Select>
+                                             </FormControl>
+                                          </TableCell>
+                                       </>
+                                    )}
                                  </TableRow>
                               ))}
                            </TableBody>

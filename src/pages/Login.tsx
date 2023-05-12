@@ -353,7 +353,7 @@ export default function Login() {
                >
                   Node
                </Button>
-               <Button sx={{ color: "#999" }}>Ver: 0.2.04</Button>
+               <Button sx={{ color: "#999" }}>Ver: 0.2.06</Button>
             </ButtonGroup>
          </div>
          <br />

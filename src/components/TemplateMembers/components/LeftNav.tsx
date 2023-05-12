@@ -69,12 +69,12 @@ export const LeftNav = (props: LeftNavProps) => {
          path: "/clients/guide",
          userLevel: [1, 2, 3, 4, 5],
       },
-      {
-         text: "My Account",
-         icon: <AccountBalanceIcon />,
-         path: "/clients/account",
-         userLevel: [1, 2, 3, 4, 5],
-      },
+      // {
+      //    text: "My Account",
+      //    icon: <AccountBalanceIcon />,
+      //    path: "/clients/account",
+      //    userLevel: [1, 2, 3, 4, 5],
+      // },
       {
          text: "Calendar",
          icon: <CalendarMonthIcon />,

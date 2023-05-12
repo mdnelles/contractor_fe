@@ -33,8 +33,7 @@ import {
 import { clearStores, setStores } from "../../../features/stores/storesSlice";
 import { StoresState } from "../../../features/stores/stores";
 import CircularProgress from "@mui/material/CircularProgress";
-import { UserObj, UsersState } from "../../../features/users/users";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import { UsersState } from "../../../features/users/users";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import {
@@ -169,8 +168,8 @@ export default function ProfileDisplay(): JSX.Element {
             : userLevel === 2
             ? { homeStore }
             : userLevel === 3
-            ? { homeStore, orderPickedBy: _id }
-            : {};
+            ? { orderPickedBy: _id }
+            : { n: "" };
 
       try {
          const resp: any = await getDocsByObj("users", obj, "token");
@@ -187,6 +186,7 @@ export default function ProfileDisplay(): JSX.Element {
    };
 
    const reContracts = async () => {
+      const { _id } = session.user;
       clearContracts();
       setContractsLoaded(false);
       const obj =
@@ -195,7 +195,11 @@ export default function ProfileDisplay(): JSX.Element {
             : userLevel === 2
             ? { homeStore }
             : userLevel === 3
-            ? { homeStore, orderPickedBy: _id }
+            ? { orderPickedBy: _id }
+            : userLevel === 4
+            ? { contractorId: _id }
+            : userLevel === 5
+            ? { clientId: _id }
             : {};
 
       console.log(obj);
