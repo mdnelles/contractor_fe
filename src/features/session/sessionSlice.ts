@@ -44,6 +44,7 @@ export const sessionSlice = createSlice({
             if (o.lang) state.lang = o.lang;
             if (o.notRobot) state.notRobot = o.notRobot;
             state.user.uid = o.user.uid;
+            state.user._id = o.user._id;
             state.user.homeStore = o.user.homeStore;
             state.user.userLevel = o.user.userLevel;
             state.user.displayName = o.user.displayName;

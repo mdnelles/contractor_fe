@@ -32,7 +32,7 @@ const getDocsByObj = async (collection: any, obj: any, token: string) => {
 };
 
 // get document by matching attribute with valye
-const getDoc = async (
+const getDocByAttribute = async (
    collection: any,
    attribute: any,
    value: any,
@@ -101,7 +101,7 @@ export {
    addDoc,
    getDocs,
    getDocsByObj,
-   getDoc,
+   getDocByAttribute,
    updateDoc,
    updateDocById,
    deleteDoc,

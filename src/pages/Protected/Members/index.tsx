@@ -17,10 +17,6 @@ import { useAppSelector } from "../../../app/hooks";
 import {
    Button,
    ButtonGroup,
-   FormControl,
-   InputLabel,
-   MenuItem,
-   Select,
    TableSortLabel,
    TextField,
    Tooltip,
@@ -78,7 +74,6 @@ export default function StickyHeadTable() {
          );
       }
    };
-
    const btnView = (row: any) => {
       dispatch(
          setDialog(
@@ -90,7 +85,6 @@ export default function StickyHeadTable() {
          )
       );
    };
-
    const btnEdit = (row: any) => {
       dispatch(
          setDialog(
@@ -262,55 +256,60 @@ export default function StickyHeadTable() {
                                                 </Tooltip>
                                              </Button>
                                              {(userLevel === 1 ||
-                                                userLevel === 2) && (
-                                                <>
-                                                   <Button
-                                                      onClick={() =>
-                                                         btnEdit(row)
-                                                      }
-                                                      disabled={
-                                                         row.isDisabled &&
-                                                         row.isDisabled !== true
-                                                      }
-                                                   >
-                                                      <Tooltip title='Edit user'>
-                                                         <EditIcon />
-                                                      </Tooltip>
-                                                   </Button>
-                                                   {row.isDisabled === true && (
+                                                userLevel === 2) &&
+                                                row.userLevel > userLevel && (
+                                                   <>
                                                       <Button
                                                          onClick={() =>
-                                                            userToggle(row)
+                                                            btnEdit(row)
+                                                         }
+                                                         disabled={
+                                                            row.isDisabled &&
+                                                            row.isDisabled !==
+                                                               true
                                                          }
                                                       >
-                                                         <Tooltip title='Enable User'>
-                                                            <CheckCircleIcon
-                                                               sx={{
-                                                                  color: "green",
-                                                               }}
-                                                            />
+                                                         <Tooltip title='Edit user'>
+                                                            <EditIcon />
                                                          </Tooltip>
                                                       </Button>
-                                                   )}
-                                                   {!row.isDisabled &&
-                                                      row.isDisabled !==
+                                                      {row.isDisabled ===
                                                          true && (
                                                          <Button
                                                             onClick={() =>
                                                                userToggle(row)
                                                             }
                                                          >
-                                                            <Tooltip title='Disable User'>
-                                                               <RemoveCircleIcon
+                                                            <Tooltip title='Enable User'>
+                                                               <CheckCircleIcon
                                                                   sx={{
-                                                                     color: "red",
+                                                                     color: "green",
                                                                   }}
                                                                />
                                                             </Tooltip>
                                                          </Button>
                                                       )}
-                                                </>
-                                             )}
+                                                      {!row.isDisabled &&
+                                                         row.isDisabled !==
+                                                            true && (
+                                                            <Button
+                                                               onClick={() =>
+                                                                  userToggle(
+                                                                     row
+                                                                  )
+                                                               }
+                                                            >
+                                                               <Tooltip title='Disable User'>
+                                                                  <RemoveCircleIcon
+                                                                     sx={{
+                                                                        color: "red",
+                                                                     }}
+                                                                  />
+                                                               </Tooltip>
+                                                            </Button>
+                                                         )}
+                                                   </>
+                                                )}
                                           </ButtonGroup>
                                        </TableCell>
                                     </TableRow>

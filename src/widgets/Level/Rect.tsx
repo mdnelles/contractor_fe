@@ -1,7 +1,8 @@
 import { color1, color2, color3, color4, color5 } from "../../constants/colors";
 
-export const Rect = (props: { level: number; children?: any }) => {
-   const { level, children } = props;
+export const Rect = (props: { level: number; children?: any; row?: any }) => {
+   const { level, children, row } = props;
+   console.log(row);
    const color =
       level === 1
          ? color1
@@ -27,7 +28,7 @@ export const Rect = (props: { level: number; children?: any }) => {
             fontSize: 12,
          }}
       >
-         {children || level}
+         {children || row.room || level}
       </div>
    );
 };

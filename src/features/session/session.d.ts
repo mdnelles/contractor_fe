@@ -1,10 +1,12 @@
 type UserType = {
+   id?: string | number | undefined;
    token: string;
    email: string | any;
    bio?: string | undefined;
    displayName?: string | number | undefined;
    photoUrl?: string | undefined;
    uid?: string | number | undefined;
+   _id?: string | number | undefined;
    createdAt: number;
    creationTime?: string | undefined;
    homeStore: number;
