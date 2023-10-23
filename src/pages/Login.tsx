@@ -328,7 +328,19 @@ export default function Login() {
                   </Box>
                </Container>{" "}
             </Paper>
+
             <ButtonGroup
+               variant='text'
+               size='small'
+               aria-label='outlined primary button group'
+               sx={{ ml: 5, mt: 1 }}
+            >
+               <Button onClick={() => handleClick("/privacy")}>Privacy</Button>
+               <Button onClick={() => handleClick("/terms")}>Terms</Button>
+               <Button sx={{ color: "#999" }}>Ver: 0.2.06</Button>
+            </ButtonGroup>
+
+            {/*<ButtonGroup
                variant='text'
                size='small'
                aria-label='outlined primary button group'
@@ -354,7 +366,7 @@ export default function Login() {
                   Node
                </Button>
                <Button sx={{ color: "#999" }}>Ver: 0.2.06</Button>
-            </ButtonGroup>
+            </ButtonGroup> */}
          </div>
          <br />
       </div>

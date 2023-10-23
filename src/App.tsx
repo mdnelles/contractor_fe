@@ -13,6 +13,9 @@ import Forgot from "./pages/Public/Forgot";
 import { SessionState } from "./features/session/session";
 import { useAppSelector } from "./app/hooks";
 import LangChose from "./widgets/LangChoose";
+import LanguageSelector from "./components/LangSelect";
+import Terms from "./pages/Public/Legal/Terms";
+import Privacy from "./pages/Public/Legal/Privacy";
 
 export default function App() {
    // import session from redux store
@@ -25,6 +28,7 @@ export default function App() {
    return (
       <>
          <Suspense fallback={<div>Loading...</div>}>
+            <LanguageSelector />
             <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
                <CssBaseline />
                <Routes>
@@ -32,6 +36,8 @@ export default function App() {
                   <Route path='/login' element={<Login />} />
                   <Route path='/sign-up' element={<SignUp />} />
                   <Route path='/forgot' element={<Forgot />} />
+                  <Route path='/privacy' element={<Privacy />} />
+                  <Route path='/terms' element={<Terms />} />
 
                   <Route element={<ProtectedRoute />}>
                      <Route path='/clients/:page' element={<Clients />} />
