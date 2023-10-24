@@ -1,16 +1,16 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import sessionReducer from "../features/session/sessionSlice";
-import snackbarReducer from "../features/snackbar/snackbarSlice";
-import suggestReducer from "../features/suggest/suggestSlice";
-import todoReducer from "../features/todo/todoSlice";
-import usersReducer from "../features/users/usersSlice";
+
+import animsReducer from "../features/anims/animsSlice";
+import contractsReducer from "../features/contracts/contractsSlice";
 import dialogReducer from "../features/dialog/dialogSlice";
 import menuReducer from "../features/menu/menuSlice";
 import pageReducer from "../features/page/pageSlice";
-import animsReducer from "../features/anims/animsSlice";
-import transReducer from "../features/transalte/translateSlice";
-import contractsReducer from "../features/contracts/contractsSlice";
+import sessionReducer from "../features/session/sessionSlice";
+import snackbarReducer from "../features/snackbar/snackbarSlice";
 import storesReducer from "../features/stores/storesSlice";
+import suggestReducer from "../features/suggest/suggestSlice";
+import todoReducer from "../features/todo/todoSlice";
+import usersReducer from "../features/users/usersSlice";
 
 export const store = configureStore({
    reducer: {
@@ -22,7 +22,6 @@ export const store = configureStore({
       snackbar: snackbarReducer,
       suggest: suggestReducer,
       todo: todoReducer,
-      trans: transReducer,
       users: usersReducer,
       contracts: contractsReducer,
       stores: storesReducer,

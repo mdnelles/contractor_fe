@@ -1,26 +1,40 @@
-import React, { memo, useEffect } from "react";
-import { TransState } from "../../features/transalte/translate";
-import { useAppSelector } from "../../app/hooks";
+import React, { useState, useEffect } from "react";
 import { SessionState } from "../../features/session/session";
+import { useAppSelector } from "../../app/hooks";
+import { es } from "./es";
+import { en } from "./en";
+import { fr } from "./fr";
 
 function Translate(props: { txt: string }): JSX.Element {
-  let { txt } = props;
-  const trans: TransState = useAppSelector((state) => state.trans);
-  const session: SessionState = useAppSelector((state) => state.session);
-  const { lang } = session;
-  if (lang === "sp") {
-    trans.arr.map((item) => {
-      if (item.en.toString().toUpperCase() === txt.toString().toUpperCase()) {
-        txt = item.sp;
-        // swap out non-serializable data in the variable txt
-        txt = JSON.parse(JSON.stringify(txt));
-      }
-    });
-  }
-  useEffect(() => {
-    // only change memo if you see a change in state lang
-  }, [lang]);
+   const { txt = "header.login" } = props;
+   const [value, setValue] = useState("");
+   const session: SessionState = useAppSelector((state: any) => state.session);
+   const { lang } = session;
 
-  return <>{txt}</>;
+   const getTranslation = (language: string, key: string) => {
+      //console.log(languageMap[language][key], language, key);
+      //console.log(languageMap[lang]["button"]["loginGoogle"]);
+      const tmp = key.split(".");
+      if (languageMap[language] && languageMap[language][tmp[0]][tmp[1]]) {
+         console.log("here");
+         return languageMap[language][tmp[0]][tmp[1]];
+      }
+      return "nnn";
+   };
+
+   // Language map
+   const languageMap: any = { en, fr, es };
+
+   useEffect(() => {
+      setValue(getTranslation(lang, txt));
+   }, [lang]);
+
+   if (value !== "") {
+      console.log(value, txt);
+      return <>{value}</>;
+   } else {
+      return <></>; // Handle loading or error state as needed
+   }
 }
-export default memo(Translate);
+
+export default Translate;

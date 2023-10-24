@@ -24,7 +24,7 @@ import { SnackbarState } from "../features/snackbar/snackbar";
 import SnackbarMsg from "../components/Snackbar/SnackbarMsg";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { UserType } from "../features/session/session";
+import { SessionState, UserType } from "../features/session/session";
 
 import { initializeApp } from "firebase/app";
 import { signInWithGoogle } from "../firebase/firebase";
@@ -43,12 +43,11 @@ import { getDocsByObj } from "../utilities/MongoRequest";
 export default function Login() {
    const app = initializeApp(firebaseConfig);
    const auth = getAuth(app);
+
    const navigate = useNavigate();
    const db = getFirestore(app);
    const dispatch = useAppDispatch();
-   const session: any = useAppSelector((state) => state.session);
-   const snackbar: SnackbarState = useAppSelector((state) => state.snackbar);
-   const speed = session.speed;
+   const session: SessionState = useAppSelector((state) => state.session);
    const [loading, setLoading] = useState(false);
    const [email, setEmail] = useState("");
    const [logEmail, setLogEmail] = useState("");
@@ -63,7 +62,9 @@ export default function Login() {
       event.preventDefault();
 
       if ((isValidEmail(email) && isValidPassword(password)) || (em && pa)) {
-         dispatch(setSnackbar(msg(<Trans txt='Log in with email' />, "info")));
+         dispatch(
+            setSnackbar(msg(<Trans txt='alert.emailRequired' />, "info"))
+         );
 
          setLoading(true);
          try {
@@ -94,9 +95,7 @@ export default function Login() {
          }
       } else {
          dispatch(
-            setSnackbar(
-               msg(<Trans txt='Please enter valid credentials' />, "error")
-            )
+            setSnackbar(msg(<Trans txt='alert.invlaidCreds' />, "error"))
          );
       }
    };
@@ -104,9 +103,7 @@ export default function Login() {
    const startSignInWithGoogle = async (event: any) => {
       event.preventDefault();
       setLoading(true);
-      dispatch(
-         setSnackbar(msg(<Trans txt='Attempting Google Log in' />, "info"))
-      );
+      dispatch(setSnackbar(msg(<Trans txt='attempt.google' />, "info")));
 
       try {
          const res: any = await signInWithGoogle();
@@ -185,16 +182,16 @@ export default function Login() {
                         }}
                      />
                      <Typography component='h1' variant='h5'>
-                        <Trans txt='Client Login' />
+                        <Trans txt='header.login' />
                      </Typography>
                      <Box component='form' noValidate sx={{ mt: 2 }}>
                         <FormControl fullWidth>
                            <InputLabel id='demo-simple-select-label'>
-                              Demo login/demostración
+                              <Trans txt='header.login' />
                            </InputLabel>
                            <Select
-                              labelId='demo-simple-select-label'
-                              id='demo-simple-select'
+                              labelId='demo-user'
+                              id='demo-id'
                               value={logEmail}
                               size='small'
                               label='Demo login/demostración'
@@ -224,7 +221,7 @@ export default function Login() {
                            required
                            fullWidth
                            id='email'
-                           label={<Trans txt='Email Address' />}
+                           label={<Trans txt='input.email' />}
                            name='email'
                            autoComplete='email'
                            autoFocus
@@ -237,7 +234,7 @@ export default function Login() {
                            size='small'
                            type='password'
                            name='password'
-                           label={<Trans txt='Password' />}
+                           label={<Trans txt='input.password' />}
                            id='password'
                            defaultValue={""}
                            autoComplete='current-password'
@@ -258,7 +255,7 @@ export default function Login() {
                               onClick={(event) => startLoginWEP(event)}
                               sx={{ textTransform: "none" }}
                            >
-                              <Trans txt='Log in With email' />
+                              <Trans txt='button.loginEmail' />
                            </Button>
                            {loading && (
                               <CircularProgress
@@ -289,7 +286,7 @@ export default function Login() {
                               onClick={(event) => startSignInWithGoogle(event)}
                               endIcon={<GoogleIcon />}
                            >
-                              <Trans txt='Login With Google' />
+                              <Trans txt='button.loginGoogle' />
                            </Button>
                            {loading && (
                               <CircularProgress
@@ -311,7 +308,7 @@ export default function Login() {
                                  size='small'
                                  sx={{ textTransform: "none" }}
                               >
-                                 <Trans txt='Forgot Password' />
+                                 <Trans txt='link.forgotPassword' />
                               </Button>
                            </Grid>
                            <Grid item>
@@ -320,7 +317,7 @@ export default function Login() {
                                  size='small'
                                  sx={{ textTransform: "none" }}
                               >
-                                 <Trans txt="Don't have an account? Sign Up" />
+                                 <Trans txt='link.register' />
                               </Button>
                            </Grid>
                         </Grid>
