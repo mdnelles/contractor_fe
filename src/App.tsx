@@ -13,7 +13,6 @@ import Forgot from "./pages/Public/Forgot";
 import { SessionState } from "./features/session/session";
 import { useAppSelector } from "./app/hooks";
 import LangChose from "./widgets/LangChoose";
-import LanguageSelector from "./components/LangSelect";
 import Terms from "./pages/Public/Legal/Terms";
 import Privacy from "./pages/Public/Legal/Privacy";
 
@@ -28,7 +27,7 @@ export default function App() {
    return (
       <>
          <Suspense fallback={<div>Loading...</div>}>
-            <LanguageSelector />
+            <LangChose />
             <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
                <CssBaseline />
                <Routes>
