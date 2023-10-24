@@ -44,9 +44,10 @@ export default function Terms() {
                      </Typography>
                      <Box sx={{ mt: 2 }}>
                         <p>
-                           By using mydomain.com, you agree to comply with and
-                           be bound by these Terms of Use. If you do not agree
-                           to these terms, please do not use our website.
+                           By using Direct Property Care , you agree to comply
+                           with and be bound by these Terms of Use. If you do
+                           not agree to these terms, please do not use our
+                           website.
                         </p>
 
                         <h2>1. User Responsibilities</h2>
@@ -58,8 +59,8 @@ export default function Terms() {
                               Comply with all applicable laws and regulations
                            </li>
                            <li>
-                              Respect the intellectual property rights of
-                              mydomain.com and other users
+                              Respect the intellectual property rights of Direct
+                              Property Care and other users
                            </li>
                            <li>
                               Not engage in any unlawful or harmful activities
@@ -74,12 +75,12 @@ export default function Terms() {
                         <h2>2. Intellectual Property</h2>
 
                         <p>
-                           All content and materials on mydomain.com, unless
-                           otherwise specified, are the intellectual property of
-                           mydomain.com and are protected by copyright,
-                           trademark, and other laws. You may not use,
-                           reproduce, or distribute these materials without our
-                           express written permission.
+                           All content and materials on Direct Property Care ,
+                           unless otherwise specified, are the intellectual
+                           property of Direct Property Care and are protected by
+                           copyright, trademark, and other laws. You may not
+                           use, reproduce, or distribute these materials without
+                           our express written permission.
                         </p>
 
                         <h2>3. Disclaimers</h2>
@@ -97,8 +98,8 @@ export default function Terms() {
                         <p>
                            We are not liable for any damages, whether direct,
                            indirect, incidental, or consequential, arising from
-                           your use of mydomain.com. This includes, but is not
-                           limited to, loss of data, loss of revenue, and
+                           your use of Direct Property Care . This includes, but
+                           is not limited to, loss of data, loss of revenue, and
                            interruption of business operations.
                         </p>
 

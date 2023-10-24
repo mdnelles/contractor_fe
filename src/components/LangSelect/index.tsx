@@ -4,7 +4,7 @@ import { SessionState } from "../../features/session/session";
 import { setSession } from "../../features/session/sessionSlice";
 
 const LanguageSelector = () => {
-   const [selectedLanguage, setSelectedLanguage] = useState("english"); // i18n.language contains the language assigned to lng in i18n.js file.
+   //const [selectedLanguage, setSelectedLanguage] = useState("english"); // i18n.language contains the language assigned to lng in i18n.js file.
 
    const dispatch = useAppDispatch();
    const session: SessionState = useAppSelector((state) => state.session);
@@ -18,12 +18,12 @@ const LanguageSelector = () => {
 
    return (
       <div className='fixed-bottom-right'>
-         <select defaultValue={selectedLanguage} onChange={chooseLanguage}>
+         <select defaultValue={session.lang} onChange={chooseLanguage}>
             <option value='en'>English</option>
             <option value='es'>Espanol</option>
             <option value='fr'>French</option>
-            <option value='it'>Italian</option>
-            <option value='po'>Portuguese</option>
+            {/*}            <option value='it'>Italian</option>
+            <option value='po'>Portuguese</option> */}
          </select>
       </div>
    );

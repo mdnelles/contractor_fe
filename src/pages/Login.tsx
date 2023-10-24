@@ -1,6 +1,7 @@
 import * as React from "react";
 import "../App.css";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useTranslation } from "react-i18next";
 
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -43,6 +44,8 @@ import { getDocsByObj } from "../utilities/MongoRequest";
 export default function Login() {
    const app = initializeApp(firebaseConfig);
    const auth = getAuth(app);
+
+   const { t } = useTranslation();
    const navigate = useNavigate();
    const db = getFirestore(app);
    const dispatch = useAppDispatch();
@@ -190,7 +193,7 @@ export default function Login() {
                      <Box component='form' noValidate sx={{ mt: 2 }}>
                         <FormControl fullWidth>
                            <InputLabel id='demo-simple-select-label'>
-                              Demo login/demostración
+                              {t("header.login")}
                            </InputLabel>
                            <Select
                               labelId='demo-simple-select-label'
