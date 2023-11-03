@@ -39,6 +39,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { getDocsByObj } from "../utilities/MongoRequest";
+import GoogleTranslate from "../widgets/GoogleTranslate";
 
 export default function Login() {
    const app = initializeApp(firebaseConfig);
@@ -150,7 +151,7 @@ export default function Login() {
    }, [session.user, session.notRobot]);
 
    return (
-      <div className='vertical-center center-outer'>
+      <div className='center-outer'>
          <div className='center-inner'>
             <SnackbarMsg />
 

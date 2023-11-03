@@ -1,0 +1,22 @@
+/* The container must be positioned relative: */
+
+.flagButton {
+   margin: 2px;
+   width: 25px;
+   height: 18px;
+   opacity: 0.3;
+}
+.flagButton.clicked {
+   opacity: 1;
+}
+.flagButton:hover {
+   cursor: pointer;
+}
+.gWrapper {
+   height: 25px;
+   overflow: hidden;
+}
+.google-select {
+   height: 10px;
+   width: 10px;
+}
