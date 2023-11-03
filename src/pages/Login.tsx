@@ -62,9 +62,7 @@ export default function Login() {
       event.preventDefault();
 
       if ((isValidEmail(email) && isValidPassword(password)) || (em && pa)) {
-         dispatch(
-            setSnackbar(msg(<Trans txt='alert.emailRequired' />, "info"))
-         );
+         dispatch(setSnackbar(msg("email required", "info")));
 
          setLoading(true);
          try {
@@ -94,16 +92,14 @@ export default function Login() {
             return false;
          }
       } else {
-         dispatch(
-            setSnackbar(msg(<Trans txt='alert.invlaidCreds' />, "error"))
-         );
+         dispatch(setSnackbar(msg("invalid Credentials", "error")));
       }
    };
 
    const startSignInWithGoogle = async (event: any) => {
       event.preventDefault();
       setLoading(true);
-      dispatch(setSnackbar(msg(<Trans txt='attempt.google' />, "info")));
+      dispatch(setSnackbar(msg("Signing in with Google", "info")));
 
       try {
          const res: any = await signInWithGoogle();
@@ -182,12 +178,12 @@ export default function Login() {
                         }}
                      />
                      <Typography component='h1' variant='h5'>
-                        <Trans txt='header.login' />
+                        Welcome
                      </Typography>
                      <Box component='form' noValidate sx={{ mt: 2 }}>
                         <FormControl fullWidth>
                            <InputLabel id='demo-simple-select-label'>
-                              <Trans txt='header.login' />
+                              Client Login
                            </InputLabel>
                            <Select
                               labelId='demo-user'
@@ -221,7 +217,7 @@ export default function Login() {
                            required
                            fullWidth
                            id='email'
-                           label={<Trans txt='input.email' />}
+                           label='Email Address'
                            name='email'
                            autoComplete='email'
                            autoFocus
@@ -234,7 +230,7 @@ export default function Login() {
                            size='small'
                            type='password'
                            name='password'
-                           label={<Trans txt='input.password' />}
+                           label='Password'
                            id='password'
                            defaultValue={""}
                            autoComplete='current-password'
@@ -255,7 +251,7 @@ export default function Login() {
                               onClick={(event) => startLoginWEP(event)}
                               sx={{ textTransform: "none" }}
                            >
-                              <Trans txt='button.loginEmail' />
+                              Login Email
                            </Button>
                            {loading && (
                               <CircularProgress
@@ -286,7 +282,7 @@ export default function Login() {
                               onClick={(event) => startSignInWithGoogle(event)}
                               endIcon={<GoogleIcon />}
                            >
-                              <Trans txt='button.loginGoogle' />
+                              Login Google
                            </Button>
                            {loading && (
                               <CircularProgress
@@ -308,7 +304,7 @@ export default function Login() {
                                  size='small'
                                  sx={{ textTransform: "none" }}
                               >
-                                 <Trans txt='link.forgotPassword' />
+                                 Forgot Password
                               </Button>
                            </Grid>
                            <Grid item>
@@ -317,7 +313,7 @@ export default function Login() {
                                  size='small'
                                  sx={{ textTransform: "none" }}
                               >
-                                 <Trans txt='link.register' />
+                                 Sign Up
                               </Button>
                            </Grid>
                         </Grid>
