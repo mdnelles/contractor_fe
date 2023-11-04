@@ -20,7 +20,6 @@ import { setSnackbar } from "../../../features/snackbar/snackbarSlice";
 import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
-import Trans from "../../../widgets/Trans";
 import DummyDataCards from "../widgets/DummyDataCards";
 
 const theme = createTheme();
@@ -43,30 +42,20 @@ export default function SignUp() {
       const email: any = data.get("email");
 
       if (isValidEmail(email)) {
-         //dispatch(setSnackbar(msg(<Trans txt="Searching for account" />, "info")));
+         //dispatch(setSnackbar(msg("Searching for account", "info")));
          try {
             const resp: any = await sendPasswordResetEmail(auth, email);
             console.log(resp);
             setSuccess(true);
-            dispatch(
-               setSnackbar(
-                  msg(<Trans txt='Password Reset Success' />, "success")
-               )
-            );
+            dispatch(setSnackbar(msg("Password Reset Success", "success")));
          } catch (error: any) {
-            dispatch(
-               setSnackbar(msg(<Trans txt='Email not found' />, "error"))
-            );
+            dispatch(setSnackbar(msg("Email not found", "error")));
 
             setLoading(false);
          }
       } else {
          setLoading(false);
-         dispatch(
-            setSnackbar(
-               msg(<Trans txt='Please enter a valid email' />, "error")
-            )
-         );
+         dispatch(setSnackbar(msg("Please enter a valid email", "error")));
       }
    };
 
@@ -102,14 +91,14 @@ export default function SignUp() {
                      />
 
                      <Typography component='h1' variant='h5'>
-                        <Trans txt='Forgot Password' />
+                        Forgot Password
                      </Typography>
                      {success ? (
                         <>
-                           <Trans txt='Email reset Button sent' />
+                           Email reset Button sent
                            <div style={{ padding: 20 }} />
                            <Button onClick={() => navigate("/login")}>
-                              <Trans txt='Go To Login' />
+                              Go To Login
                            </Button>
                         </>
                      ) : (
@@ -126,7 +115,7 @@ export default function SignUp() {
                                     fullWidth
                                     size='small'
                                     id='email'
-                                    label={<Trans txt='Email Address' />}
+                                    label={"Email Address"}
                                     name='email'
                                     autoComplete='email'
                                  />
@@ -141,7 +130,7 @@ export default function SignUp() {
                                     disabled={loading}
                                     sx={{ textTransform: "none" }}
                                  >
-                                    <Trans txt='Reset Password' />
+                                    Reset Password
                                  </Button>
                                  {loading && (
                                     <CircularProgress
@@ -164,7 +153,7 @@ export default function SignUp() {
                                     size='small'
                                     sx={{ textTransform: "none" }}
                                  >
-                                    <Trans txt='Go To Login' />
+                                    Go To Login
                                  </Button>
                               </Grid>
                            </Grid>

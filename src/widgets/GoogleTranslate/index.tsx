@@ -11,7 +11,10 @@ const GoogleTranslate: React.FC = () => {
 
       const script = document.createElement("script");
       script.src =
-         "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+         "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.onerror = () => {
+         console.error("Error loading Google Translate script");
+      };
       document.body.appendChild(script);
 
       (window as any).googleTranslateElementInit = () => {
@@ -25,7 +28,49 @@ const GoogleTranslate: React.FC = () => {
    };
 
    useEffect(() => {
+      const initGoogleTranslate = () => {
+         if (typeof (window as any).googleTranslateElementInit === "function") {
+            (window as any).googleTranslateElementInit = () => {
+               // Initialize Google Translate
+               new (window as any).google.translate.TranslateElement(
+                  {
+                     pageLanguage: "en",
+                  },
+                  "google_translate_element"
+               );
+
+               // Find the select element
+               const select = document.querySelector(
+                  ".goog-te-combo"
+               ) as HTMLSelectElement | null;
+
+               // Find the target div
+               const targetDiv = document.getElementById(
+                  "google_translate_element"
+               );
+
+               if (select && targetDiv) {
+                  // Append the select element to the target div
+                  targetDiv.appendChild(select);
+               }
+            };
+         }
+      };
+
+      const checkScript = () => {
+         if (typeof (window as any).googleTranslateElementInit === "function") {
+            initGoogleTranslate();
+         } else {
+            // If the script hasn't loaded yet, check again after a delay
+            setTimeout(checkScript, 100);
+         }
+      };
+
+      // Load the Google Translate script
       loadGoogleTranslateScript();
+
+      // Check if the script has loaded
+      checkScript();
    }, []);
 
    const changeLanguage = (languageCode: string) => {
@@ -62,9 +107,7 @@ const GoogleTranslate: React.FC = () => {
             overflow: "hidden",
          }}
       >
-         <div className='gWrapper'>
-            <div id='google_translate_element' />
-         </div>
+         <div id='google_translate_element'></div>
 
          <img
             src='./img/flags/gb.png'

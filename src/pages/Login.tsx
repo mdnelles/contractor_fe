@@ -33,7 +33,6 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 import { firebaseConfig } from "../firebase/constants";
 
-import Trans from "../widgets/Trans";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";

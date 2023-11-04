@@ -11,15 +11,27 @@ import Clients from "./pages/Protected";
 import SignUp from "./pages/Public/Signup";
 import Forgot from "./pages/Public/Forgot";
 import { SessionState } from "./features/session/session";
-import { useAppSelector } from "./app/hooks";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import Terms from "./pages/Public/Legal/Terms";
 import Privacy from "./pages/Public/Legal/Privacy";
 import GoogleTranslate from "./widgets/GoogleTranslate";
+import { setSession } from "./features/session/sessionSlice";
 
 export default function App() {
    // import session from redux store
    const session: SessionState = useAppSelector((state: any) => state.session);
-   const { darkMode, lang } = session;
+
+   const dispatch = useAppDispatch();
+   const { darkMode, lang, loadInit } = session;
+
+   useEffect(() => {
+      if (!loadInit) {
+         dispatch(setSession({ ...session, loadInit: true }));
+         setTimeout(() => {
+            window.location.reload();
+         }, 500);
+      }
+   }, [loadInit]); // Add loadedOnce to the dependency array
 
    useEffect(() => {
       // update template
