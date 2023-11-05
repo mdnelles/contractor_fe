@@ -22,20 +22,18 @@ export default function App() {
    const session: SessionState = useAppSelector((state: any) => state.session);
 
    const dispatch = useAppDispatch();
-   const { darkMode, lang, loadInit } = session;
+   const { darkMode, loadInit } = session;
 
    useEffect(() => {
       if (!loadInit) {
          dispatch(setSession({ ...session, loadInit: true }));
-         setTimeout(() => {
-            window.location.reload();
-         }, 500);
+         window.location.reload();
       }
    }, [loadInit]); // Add loadedOnce to the dependency array
 
    useEffect(() => {
       // update template
-   }, [darkMode, lang]);
+   }, [darkMode]);
    return (
       <>
          <GoogleTranslate />
