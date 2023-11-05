@@ -2,77 +2,6 @@ import React, { useEffect } from "react";
 import "./GoogleTranslate.css";
 
 const GoogleTranslate: React.FC = () => {
-   const supportedLanguages = ["fr", "en", "es"];
-
-   const loadGoogleTranslateScript = () => {
-      if ((window as any).googleTranslateElementInit) {
-         return;
-      }
-
-      const script = document.createElement("script");
-      script.src =
-         "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-      script.onerror = () => {
-         console.error("Error loading Google Translate script");
-      };
-      document.body.appendChild(script);
-
-      (window as any).googleTranslateElementInit = () => {
-         new (window as any).google.translate.TranslateElement(
-            {
-               pageLanguage: "en",
-            },
-            "google_translate_element"
-         );
-      };
-   };
-
-   useEffect(() => {
-      const initGoogleTranslate = () => {
-         if (typeof (window as any).googleTranslateElementInit === "function") {
-            (window as any).googleTranslateElementInit = () => {
-               // Initialize Google Translate
-               new (window as any).google.translate.TranslateElement(
-                  {
-                     pageLanguage: "en",
-                  },
-                  "google_translate_element"
-               );
-
-               // Find the select element
-               const select = document.querySelector(
-                  ".goog-te-combo"
-               ) as HTMLSelectElement | null;
-
-               // Find the target div
-               const targetDiv = document.getElementById(
-                  "google_translate_element"
-               );
-
-               if (select && targetDiv) {
-                  // Append the select element to the target div
-                  targetDiv.appendChild(select);
-               }
-            };
-         }
-      };
-
-      const checkScript = () => {
-         if (typeof (window as any).googleTranslateElementInit === "function") {
-            initGoogleTranslate();
-         } else {
-            // If the script hasn't loaded yet, check again after a delay
-            setTimeout(checkScript, 100);
-         }
-      };
-
-      // Load the Google Translate script
-      loadGoogleTranslateScript();
-
-      // Check if the script has loaded
-      checkScript();
-   }, []);
-
    const changeLanguage = (languageCode: string) => {
       console.log("changeLanguage", languageCode);
       // make all items of .flagButton have opactiy of .3
@@ -95,6 +24,48 @@ const GoogleTranslate: React.FC = () => {
       }
    };
 
+   const loadGoogleTranslateScript = () => {
+      if ((window as any).googleTranslateElementInit) {
+         return;
+      }
+
+      const script = document.createElement("script");
+      script.src =
+         "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.onload = () => {
+         // The script has loaded, now call the initialization function
+         (window as any).googleTranslateElementInit();
+      };
+
+      document.body.appendChild(script);
+   };
+
+   useEffect(() => {
+      loadGoogleTranslateScript();
+   }, []);
+
+   const googleTranslateElementRef = React.useRef(null);
+
+   const checkElementHasChild = () => {
+      const element: any = googleTranslateElementRef.current;
+      if (element && element.children && element.children.length > 0) {
+         clearInterval(intervalId);
+      } else {
+         window.location.reload();
+      }
+   };
+
+   let intervalId: any;
+
+   useEffect(() => {
+      intervalId = setInterval(checkElementHasChild, 3000);
+
+      return () => {
+         // Cleanup: Clear the interval when the component unmounts
+         clearInterval(intervalId);
+      };
+   }, []);
+
    return (
       <div
          style={{
@@ -107,7 +78,12 @@ const GoogleTranslate: React.FC = () => {
             overflow: "hidden",
          }}
       >
-         <div id='google_translate_element'></div>
+         <div className='gWrapper'>
+            <div
+               ref={googleTranslateElementRef}
+               id='google_translate_element'
+            ></div>
+         </div>
 
          <img
             src='./img/flags/gb.png'
