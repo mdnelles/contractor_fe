@@ -34,6 +34,7 @@ export interface SessionState {
    notRobot: boolean;
    toggle: boolean;
    cookieConsent: boolean;
+   loadInit: boolean;
    status: "idle" | "loading" | "failed";
    user: UserType;
    value: number;

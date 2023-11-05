@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Trans from "../../../widgets/Trans";
 import { useNavigate } from "react-router-dom";
 
 export default function Terms() {
@@ -40,7 +39,7 @@ export default function Terms() {
                         }}
                      />
                      <Typography component='h1' variant='h5'>
-                        <Trans txt='Terms of Use' />
+                        Terms of Use
                      </Typography>
                      <Box sx={{ mt: 2 }}>
                         <p>
@@ -137,7 +136,7 @@ export default function Terms() {
                                  size='small'
                                  sx={{ textTransform: "none" }}
                               >
-                                 <Trans txt='Home' />
+                                 Home
                               </Button>
                            </Grid>
                         </Grid>

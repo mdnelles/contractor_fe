@@ -11,23 +11,26 @@ import Clients from "./pages/Protected";
 import SignUp from "./pages/Public/Signup";
 import Forgot from "./pages/Public/Forgot";
 import { SessionState } from "./features/session/session";
-import { useAppSelector } from "./app/hooks";
-import LangChose from "./widgets/LangChoose";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import Terms from "./pages/Public/Legal/Terms";
 import Privacy from "./pages/Public/Legal/Privacy";
+import GoogleTranslate from "./widgets/GoogleTranslate";
+import { setSession } from "./features/session/sessionSlice";
 
 export default function App() {
    // import session from redux store
-
    const session: SessionState = useAppSelector((state: any) => state.session);
-   const { darkMode, lang } = session;
+
+   //const dispatch = useAppDispatch();
+   const { darkMode, loadInit } = session;
+
    useEffect(() => {
       // update template
-   }, [darkMode, lang]);
+   }, [darkMode]);
    return (
       <>
+         <GoogleTranslate />
          <Suspense fallback={<div>Loading...</div>}>
-            <LangChose />
             <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
                <CssBaseline />
                <Routes>

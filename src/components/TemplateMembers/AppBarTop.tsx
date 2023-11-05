@@ -4,7 +4,6 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import ProfileNav from "./components/ProfileNav";
-import Trans from "../../widgets/Trans";
 import Chip from "@mui/material/Chip";
 import { useAppSelector } from "../../app/hooks";
 
@@ -64,7 +63,7 @@ export const AppBarTop = (props: AppBarTopProps): JSX.Element => {
                ) : null}
 
                <div className='logo'>
-                  <Trans txt='Dashboard' />{" "}
+                  Dashboard
                   <Chip
                      label={"Level " + userLevel}
                      size='small'

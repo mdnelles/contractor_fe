@@ -12,6 +12,7 @@ const initialState: SessionState = {
    darkMode: false,
    speed: 0.5,
    status: "idle",
+   loadInit: false,
    user: {
       token: "",
       email: "",

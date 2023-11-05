@@ -28,7 +28,6 @@ import { msg } from "../../../utilities/gen";
 import CircularProgress from "@mui/material/CircularProgress";
 import SnackbarMsg from "../../../components/Snackbar/SnackbarMsg";
 import { SessionState } from "../../../features/session/session";
-import Trans from "../../../widgets/Trans";
 
 import { firebaseConfig } from "../../../firebase/constants";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -67,7 +66,7 @@ export default function SignUp() {
       const password: any = data.get("password");
 
       if (isValidEmail(email) && isValidPassword(password)) {
-         dispatch(setSnackbar(msg(<Trans txt='Attempting Signup' />, "info")));
+         dispatch(setSnackbar(msg("Attempting Signup", "info")));
          try {
             //const resp: any = await createUserWithEmailAndPassword(
             // const resp: any = await addDoc(db, "users", {
@@ -76,27 +75,17 @@ export default function SignUp() {
             //   })
             //console.log(resp);
             setSuccess(true);
-            dispatch(
-               setSnackbar(msg(<Trans txt='Signup Success' />, "success"))
-            );
+            dispatch(setSnackbar(msg("Signup Success", "success")));
          } catch (error: any) {
             error.toString().includes("email-already-in-use")
-               ? dispatch(
-                    setSnackbar(
-                       msg(<Trans txt='Email already in use' />, "error")
-                    )
-                 )
-               : dispatch(
-                    setSnackbar(msg(<Trans txt='Signup Failed' />, "error"))
-                 );
+               ? dispatch(setSnackbar(msg("Email already in use", "error")))
+               : dispatch(setSnackbar(msg("Signup Failed", "error")));
 
             setLoading(false);
          }
       } else {
          setLoading(false);
-         dispatch(
-            setSnackbar(msg(<Trans txt='Please enter valid values' />, "error"))
-         );
+         dispatch(setSnackbar(msg("Please enter valid values", "error")));
       }
    };
    const updateCaptcha = () => setCaptcha(true);
@@ -132,18 +121,19 @@ export default function SignUp() {
                      />
 
                      <Typography component='h1' variant='h5'>
-                        <Trans txt='Create Account' />
+                        Create Account
                      </Typography>
                      {success ? (
                         <>
-                           <Trans txt='Success:  please check your email to activate your account' />
+                           Success: please check your email to activate your
+                           account'
                            <div style={{ padding: 20 }} />
                            <Button
                               onClick={() => navigate("/login")}
                               size='small'
                               sx={{ textTransform: "none" }}
                            >
-                              <Trans txt='Go To Login' />
+                              Go To Login
                            </Button>
                         </>
                      ) : (
@@ -160,7 +150,7 @@ export default function SignUp() {
                                     fullWidth
                                     size='small'
                                     id='email'
-                                    label={<Trans txt='Email Address' />}
+                                    label={"Email Address"}
                                     name='email'
                                     autoComplete='email'
                                  />
@@ -172,7 +162,7 @@ export default function SignUp() {
                                     variant='outlined'
                                  >
                                     <InputLabel htmlFor='outlined-adornment-password'>
-                                       <Trans txt='Password' />
+                                       Password
                                     </InputLabel>
                                     <OutlinedInput
                                        size='small'
@@ -226,7 +216,7 @@ export default function SignUp() {
                                     disabled={loading}
                                     sx={{ textTransform: "none" }}
                                  >
-                                    <Trans txt='Continue' />
+                                    Continue
                                  </Button>
 
                                  {loading && (
@@ -251,7 +241,7 @@ export default function SignUp() {
                                     size='small'
                                     sx={{ textTransform: "none" }}
                                  >
-                                    <Trans txt='Already have an account? Log in' />
+                                    Already have an account? Log in
                                  </Button>
                               </Grid>
                            </Grid>

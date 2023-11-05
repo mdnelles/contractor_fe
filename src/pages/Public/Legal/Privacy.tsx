@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Trans from "../../../widgets/Trans";
 import { useNavigate } from "react-router-dom";
 
 export default function Privacy() {
@@ -40,7 +39,7 @@ export default function Privacy() {
                         }}
                      />
                      <Typography component='h1' variant='h5'>
-                        <Trans txt='Privacy' />
+                        Privacy
                      </Typography>
                      <Box sx={{ mt: 2 }}>
                         <h1>Privacy Policy</h1>
@@ -156,7 +155,7 @@ export default function Privacy() {
                                  size='small'
                                  sx={{ textTransform: "none" }}
                               >
-                                 <Trans txt='Back' />
+                                 Back
                               </Button>
                            </Grid>
                         </Grid>

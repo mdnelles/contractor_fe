@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import CssBaseline from "@mui/material/CssBaseline";
+import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -33,12 +34,12 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 import { firebaseConfig } from "../firebase/constants";
 
-import Trans from "../widgets/Trans";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { getDocsByObj } from "../utilities/MongoRequest";
+import GoogleTranslate from "../widgets/GoogleTranslate";
 
 export default function Login() {
    const app = initializeApp(firebaseConfig);
@@ -62,7 +63,7 @@ export default function Login() {
       event.preventDefault();
 
       if ((isValidEmail(email) && isValidPassword(password)) || (em && pa)) {
-         dispatch(setSnackbar(msg("email required", "info")));
+         //dispatch(setSnackbar(msg("email required", "info")));
 
          setLoading(true);
          try {
@@ -96,20 +97,20 @@ export default function Login() {
       }
    };
 
-   const startSignInWithGoogle = async (event: any) => {
-      event.preventDefault();
-      setLoading(true);
-      dispatch(setSnackbar(msg("Signing in with Google", "info")));
+   // const startSignInWithGoogle = async (event: any) => {
+   //    event.preventDefault();
+   //    setLoading(true);
+   //    dispatch(setSnackbar(msg("Signing in with Google", "info")));
 
-      try {
-         const res: any = await signInWithGoogle();
-         const q: any = await getDocsByObj("users", { email }, "token");
-         startSetSession(res, q);
-      } catch (error) {
-         setLoading(false);
-         console.log(error);
-      }
-   };
+   //    try {
+   //       const res: any = await signInWithGoogle();
+   //       const q: any = await getDocsByObj("users", { email }, "token");
+   //       startSetSession(res, q);
+   //    } catch (error) {
+   //       setLoading(false);
+   //       console.log(error);
+   //    }
+   // };
 
    const startSetSession = (res: any, q: any) => {
       try {
@@ -150,7 +151,7 @@ export default function Login() {
    }, [session.user, session.notRobot]);
 
    return (
-      <div className='vertical-center center-outer'>
+      <div className='center-outer'>
          <div className='center-inner'>
             <SnackbarMsg />
 
@@ -183,7 +184,7 @@ export default function Login() {
                      <Box component='form' noValidate sx={{ mt: 2 }}>
                         <FormControl fullWidth>
                            <InputLabel id='demo-simple-select-label'>
-                              Client Login
+                              Demo: Select User Level
                            </InputLabel>
                            <Select
                               labelId='demo-user'
@@ -192,6 +193,7 @@ export default function Login() {
                               size='small'
                               label='Demo login/demostración'
                               onChange={handleChange}
+                              style={{ minWidth: 340 }}
                            >
                               <MenuItem value={"user1@email.com"}>
                                  Super User
@@ -210,7 +212,7 @@ export default function Login() {
                               </MenuItem>
                            </Select>
                         </FormControl>
-                        <TextField
+                        {/* <TextField
                            margin='normal'
                            size='small'
                            defaultValue={""}
@@ -316,13 +318,25 @@ export default function Login() {
                                  Sign Up
                               </Button>
                            </Grid>
-                        </Grid>
+                        </Grid>*/}
                      </Box>
                   </Box>
                </Container>{" "}
+               <Card sx={{ minWidth: 275, p: 2, m: 3 }}>
+                  This application is a demo. <br />
+                  It allows users of 5 different levels to organize contruction
+                  projects in a central hub
+                  <ol>
+                     <li>Super User</li>
+                     <li>Store Administrator</li>
+                     <li>Store Worker / Order Picker</li>
+                     <li>Delivery Person & Contractor</li>
+                     <li>Client Requesting Materials and Service</li>
+                  </ol>
+               </Card>
             </Paper>
 
-            <ButtonGroup
+            {/* <ButtonGroup
                variant='text'
                size='small'
                aria-label='outlined primary button group'
@@ -331,9 +345,9 @@ export default function Login() {
                <Button onClick={() => handleClick("/privacy")}>Privacy</Button>
                <Button onClick={() => handleClick("/terms")}>Terms</Button>
                <Button sx={{ color: "#999" }}>Ver: 0.2.06</Button>
-            </ButtonGroup>
+            </ButtonGroup> */}
 
-            {/*<ButtonGroup
+            <ButtonGroup
                variant='text'
                size='small'
                aria-label='outlined primary button group'
@@ -358,8 +372,8 @@ export default function Login() {
                >
                   Node
                </Button>
-               <Button sx={{ color: "#999" }}>Ver: 0.2.06</Button>
-            </ButtonGroup> */}
+               <Button sx={{ color: "#999" }}>Ver: 0.2.07</Button>
+            </ButtonGroup>
          </div>
          <br />
       </div>
