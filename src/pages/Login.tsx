@@ -156,7 +156,7 @@ export default function Login() {
             <SnackbarMsg />
 
             <Paper sx={{ mt: 7, ml: 3, mr: 3, padding: 3 }}>
-               <Container component='main' maxWidth='lg'>
+               <Container component='main'>
                   <CssBaseline />
 
                   <Box
@@ -193,7 +193,7 @@ export default function Login() {
                               size='small'
                               label='Demo login/demostración'
                               onChange={handleChange}
-                              style={{ minWidth: 340 }}
+                              style={{ minWidth: 240 }}
                            >
                               <MenuItem value={"user1@email.com"}>
                                  Super User
@@ -322,7 +322,7 @@ export default function Login() {
                      </Box>
                   </Box>
                </Container>{" "}
-               <Card sx={{ minWidth: 275, p: 2, m: 3 }}>
+               <Card sx={{ minWidth: 190, p: 2, m: 3 }}>
                   This application is a demo. <br />
                   It allows users of 5 different levels to organize contruction
                   projects in a central hub
